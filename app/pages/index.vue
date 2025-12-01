@@ -1,75 +1,251 @@
 <template>
   <div class="home">
-    <!-- Hero Section -->
-    <section class="hero">
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         HERO SECTION - Imersivo com Parallax
+         ═══════════════════════════════════════════════════════════════════════ -->
+    <section class="hero" ref="heroRef">
+      <!-- Background Elements -->
+      <div class="hero-bg">
+        <div class="hero-gradient"></div>
+        <div class="hero-mesh"></div>
+        <div class="hero-particles">
+          <div class="particle" v-for="n in 20" :key="n" :style="getParticleStyle(n)"></div>
+        </div>
+      </div>
+      
+      <!-- Floating Elements -->
+      <div class="hero-floating-elements">
+        <div class="floating-paw" v-for="n in 5" :key="n" :style="getFloatingStyle(n)">
+          <i class="mdi mdi-paw"></i>
+        </div>
+      </div>
+      
+      <!-- Main Content -->
       <div class="hero-content">
-        <img src="/logo.png" alt="PontoVet" class="hero-logo" />
-        <h1>Bem-vindo à PontoVet</h1>
-        <p class="hero-subtitle">Clínica Veterinária completa para o seu melhor amigo</p>
-        <p class="hero-description">
-          Cuidamos com amor e profissionalismo da saúde e bem-estar do seu pet
+        <div class="hero-badge reveal" ref="badge">
+          <i class="mdi mdi-heart-pulse"></i>
+          <span>Cuidado Premium para seu Pet</span>
+        </div>
+        
+        <h1 class="hero-title">
+          <span class="title-line reveal" ref="titleLine1">
+            <span class="title-word">Bem-vindo</span>
+          </span>
+          <span class="title-line reveal" ref="titleLine2">
+            <span class="title-word highlight">à PontoVet</span>
+          </span>
+        </h1>
+        
+        <p class="hero-subtitle reveal" ref="subtitle">
+          Clínica Veterinária completa com atendimento humanizado
+          <br class="hide-mobile" />
+          para o seu melhor amigo
         </p>
-        <NuxtLink to="/contato" class="cta-button">
-          <i class="mdi mdi-whatsapp"></i>
-          Agende sua Consulta
-        </NuxtLink>
+        
+        <div class="hero-cta reveal" ref="cta">
+          <a href="https://wa.me/5518997359924" target="_blank" rel="noopener" class="cta-primary">
+            <span class="cta-icon"><i class="mdi mdi-whatsapp"></i></span>
+            <span class="cta-text">Agende sua Consulta</span>
+            <span class="cta-arrow"><i class="mdi mdi-arrow-right"></i></span>
+            <div class="cta-bg"></div>
+          </a>
+          <NuxtLink to="/servicos" class="cta-secondary">
+            <span>Nossos Serviços</span>
+            <i class="mdi mdi-chevron-right"></i>
+          </NuxtLink>
+        </div>
+        
+        <!-- Stats -->
+        <div class="hero-stats reveal" ref="stats">
+          <div class="stat-item">
+            <span class="stat-number">10+</span>
+            <span class="stat-label">Anos de Experiência</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-number">5000+</span>
+            <span class="stat-label">Pets Atendidos</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-number">100%</span>
+            <span class="stat-label">Dedicação</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Scroll Indicator -->
+      <div class="scroll-indicator" @click="scrollToServices">
+        <span class="scroll-text">Role para explorar</span>
+        <div class="scroll-mouse">
+          <div class="scroll-wheel"></div>
+        </div>
       </div>
     </section>
 
-    <!-- Services Overview -->
-    <section class="services-overview">
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         SERVICES SECTION - Grid Assimétrico
+         ═══════════════════════════════════════════════════════════════════════ -->
+    <section class="services-section" id="services" ref="servicesRef">
       <div class="container">
-        <h2>Nossos Serviços</h2>
-        <div class="services-grid">
-          <div class="service-card">
-            <div class="service-icon"><i class="mdi mdi-hospital-building"></i></div>
-            <h3>Cirurgias</h3>
-            <p>Procedimentos cirúrgicos com equipamentos modernos e equipe especializada</p>
+        <!-- Section Header -->
+        <div class="section-header reveal-left">
+          <span class="section-label">Nossos Serviços</span>
+          <h2 class="section-title">
+            Cuidado completo
+            <span class="title-accent">para seu pet</span>
+          </h2>
+          <p class="section-description">
+            Oferecemos uma gama completa de serviços veterinários com equipamentos
+            modernos e profissionais qualificados.
+          </p>
+        </div>
+        
+        <!-- Services Grid - Layout Assimétrico -->
+        <div class="services-grid stagger-children" ref="servicesGrid">
+          <div class="service-card featured">
+            <div class="card-icon">
+              <i class="mdi mdi-hospital-building"></i>
+            </div>
+            <div class="card-content">
+              <h3>Cirurgias</h3>
+              <p>Procedimentos cirúrgicos com equipamentos de última geração e equipe especializada em diversas especialidades.</p>
+            </div>
+            <div class="card-arrow">
+              <i class="mdi mdi-arrow-right"></i>
+            </div>
+            <div class="card-bg"></div>
           </div>
+          
           <div class="service-card">
-            <div class="service-icon"><i class="mdi mdi-stethoscope"></i></div>
-            <h3>Atendimentos</h3>
-            <p>Consultas veterinárias completas com profissionais qualificados</p>
+            <div class="card-icon">
+              <i class="mdi mdi-stethoscope"></i>
+            </div>
+            <div class="card-content">
+              <h3>Consultas</h3>
+              <p>Atendimento veterinário completo com profissionais qualificados.</p>
+            </div>
+            <div class="card-arrow">
+              <i class="mdi mdi-arrow-right"></i>
+            </div>
+            <div class="card-bg"></div>
           </div>
+          
           <div class="service-card">
-            <div class="service-icon"><i class="mdi mdi-microscope"></i></div>
-            <h3>Exames Laboratoriais</h3>
-            <p>Análises clínicas precisas para diagnóstico e acompanhamento</p>
+            <div class="card-icon">
+              <i class="mdi mdi-microscope"></i>
+            </div>
+            <div class="card-content">
+              <h3>Exames</h3>
+              <p>Análises laboratoriais precisas para diagnóstico.</p>
+            </div>
+            <div class="card-arrow">
+              <i class="mdi mdi-arrow-right"></i>
+            </div>
+            <div class="card-bg"></div>
           </div>
-          <div class="service-card">
-            <div class="service-icon"><i class="mdi mdi-shower-head"></i></div>
-            <h3>Banho e Tosa</h3>
-            <p>Cuidados estéticos e de higiene para seu pet</p>
+          
+          <div class="service-card wide">
+            <div class="card-icon">
+              <i class="mdi mdi-shower-head"></i>
+            </div>
+            <div class="card-content">
+              <h3>Banho e Tosa</h3>
+              <p>Cuidados estéticos e de higiene com carinho e atenção especial para deixar seu pet ainda mais bonito e saudável.</p>
+            </div>
+            <div class="card-arrow">
+              <i class="mdi mdi-arrow-right"></i>
+            </div>
+            <div class="card-bg"></div>
           </div>
         </div>
-        <div class="services-cta">
-          <NuxtLink to="/servicos" class="btn-secondary">Ver Todos os Serviços</NuxtLink>
+        
+        <!-- CTA -->
+        <div class="services-cta reveal">
+          <NuxtLink to="/servicos" class="btn-outline">
+            <span>Ver Todos os Serviços</span>
+            <i class="mdi mdi-arrow-right"></i>
+          </NuxtLink>
         </div>
       </div>
     </section>
 
-    <!-- About Preview -->
-    <section class="about-preview">
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         ABOUT SECTION - Layout Split
+         ═══════════════════════════════════════════════════════════════════════ -->
+    <section class="about-section" ref="aboutRef">
       <div class="container">
-        <div class="about-content">
-          <div class="about-text">
-            <h2>Sobre a PontoVet</h2>
-            <p>
-              Somos uma clínica veterinária dedicada ao cuidado integral do seu pet.
-              Com uma equipe experiente e instalações modernas, oferecemos serviços
-              de qualidade com carinho e atenção personalizada.
-            </p>
-            <p>
-              Nosso compromisso é garantir a saúde e o bem-estar dos animais,
-              proporcionando atendimento humanizado e tratamentos eficazes.
-            </p>
-            <NuxtLink to="/sobre" class="btn-link">Saiba mais sobre nós <i class="mdi mdi-arrow-right"></i></NuxtLink>
-          </div>
-          <div class="about-image">
-            <div class="placeholder-image">
-              <i class="mdi mdi-paw"></i>
+        <div class="about-grid">
+          <!-- Visual Side -->
+          <div class="about-visual reveal-left">
+            <div class="visual-container">
+              <div class="visual-main">
+                <div class="visual-icon">
+                  <i class="mdi mdi-paw"></i>
+                </div>
+                <div class="visual-pattern"></div>
+              </div>
+              <div class="visual-badge">
+                <span class="badge-number">10+</span>
+                <span class="badge-text">Anos cuidando<br />com amor</span>
+              </div>
             </div>
           </div>
+          
+          <!-- Content Side -->
+          <div class="about-content reveal-right">
+            <span class="section-label">Sobre Nós</span>
+            <h2 class="section-title">
+              Dedicação e carinho
+              <span class="title-accent">em cada atendimento</span>
+            </h2>
+            <div class="about-text">
+              <p>
+                Somos uma clínica veterinária dedicada ao cuidado integral do seu pet.
+                Com uma equipe experiente e instalações modernas, oferecemos serviços
+                de qualidade com carinho e atenção personalizada.
+              </p>
+              <p>
+                Nosso compromisso é garantir a saúde e o bem-estar dos animais,
+                proporcionando atendimento humanizado e tratamentos eficazes.
+              </p>
+            </div>
+            <div class="about-features">
+              <div class="feature-item">
+                <i class="mdi mdi-check-circle"></i>
+                <span>Equipe Qualificada</span>
+              </div>
+              <div class="feature-item">
+                <i class="mdi mdi-check-circle"></i>
+                <span>Equipamentos Modernos</span>
+              </div>
+              <div class="feature-item">
+                <i class="mdi mdi-check-circle"></i>
+                <span>Atendimento Humanizado</span>
+              </div>
+            </div>
+            <NuxtLink to="/sobre" class="btn-link">
+              <span>Conheça nossa história</span>
+              <i class="mdi mdi-arrow-right"></i>
+            </NuxtLink>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         CTA FINAL SECTION
+         ═══════════════════════════════════════════════════════════════════════ -->
+    <section class="cta-section" ref="ctaRef">
+      <div class="cta-bg-pattern"></div>
+      <div class="container">
+        <div class="cta-content reveal-scale">
+          <h2>Pronto para cuidar do seu pet?</h2>
+          <p>Entre em contato conosco e agende uma consulta.</p>
+          <a href="https://wa.me/5518997359924" target="_blank" rel="noopener" class="cta-whatsapp">
+            <i class="mdi mdi-whatsapp"></i>
+            <span>Fale Conosco pelo WhatsApp</span>
+          </a>
         </div>
       </div>
     </section>
@@ -83,309 +259,978 @@ useHead({
     { name: 'description', content: 'Clínica veterinária completa oferecendo cirurgias, atendimentos, exames laboratoriais e banho e tosa para seu pet.' }
   ]
 });
+
+// Refs para elementos
+const heroRef = ref(null);
+const servicesRef = ref(null);
+const aboutRef = ref(null);
+const ctaRef = ref(null);
+const servicesGrid = ref(null);
+
+// Funções para estilos dinâmicos das partículas
+const getParticleStyle = (n) => {
+  const size = Math.random() * 4 + 2;
+  return {
+    '--size': `${size}px`,
+    '--x': `${Math.random() * 100}%`,
+    '--y': `${Math.random() * 100}%`,
+    '--duration': `${Math.random() * 20 + 15}s`,
+    '--delay': `${Math.random() * 5}s`,
+  };
+};
+
+const getFloatingStyle = (n) => {
+  return {
+    '--x': `${10 + (n * 18)}%`,
+    '--y': `${20 + Math.random() * 60}%`,
+    '--duration': `${8 + n * 2}s`,
+    '--delay': `${n * 0.5}s`,
+    '--rotation': `${Math.random() * 360}deg`,
+  };
+};
+
+// Scroll suave para serviços
+const scrollToServices = () => {
+  if (import.meta.client) {
+    document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
+  }
+};
+
+// Intersection Observer para animações de scroll reveal
+onMounted(() => {
+  if (import.meta.client) {
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px 0px -100px 0px',
+      threshold: 0.1,
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+
+    // Observar todos os elementos com classes de reveal
+    document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale, .stagger-children').forEach((el) => {
+      observer.observe(el);
+    });
+  }
+});
 </script>
 
 <style scoped>
+/* ═══════════════════════════════════════════════════════════════════════════
+   HOME PAGE - Design Premium Awwwards Level
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.home {
+  overflow-x: hidden;
+}
+
+/* ─── HERO SECTION ─── */
 .hero {
-  background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #4CAF50 100%);
-  color: white;
-  padding: 6rem 2rem;
-  text-align: center;
   position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-3xl) var(--space-lg);
   overflow: hidden;
 }
 
-.hero::before {
-  content: '';
+/* Background */
+.hero-bg {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: radial-gradient(circle at 30% 70%, rgba(255,255,255,0.1) 0%, transparent 50%);
-  pointer-events: none;
+  inset: 0;
+  z-index: 0;
 }
 
-.hero-content {
-  max-width: 800px;
-  margin: 0 auto;
-  animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-.hero-logo {
-  height: 150px;
-  margin-bottom: 2rem;
-  background: white;
-  padding: 1rem;
-  border-radius: 20px;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
-  animation: float 4s cubic-bezier(0.45, 0, 0.55, 1) infinite, scaleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
-  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
-}
-
-.hero-logo:hover {
-  transform: scale(1.08) rotate(2deg);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
-  animation-play-state: paused;
-}
-
-.hero h1 {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-  font-weight: 700;
-}
-
-.hero-subtitle {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
+.hero-gradient {
+  position: absolute;
+  inset: 0;
+  background: var(--gradient-primary);
   opacity: 0.95;
 }
 
-.hero-description {
-  font-size: 1.1rem;
-  margin-bottom: 2rem;
-  opacity: 0.9;
+.hero-mesh {
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(ellipse at 20% 80%, rgba(255,255,255,0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(255,255,255,0.1) 0%, transparent 40%),
+    radial-gradient(ellipse at 50% 50%, rgba(255,255,255,0.05) 0%, transparent 60%);
 }
 
-.cta-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: white;
-  color: #2E7D32;
-  padding: 1rem 2.5rem;
-  border-radius: 30px;
-  text-decoration: none;
-  font-size: 1.1rem;
-  font-weight: 600;
-  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-  position: relative;
+/* Particles */
+.hero-particles {
+  position: absolute;
+  inset: 0;
   overflow: hidden;
 }
 
-.cta-button::before {
-  content: '';
+.particle {
   position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-  transition: left 0.6s ease;
+  width: var(--size);
+  height: var(--size);
+  left: var(--x);
+  top: var(--y);
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  animation: floatParticle var(--duration) ease-in-out infinite;
+  animation-delay: var(--delay);
 }
 
-.cta-button:hover {
-  transform: translateY(-6px) scale(1.03);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
-  color: #1B5E20;
+@keyframes floatParticle {
+  0%, 100% {
+    transform: translateY(0) translateX(0);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translateY(-30px) translateX(20px);
+    opacity: 0.8;
+  }
 }
 
-.cta-button:hover::before {
-  left: 100%;
+/* Floating Elements */
+.hero-floating-elements {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
 }
 
-.cta-button:active {
-  transform: translateY(-2px) scale(0.98);
+.floating-paw {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  font-size: 2rem;
+  color: rgba(255, 255, 255, 0.1);
+  animation: floatPaw var(--duration) ease-in-out infinite;
+  animation-delay: var(--delay);
+  transform: rotate(var(--rotation));
 }
 
-.services-overview {
-  padding: 4rem 2rem;
-  background: var(--bg-secondary);
-  transition: background 0.4s ease;
+@keyframes floatPaw {
+  0%, 100% {
+    transform: translateY(0) rotate(var(--rotation));
+    opacity: 0.1;
+  }
+  50% {
+    transform: translateY(-20px) rotate(calc(var(--rotation) + 15deg));
+    opacity: 0.2;
+  }
 }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.services-overview h2 {
+/* Hero Content */
+.hero-content {
+  position: relative;
+  z-index: 2;
   text-align: center;
-  font-size: 2.5rem;
-  margin-bottom: 3rem;
-  color: var(--text-primary);
-  transition: color 0.4s ease;
+  max-width: 900px;
+  color: white;
 }
 
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-full);
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 2rem;
+  animation: fadeInDown 0.8s var(--ease-out-expo) 0.2s both;
+}
+
+.hero-badge i {
+  color: #ff6b6b;
+}
+
+.hero-title {
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.5rem;
+}
+
+.title-line {
+  display: block;
+  overflow: hidden;
+}
+
+.title-word {
+  display: inline-block;
+  animation: slideUp 1s var(--ease-out-expo) both;
+}
+
+.title-line:nth-child(1) .title-word {
+  animation-delay: 0.3s;
+}
+
+.title-line:nth-child(2) .title-word {
+  animation-delay: 0.4s;
+}
+
+.title-word.highlight {
+  background: linear-gradient(135deg, #ffffff 0%, rgba(255,255,255,0.8) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+}
+
+.hero-subtitle {
+  font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+  font-weight: 400;
+  opacity: 0.9;
+  line-height: 1.7;
+  margin-bottom: 2.5rem;
+  animation: fadeInUp 0.8s var(--ease-out-expo) 0.5s both;
+}
+
+.hide-mobile {
+  display: block;
+}
+
+/* CTA Buttons */
+.hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 3rem;
+  animation: fadeInUp 0.8s var(--ease-out-expo) 0.6s both;
+}
+
+.cta-primary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.25rem 2rem;
+  background: white;
+  color: var(--green-deep);
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  overflow: hidden;
+  transition: transform var(--duration-normal) var(--ease-out-back),
+              box-shadow var(--duration-normal) var(--ease-out-expo);
+}
+
+.cta-primary .cta-bg {
+  position: absolute;
+  inset: 0;
+  background: var(--gradient-primary);
+  opacity: 0;
+  transition: opacity var(--duration-normal) ease;
+  z-index: 0;
+}
+
+.cta-primary .cta-icon,
+.cta-primary .cta-text,
+.cta-primary .cta-arrow {
+  position: relative;
+  z-index: 1;
+  transition: color var(--duration-normal) ease;
+}
+
+.cta-primary .cta-icon {
+  font-size: 1.4rem;
+}
+
+.cta-primary .cta-arrow {
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: opacity var(--duration-normal) var(--ease-out-expo),
+              transform var(--duration-normal) var(--ease-out-expo);
+}
+
+.cta-primary:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+}
+
+.cta-primary:hover .cta-bg {
+  opacity: 1;
+}
+
+.cta-primary:hover .cta-icon,
+.cta-primary:hover .cta-text {
+  color: white;
+}
+
+.cta-primary:hover .cta-arrow {
+  opacity: 1;
+  transform: translateX(0);
+  color: white;
+}
+
+.cta-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.25rem 2rem;
+  background: transparent;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 500;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  transition: all var(--duration-normal) var(--ease-out-expo);
+}
+
+.cta-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: translateY(-2px);
+}
+
+/* Stats */
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  animation: fadeInUp 0.8s var(--ease-out-expo) 0.7s both;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-number {
+  display: block;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+.stat-divider {
+  width: 1px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Scroll Indicator */
+.scroll-indicator {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  z-index: 10;
+  animation: fadeIn 1s var(--ease-out-expo) 1s both;
+}
+
+.scroll-text {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.scroll-mouse {
+  width: 24px;
+  height: 38px;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  padding-top: 8px;
+}
+
+.scroll-wheel {
+  width: 4px;
+  height: 8px;
+  background: white;
+  border-radius: 2px;
+  animation: scrollWheel 2s ease-in-out infinite;
+}
+
+@keyframes scrollWheel {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(8px);
+    opacity: 0.3;
+  }
+}
+
+/* ─── SERVICES SECTION ─── */
+.services-section {
+  padding: var(--space-3xl) 0;
+  background: var(--bg-secondary);
+  position: relative;
+}
+
+.section-header {
+  max-width: 600px;
+  margin-bottom: var(--space-2xl);
+}
+
+.section-label {
+  display: inline-block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--green-primary);
+  margin-bottom: 1rem;
+}
+
+.section-title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.title-accent {
+  display: block;
+  color: var(--green-primary);
+}
+
+.section-description {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+/* Services Grid - Assimétrico */
 .services-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
-  margin-bottom: 2rem;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto auto;
+  gap: 1.5rem;
+  margin-bottom: var(--space-xl);
 }
 
 .service-card {
+  position: relative;
   background: var(--card-bg);
+  border-radius: var(--radius-lg);
   padding: 2rem;
-  border-radius: 20px;
-  text-align: center;
-  box-shadow: 0 5px 20px var(--shadow-color);
-  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-  border: 2px solid transparent;
-  animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  border: 1px solid var(--card-border);
+  overflow: hidden;
+  transition: transform var(--duration-normal) var(--ease-out-back),
+              box-shadow var(--duration-normal) var(--ease-out-expo),
+              border-color var(--duration-normal) ease;
+  cursor: pointer;
 }
 
-.service-card:nth-child(1) { animation-delay: 0.1s; }
-.service-card:nth-child(2) { animation-delay: 0.2s; }
-.service-card:nth-child(3) { animation-delay: 0.3s; }
-.service-card:nth-child(4) { animation-delay: 0.4s; }
+.service-card.featured {
+  grid-row: span 2;
+  padding: 2.5rem;
+}
+
+.service-card.wide {
+  grid-column: span 2;
+}
+
+.service-card .card-bg {
+  position: absolute;
+  inset: 0;
+  background: var(--gradient-primary);
+  opacity: 0;
+  transition: opacity var(--duration-normal) ease;
+  z-index: 0;
+}
 
 .service-card:hover {
-  transform: translateY(-15px) scale(1.02);
-  box-shadow: 0 25px 50px rgba(46, 125, 50, 0.25);
-  border-color: #4CAF50;
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--green-primary);
 }
 
-.service-icon {
-  font-size: 3.5rem;
-  margin-bottom: 1rem;
-  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-  color: #4CAF50;
+.service-card:hover .card-bg {
+  opacity: 1;
 }
 
-.service-icon i {
-  display: block;
-  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+.service-card:hover .card-icon,
+.service-card:hover h3,
+.service-card:hover p {
+  color: white;
 }
 
-.service-card:hover .service-icon {
-  transform: scale(1.15);
-}
-
-.service-card:hover .service-icon i {
-  transform: rotate(10deg);
-}
-
-.service-card h3 {
+.card-icon {
+  position: relative;
+  z-index: 1;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--green-bg);
+  border-radius: var(--radius-md);
+  font-size: 1.75rem;
   color: var(--green-primary);
-  margin-bottom: 1rem;
-  font-size: 1.5rem;
-  transition: color 0.4s ease;
+  margin-bottom: 1.5rem;
+  transition: all var(--duration-normal) ease;
 }
 
-.service-card p {
+.service-card.featured .card-icon {
+  width: 80px;
+  height: 80px;
+  font-size: 2.25rem;
+}
+
+.service-card:hover .card-icon {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.card-content {
+  position: relative;
+  z-index: 1;
+}
+
+.card-content h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+  transition: color var(--duration-normal) ease;
+}
+
+.service-card.featured .card-content h3 {
+  font-size: 1.5rem;
+}
+
+.card-content p {
+  font-size: 0.95rem;
   color: var(--text-secondary);
   line-height: 1.6;
-  transition: color 0.4s ease;
+  transition: color var(--duration-normal) ease;
 }
 
+.card-arrow {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-secondary);
+  border-radius: 50%;
+  color: var(--green-primary);
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all var(--duration-normal) var(--ease-out-expo);
+  z-index: 1;
+}
+
+.service-card:hover .card-arrow {
+  opacity: 1;
+  transform: translateX(0);
+  background: white;
+  color: var(--green-deep);
+}
+
+/* Services CTA */
 .services-cta {
   text-align: center;
-  margin-top: 3rem;
 }
 
-.btn-secondary {
-  display: inline-block;
-  background: linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%);
-  color: white;
-  padding: 1rem 2.5rem;
-  border-radius: 30px;
-  text-decoration: none;
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  background: transparent;
+  color: var(--green-primary);
+  font-size: 1rem;
   font-weight: 600;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid var(--green-primary);
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  transition: all var(--duration-normal) var(--ease-out-expo);
 }
 
-.btn-secondary:hover {
-  background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%);
-  transform: translateY(-4px);
-  box-shadow: 0 12px 30px rgba(46, 125, 50, 0.4);
+.btn-outline:hover {
+  background: var(--green-primary);
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 15px 40px rgba(26, 92, 30, 0.2);
 }
 
-.about-preview {
-  padding: 4rem 2rem;
+.btn-outline i {
+  transition: transform var(--duration-normal) var(--ease-out-expo);
+}
+
+.btn-outline:hover i {
+  transform: translateX(5px);
+}
+
+/* ─── ABOUT SECTION ─── */
+.about-section {
+  padding: var(--space-3xl) 0;
   background: var(--bg-primary);
-  transition: background 0.4s ease;
 }
 
-.about-content {
+.about-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 3rem;
+  gap: var(--space-2xl);
   align-items: center;
 }
 
-.about-text h2 {
+/* Visual Side */
+.about-visual {
+  position: relative;
+}
+
+.visual-container {
+  position: relative;
+}
+
+.visual-main {
+  position: relative;
+  aspect-ratio: 4/5;
+  background: var(--gradient-primary);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.visual-icon {
+  font-size: 8rem;
+  color: rgba(255, 255, 255, 0.3);
+  animation: float 6s ease-in-out infinite;
+}
+
+.visual-pattern {
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(circle at 30% 70%, rgba(255,255,255,0.1) 0%, transparent 50%),
+    radial-gradient(circle at 70% 30%, rgba(255,255,255,0.08) 0%, transparent 40%);
+}
+
+.visual-badge {
+  position: absolute;
+  bottom: -20px;
+  right: -20px;
+  background: var(--card-bg);
+  padding: 1.5rem 2rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-elevated);
+  text-align: center;
+}
+
+.badge-number {
+  display: block;
   font-size: 2.5rem;
-  color: var(--text-primary);
-  margin-bottom: 1.5rem;
-  transition: color 0.4s ease;
+  font-weight: 700;
+  color: var(--green-primary);
+  line-height: 1;
+}
+
+.badge-text {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+/* Content Side */
+.about-content {
+  padding-left: var(--space-lg);
 }
 
 .about-text p {
   font-size: 1.1rem;
-  line-height: 1.8;
   color: var(--text-secondary);
+  line-height: 1.8;
   margin-bottom: 1rem;
-  transition: color 0.4s ease;
+}
+
+.about-features {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1rem;
+  color: var(--text-primary);
+}
+
+.feature-item i {
+  color: var(--green-primary);
+  font-size: 1.25rem;
 }
 
 .btn-link {
-  display: inline-block;
-  color: #2E7D32;
-  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--green-primary);
   font-weight: 600;
-  margin-top: 1rem;
-  transition: all 0.3s ease;
-  position: relative;
-}
-
-.btn-link::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background: #4CAF50;
-  transition: width 0.3s ease;
+  text-decoration: none;
+  transition: gap var(--duration-normal) var(--ease-out-expo);
 }
 
 .btn-link:hover {
-  color: #1B5E20;
+  gap: 1rem;
 }
 
-.btn-link:hover::after {
-  width: 100%;
+.btn-link i {
+  transition: transform var(--duration-normal) var(--ease-out-expo);
 }
 
-.placeholder-image {
-  background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #4CAF50 100%);
-  border-radius: 25px;
-  height: 400px;
-  display: flex;
+.btn-link:hover i {
+  transform: translateX(5px);
+}
+
+/* ─── CTA FINAL SECTION ─── */
+.cta-section {
+  position: relative;
+  padding: var(--space-3xl) 0;
+  background: var(--gradient-primary);
+  overflow: hidden;
+}
+
+.cta-bg-pattern {
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 50%, rgba(255,255,255,0.08) 0%, transparent 40%);
+}
+
+.cta-content {
+  position: relative;
+  text-align: center;
+  color: white;
+  z-index: 1;
+}
+
+.cta-content h2 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.cta-content p {
+  font-size: 1.2rem;
+  opacity: 0.9;
+  margin-bottom: 2rem;
+}
+
+.cta-whatsapp {
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  font-size: 6rem;
-  animation: fadeIn 0.8s ease-out;
-  transition: transform 0.4s ease;
+  gap: 0.75rem;
+  padding: 1.25rem 2.5rem;
+  background: white;
+  color: var(--green-deep);
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  transition: all var(--duration-normal) var(--ease-out-back);
 }
 
-.placeholder-image:hover {
-  transform: scale(1.02);
+.cta-whatsapp:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+}
+
+.cta-whatsapp i {
+  font-size: 1.5rem;
+  color: #25D366;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   REVEAL ANIMATIONS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s var(--ease-out-expo),
+              transform 0.8s var(--ease-out-expo);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-60px);
+  transition: opacity 0.8s var(--ease-out-expo),
+              transform 0.8s var(--ease-out-expo);
+}
+
+.reveal-left.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal-right {
+  opacity: 0;
+  transform: translateX(60px);
+  transition: opacity 0.8s var(--ease-out-expo),
+              transform 0.8s var(--ease-out-expo);
+}
+
+.reveal-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 0.8s var(--ease-out-expo),
+              transform 0.8s var(--ease-out-expo);
+}
+
+.reveal-scale.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Stagger Children */
+.stagger-children > * {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s var(--ease-out-expo),
+              transform 0.6s var(--ease-out-expo);
+}
+
+.stagger-children.visible > *:nth-child(1) { transition-delay: 0.1s; }
+.stagger-children.visible > *:nth-child(2) { transition-delay: 0.2s; }
+.stagger-children.visible > *:nth-child(3) { transition-delay: 0.3s; }
+.stagger-children.visible > *:nth-child(4) { transition-delay: 0.4s; }
+
+.stagger-children.visible > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 1024px) {
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .service-card.featured {
+    grid-row: span 1;
+  }
+  
+  .service-card.wide {
+    grid-column: span 2;
+  }
 }
 
 @media (max-width: 768px) {
-  .hero h1 {
-    font-size: 2rem;
+  .hero {
+    padding: var(--space-2xl) var(--space-md);
+    min-height: 100svh;
   }
-
-  .hero-subtitle {
-    font-size: 1.2rem;
+  
+  .hero-stats {
+    flex-direction: column;
+    gap: 1.5rem;
   }
-
-  .services-overview h2,
-  .about-text h2 {
-    font-size: 2rem;
+  
+  .stat-divider {
+    width: 40px;
+    height: 1px;
   }
-
-  .about-content {
+  
+  .hide-mobile {
+    display: none;
+  }
+  
+  .hero-cta {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .scroll-indicator {
+    display: none;
+  }
+  
+  .services-grid {
     grid-template-columns: 1fr;
   }
+  
+  .service-card.featured,
+  .service-card.wide {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+  
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+  }
+  
+  .about-content {
+    padding-left: 0;
+  }
+  
+  .visual-badge {
+    bottom: -15px;
+    right: 20px;
+    padding: 1rem 1.5rem;
+  }
+  
+  .badge-number {
+    font-size: 2rem;
+  }
+}
 
-  .placeholder-image {
-    height: 250px;
-    font-size: 4rem;
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: clamp(2.5rem, 10vw, 3.5rem);
+  }
+  
+  .cta-primary {
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+  }
+  
+  .service-card {
+    padding: 1.5rem;
+  }
+  
+  .card-arrow {
+    bottom: 1.5rem;
+    right: 1.5rem;
   }
 }
 </style>
