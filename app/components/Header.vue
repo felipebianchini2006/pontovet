@@ -211,11 +211,15 @@ const onLogoClick = () => {
   left: 0;
   right: 0;
   z-index: 1000;
-  /* CORREÇÃO: Padding FIXO - nunca muda, evita reflow */
+  /* Padding com transição suave ao rolar */
   padding: 1.25rem 0;
+  transition: padding var(--duration-normal) var(--ease-smooth);
 }
 
-/* REMOVIDO: .header.scrolled { padding } - causava reflow */
+/* Header compacto ao rolar - padding reduzido */
+.header.scrolled {
+  padding: 0.6rem 0;
+}
 
 /* ─── Background Glassmorphism Premium ─── */
 .header-bg {
@@ -226,19 +230,14 @@ const onLogoClick = () => {
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   border-bottom: 1px solid var(--border-color);
   opacity: 0;
-  /* CORREÇÃO: transform para "encolher" visualmente sem reflow */
-  transform: scaleY(1);
-  transform-origin: top center;
   transition: opacity var(--duration-normal) var(--ease-smooth),
-              transform var(--duration-normal) var(--ease-smooth),
               background var(--duration-normal) var(--ease-smooth);
-  will-change: opacity, transform;
+  will-change: opacity;
 }
 
 .header.scrolled .header-bg {
   opacity: 1;
-  /* Compacta visualmente o header via scale */
-  transform: scaleY(0.85);
+  /* Removido scaleY - agora o padding do header controla o tamanho */
 }
 
 .header:not(.scrolled) .header-bg {
@@ -718,10 +717,12 @@ const onLogoClick = () => {
   left: 0;
   right: 0;
   height: 3px;
-  background: var(--border-color);
+  background: transparent;
   opacity: 0;
   transition: opacity var(--duration-normal) ease;
   overflow: visible;
+  pointer-events: none;
+  z-index: 10;
 }
 
 .header.scrolled .scroll-progress {

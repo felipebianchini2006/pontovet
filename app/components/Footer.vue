@@ -1,39 +1,40 @@
 <template>
-  <footer class="footer">
+  <footer class="footer" role="contentinfo" aria-label="Rodapé do site">
     <div class="container">
       <div class="footer-content">
         <div class="footer-section">
-          <img src="/logo.png" alt="PontoVet" class="footer-logo" />
+          <img src="/logo.png" alt="Logo PontoVet - Clínica Veterinária" class="footer-logo" />
           <p>Cuidando com amor e dedicação do seu melhor amigo.</p>
         </div>
 
-        <div class="footer-section">
+        <nav class="footer-section" aria-label="Links de navegação rápida">
           <h3>Links Rápidos</h3>
-          <ul>
-            <li><NuxtLink to="/">Home</NuxtLink></li>
-            <li><NuxtLink to="/sobre">Sobre</NuxtLink></li>
-            <li><NuxtLink to="/servicos">Serviços</NuxtLink></li>
-            <li><NuxtLink to="/galeria">Galeria</NuxtLink></li>
-            <li><NuxtLink to="/contato">Contato</NuxtLink></li>
+          <ul role="list">
+            <li v-for="link in navLinks" :key="link.to">
+              <NuxtLink :to="link.to" :aria-label="`Ir para ${link.label}`">{{ link.label }}</NuxtLink>
+            </li>
           </ul>
-        </div>
+        </nav>
 
         <div class="footer-section">
           <h3>Serviços</h3>
-          <ul>
-            <li>Cirurgias</li>
-            <li>Atendimentos</li>
-            <li>Exames Laboratoriais</li>
-            <li>Banho e Tosa</li>
+          <ul role="list" aria-label="Lista de serviços oferecidos">
+            <li v-for="service in services" :key="service.title">{{ service.title }}</li>
           </ul>
         </div>
 
         <div class="footer-section">
           <h3>Contato</h3>
           <p>
-            <a href="https://wa.me/5518997359924" target="_blank" class="whatsapp-link">
-              <i class="mdi mdi-whatsapp"></i>
-              WhatsApp
+            <a 
+              :href="contactInfo.whatsappLink" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="whatsapp-link"
+              :aria-label="`Entrar em contato pelo WhatsApp: ${contactInfo.phone}`"
+            >
+              <i class="mdi mdi-whatsapp" aria-hidden="true"></i>
+              <span>WhatsApp</span>
             </a>
           </p>
         </div>
@@ -45,6 +46,13 @@
     </div>
   </footer>
 </template>
+
+<script setup>
+const { footerLinks, services, contactInfo } = useSiteData();
+
+// Usar footerLinks.quickLinks para navegação
+const navLinks = footerLinks.quickLinks;
+</script>
 
 <style scoped>
 .footer {

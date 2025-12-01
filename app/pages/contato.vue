@@ -48,6 +48,27 @@
       </div>
     </section>
 
+    <!-- Mapa Section -->
+    <section class="map-section">
+      <div class="container">
+        <h2><i class="mdi mdi-map-marker-radius"></i> Nossa Localização</h2>
+        <p class="map-description">Venha nos visitar! Estamos prontos para receber você e seu pet.</p>
+        <div class="map-container">
+          <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3742.5!2d-51.0!3d-21.9!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjHCsDU0JzAwLjAiUyA1McKwMDAnMDAuMCJX!5e0!3m2!1spt-BR!2sbr!4v1704000000000!5m2!1spt-BR!2sbr"
+            width="100%" 
+            height="450" 
+            style="border:0;" 
+            allowfullscreen="" 
+            loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Localização da PontoVet no mapa"
+            aria-label="Mapa mostrando a localização da clínica veterinária PontoVet"
+          ></iframe>
+        </div>
+      </div>
+    </section>
+
     <!-- FAQ Section -->
     <section class="faq-section">
       <div class="container">
@@ -76,10 +97,36 @@
 </template>
 
 <script setup>
+// SEO com dados estruturados
+const contactSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ContactPage',
+  name: 'Contato - PontoVet',
+  description: 'Entre em contato com a PontoVet pelo WhatsApp. Agende sua consulta veterinária.',
+  mainEntity: {
+    '@type': 'VeterinaryCare',
+    name: 'PontoVet - Clínica Veterinária',
+    telephone: '+55 18 99735-9924',
+    openingHours: ['Mo-Fr 08:00-18:00', 'Sa 08:00-12:00'],
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Cidade',
+      addressRegion: 'SP',
+      addressCountry: 'BR'
+    }
+  }
+};
+
 useHead({
   title: 'Contato - PontoVet',
   meta: [
     { name: 'description', content: 'Entre em contato com a PontoVet pelo WhatsApp. Agende sua consulta veterinária.' }
+  ],
+  script: [
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify(contactSchema)
+    }
   ]
 });
 </script>
@@ -267,6 +314,57 @@ useHead({
   background: var(--bg-secondary);
   padding: 4rem 0;
   transition: background 0.4s ease;
+}
+
+/* Map Section */
+.map-section {
+  padding: 4rem 0;
+  background: var(--bg-primary);
+  transition: background 0.4s ease;
+}
+
+.map-section h2 {
+  text-align: center;
+  color: var(--green-primary);
+  margin-bottom: 1rem;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: color 0.4s ease;
+}
+
+.map-section h2 i {
+  font-size: 2.2rem;
+}
+
+.map-description {
+  text-align: center;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+  transition: color 0.4s ease;
+}
+
+.map-container {
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 15px 50px var(--shadow-color);
+  border: 3px solid var(--green-primary);
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.map-container:hover {
+  transform: scale(1.01);
+  box-shadow: 0 25px 70px rgba(46, 125, 50, 0.25);
+}
+
+.map-container iframe {
+  display: block;
+  width: 100%;
+  min-height: 400px;
 }
 
 .faq-section h2 {

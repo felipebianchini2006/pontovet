@@ -1,0 +1,441 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   PONTOVET - KEYFRAMES & ANIMATIONS
+   Arquivo dedicado para todas as animações do sistema
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* ─── Fade In com movimento ─── */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 60px, 0) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -60px, 0) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* ─── Slide com rotação sutil ─── */
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translate3d(-80px, 0, 0) rotate(-2deg);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) rotate(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translate3d(80px, 0, 0) rotate(2deg);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) rotate(0);
+  }
+}
+
+/* ─── Scale com bounce ─── */
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes scaleInBounce {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ─── Bounce elástico ─── */
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) translate3d(0, 0, 0);
+  }
+  20% {
+    transform: scale(1.1) translate3d(0, 0, 0);
+  }
+  40% {
+    transform: scale(0.9) translate3d(0, 0, 0);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.03) translate3d(0, 0, 0);
+  }
+  80% {
+    transform: scale(0.97) translate3d(0, 0, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+}
+
+@keyframes bounceInUp {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 100px, 0) scale(0.9);
+  }
+  60% {
+    opacity: 1;
+    transform: translate3d(0, -20px, 0) scale(1.02);
+  }
+  80% {
+    transform: translate3d(0, 10px, 0) scale(0.98);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+/* ─── Jelly/Wobble ─── */
+@keyframes jelly {
+  0% { transform: scale(1, 1); }
+  25% { transform: scale(0.95, 1.05); }
+  50% { transform: scale(1.05, 0.95); }
+  75% { transform: scale(0.98, 1.02); }
+  100% { transform: scale(1, 1); }
+}
+
+@keyframes wobble {
+  0% { transform: translate3d(0, 0, 0) rotate(0); }
+  15% { transform: translate3d(-8px, 0, 0) rotate(-3deg); }
+  30% { transform: translate3d(6px, 0, 0) rotate(2deg); }
+  45% { transform: translate3d(-4px, 0, 0) rotate(-1deg); }
+  60% { transform: translate3d(2px, 0, 0) rotate(0.5deg); }
+  75% { transform: translate3d(-1px, 0, 0) rotate(-0.25deg); }
+  100% { transform: translate3d(0, 0, 0) rotate(0); }
+}
+
+/* ─── Floating e pulsação ─── */
+@keyframes float {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  25% { transform: translate3d(0, -12px, 0) rotate(1deg); }
+  75% { transform: translate3d(0, 8px, 0) rotate(-1deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.02); opacity: 0.9; }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { 
+    box-shadow: 0 0 20px var(--green-glow), 0 0 40px transparent; 
+  }
+  50% { 
+    box-shadow: 0 0 30px var(--green-glow), 0 0 60px var(--green-glow); 
+  }
+}
+
+/* ─── Shimmer e brilho ─── */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes shine {
+  0% {
+    transform: translate3d(-100%, 0, 0) rotate(25deg);
+  }
+  100% {
+    transform: translate3d(200%, 0, 0) rotate(25deg);
+  }
+}
+
+/* ─── Glow pulsante ─── */
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 20px var(--green-glow), 0 0 60px transparent; }
+  50% { box-shadow: 0 0 40px var(--green-glow), 0 0 80px var(--green-glow); }
+}
+
+/* ─── Morph background ─── */
+@keyframes morphBg {
+  0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+  50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+}
+
+/* ─── Reveal de texto ─── */
+@keyframes revealText {
+  from {
+    clip-path: inset(0 100% 0 0);
+    opacity: 0;
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translate3d(0, 100%, 0);
+    opacity: 0;
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes rotateIn {
+  from {
+    opacity: 0;
+    transform: rotate(-15deg) scale(0.9);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* ─── Micro-interação de clique ─── */
+@keyframes clickPop {
+  0% { transform: scale(1); }
+  50% { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
+@keyframes clickBounce {
+  0% { transform: scale(1); }
+  30% { transform: scale(0.92); }
+  60% { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+
+/* ─── WhatsApp bounce ─── */
+@keyframes bounce {
+  0%, 20%, 53%, 80%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  40%, 43% {
+    transform: translate3d(0, -15px, 0);
+  }
+  70% {
+    transform: translate3d(0, -8px, 0);
+  }
+  90% {
+    transform: translate3d(0, -3px, 0);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CLASSES DE ANIMAÇÃO UTILITÁRIAS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.animate-fade-up {
+  animation: fadeInUp 0.8s var(--ease-out-expo) both;
+}
+
+.animate-fade-down {
+  animation: fadeInDown 0.8s var(--ease-out-expo) both;
+}
+
+.animate-slide-left {
+  animation: slideInLeft 0.8s var(--ease-out-expo) both;
+}
+
+.animate-slide-right {
+  animation: slideInRight 0.8s var(--ease-out-expo) both;
+}
+
+.animate-scale {
+  animation: scaleIn 0.6s var(--ease-out-expo) both;
+}
+
+.animate-bounce {
+  animation: bounceIn 0.8s var(--ease-bounce) both;
+}
+
+.animate-bounce-up {
+  animation: bounceInUp 0.8s var(--ease-out-expo) both;
+}
+
+.animate-reveal {
+  animation: revealText 1s var(--ease-out-expo) both;
+}
+
+.animate-jelly {
+  animation: jelly 0.5s var(--ease-elastic) both;
+}
+
+/* ─── Delays Escalonados ─── */
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+.delay-400 { animation-delay: 0.4s; }
+.delay-500 { animation-delay: 0.5s; }
+.delay-600 { animation-delay: 0.6s; }
+.delay-700 { animation-delay: 0.7s; }
+.delay-800 { animation-delay: 0.8s; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   TRANSIÇÕES DE PÁGINA - NUXT PAGE TRANSITIONS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.page-enter-active {
+  transition: all 0.5s var(--ease-out-expo);
+  transition-delay: 0.1s;
+}
+
+.page-leave-active {
+  transition: all 0.4s var(--ease-in-out);
+}
+
+.page-enter-from {
+  opacity: 0;
+  transform: translate3d(0, 40px, 0) scale(0.97);
+  filter: blur(8px);
+}
+
+.page-leave-to {
+  opacity: 0;
+  transform: translate3d(0, -30px, 0) scale(1.02);
+  filter: blur(4px);
+}
+
+/* Transição de Layout */
+.layout-enter-active {
+  transition: all 0.6s var(--ease-out-expo);
+}
+
+.layout-leave-active {
+  transition: all 0.4s var(--ease-in-out);
+}
+
+.layout-enter-from {
+  opacity: 0;
+  filter: blur(10px);
+}
+
+.layout-leave-to {
+  opacity: 0;
+  filter: blur(6px);
+}
+
+/* Transição Alternativa - Slide Horizontal */
+.slide-enter-active,
+.slide-leave-active {
+  transition: all 0.6s var(--ease-out-expo);
+}
+
+.slide-enter-from {
+  opacity: 0;
+  transform: translate3d(80px, 0, 0);
+}
+
+.slide-leave-to {
+  opacity: 0;
+  transform: translate3d(-80px, 0, 0);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SCROLL REVEAL - Classes para Intersection Observer
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.reveal {
+  opacity: 0;
+  transform: translate3d(0, 40px, 0);
+  transition: opacity 0.8s var(--ease-out-expo),
+              transform 0.8s var(--ease-out-expo);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.reveal-left {
+  opacity: 0;
+  transform: translate3d(-60px, 0, 0);
+  transition: opacity 0.8s var(--ease-out-expo),
+              transform 0.8s var(--ease-out-expo);
+}
+
+.reveal-left.visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.reveal-right {
+  opacity: 0;
+  transform: translate3d(60px, 0, 0);
+  transition: opacity 0.8s var(--ease-out-expo),
+              transform 0.8s var(--ease-out-expo);
+}
+
+.reveal-right.visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 0.8s var(--ease-out-expo),
+              transform 0.8s var(--ease-out-expo);
+}
+
+.reveal-scale.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Stagger para elementos filhos */
+.stagger-children > * {
+  opacity: 0;
+  transform: translate3d(0, 30px, 0);
+  transition: opacity 0.6s var(--ease-out-expo),
+              transform 0.6s var(--ease-out-expo);
+}
+
+.stagger-children.visible > *:nth-child(1) { transition-delay: 0.1s; }
+.stagger-children.visible > *:nth-child(2) { transition-delay: 0.2s; }
+.stagger-children.visible > *:nth-child(3) { transition-delay: 0.3s; }
+.stagger-children.visible > *:nth-child(4) { transition-delay: 0.4s; }
+.stagger-children.visible > *:nth-child(5) { transition-delay: 0.5s; }
+.stagger-children.visible > *:nth-child(6) { transition-delay: 0.6s; }
+
+.stagger-children.visible > * {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}

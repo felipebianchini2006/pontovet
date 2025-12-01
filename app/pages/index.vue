@@ -253,10 +253,134 @@
 </template>
 
 <script setup>
+// JSON-LD Schema para SEO local - VeterinaryCare/LocalBusiness
+const localBusinessSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'VeterinaryCare',
+  '@id': 'https://pontovet.com.br/#organization',
+  name: 'PontoVet - Clínica Veterinária',
+  alternateName: 'PontoVet',
+  description: 'Clínica veterinária completa com mais de 10 anos de experiência. Oferecemos cirurgias, consultas, exames laboratoriais e serviços de banho e tosa para seu pet.',
+  url: 'https://pontovet.com.br',
+  logo: 'https://pontovet.com.br/logo.png',
+  image: 'https://pontovet.com.br/logo.png',
+  telephone: '+55 18 99735-9924',
+  priceRange: '$$',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Rua Exemplo, 123',
+    addressLocality: 'Cidade',
+    addressRegion: 'SP',
+    postalCode: '00000-000',
+    addressCountry: 'BR'
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: -21.9,
+    longitude: -51.0
+  },
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      opens: '08:00',
+      closes: '18:00'
+    },
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: 'Saturday',
+      opens: '08:00',
+      closes: '12:00'
+    }
+  ],
+  sameAs: [
+    'https://wa.me/5518997359924'
+  ],
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Serviços Veterinários',
+    itemListElement: [
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Cirurgias Veterinárias',
+          description: 'Procedimentos cirúrgicos com equipamentos de última geração e equipe especializada.'
+        }
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Consultas Veterinárias',
+          description: 'Atendimento veterinário completo com profissionais qualificados.'
+        }
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Exames Laboratoriais',
+          description: 'Análises laboratoriais precisas para diagnóstico do seu pet.'
+        }
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Banho e Tosa',
+          description: 'Cuidados estéticos e de higiene com carinho e atenção especial.'
+        }
+      }
+    ]
+  },
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: '4.9',
+    reviewCount: '127',
+    bestRating: '5',
+    worstRating: '1'
+  }
+};
+
+// Website Schema
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'PontoVet',
+  url: 'https://pontovet.com.br',
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: 'https://pontovet.com.br/servicos?q={search_term_string}',
+    'query-input': 'required name=search_term_string'
+  }
+};
+
 useHead({
   title: 'PontoVet - Clínica Veterinária',
   meta: [
-    { name: 'description', content: 'Clínica veterinária completa oferecendo cirurgias, atendimentos, exames laboratoriais e banho e tosa para seu pet.' }
+    { name: 'description', content: 'Clínica veterinária completa oferecendo cirurgias, atendimentos, exames laboratoriais e banho e tosa para seu pet.' },
+    { name: 'keywords', content: 'veterinário, clínica veterinária, pet, cachorro, gato, cirurgia veterinária, banho e tosa, exames laboratoriais' },
+    { property: 'og:title', content: 'PontoVet - Clínica Veterinária' },
+    { property: 'og:description', content: 'Cuidado premium para seu pet. Clínica veterinária completa com mais de 10 anos de experiência.' },
+    { property: 'og:type', content: 'website' },
+    { property: 'og:url', content: 'https://pontovet.com.br' },
+    { property: 'og:image', content: 'https://pontovet.com.br/logo.png' },
+    { name: 'twitter:card', content: 'summary_large_image' },
+    { name: 'twitter:title', content: 'PontoVet - Clínica Veterinária' },
+    { name: 'twitter:description', content: 'Cuidado premium para seu pet. Clínica veterinária completa.' },
+    { name: 'geo.region', content: 'BR-SP' },
+    { name: 'geo.placename', content: 'São Paulo' }
+  ],
+  script: [
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify(localBusinessSchema)
+    },
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify(websiteSchema)
+    }
   ]
 });
 

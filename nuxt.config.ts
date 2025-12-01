@@ -4,7 +4,11 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
 
   css: [
-    '@mdi/font/css/materialdesignicons.min.css'
+    '@mdi/font/css/materialdesignicons.min.css',
+    // CSS Global Modularizado
+    '~/assets/css/variables.css',
+    '~/assets/css/animations.css',
+    '~/assets/css/main.css'
   ],
 
   // ═══════════════════════════════════════════════════════════════════════════
