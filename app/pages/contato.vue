@@ -10,21 +10,86 @@
     <section class="contact-section">
       <div class="container">
         <div class="contact-grid">
-          <!-- WhatsApp Card -->
-          <div class="whatsapp-card">
-            <div class="whatsapp-icon">
-              <i class="mdi mdi-whatsapp"></i>
+          <!-- Formulário de Pré-Agendamento -->
+          <div class="booking-card">
+            <div class="booking-header">
+              <div class="booking-icon">
+                <i class="mdi mdi-calendar-check"></i>
+              </div>
+              <h2>Pré-Agendamento</h2>
+              <p class="booking-subtitle">Preencha o formulário e fale diretamente conosco</p>
             </div>
-            <h2>Fale Conosco pelo WhatsApp</h2>
-            <p class="phone-number">(18) 99735-9924</p>
-            <p class="whatsapp-description">
-              Clique no botão abaixo para iniciar uma conversa direta conosco.
-              Responderemos o mais rápido possível!
+            
+            <form @submit.prevent="sendWhatsApp" class="booking-form">
+              <!-- Nome do Tutor -->
+              <div class="form-group">
+                <label for="nome">
+                  <i class="mdi mdi-account"></i>
+                  Seu Nome
+                </label>
+                <input 
+                  type="text" 
+                  id="nome" 
+                  v-model="form.nome" 
+                  placeholder="Digite seu nome"
+                  required
+                  class="form-input"
+                />
+              </div>
+              
+              <!-- Nome do Pet -->
+              <div class="form-group">
+                <label for="pet">
+                  <i class="mdi mdi-paw"></i>
+                  Nome do Pet
+                </label>
+                <input 
+                  type="text" 
+                  id="pet" 
+                  v-model="form.pet" 
+                  placeholder="Digite o nome do seu pet"
+                  required
+                  class="form-input"
+                />
+              </div>
+              
+              <!-- Serviço Desejado -->
+              <div class="form-group">
+                <label for="servico">
+                  <i class="mdi mdi-medical-bag"></i>
+                  Serviço Desejado
+                </label>
+                <select 
+                  id="servico" 
+                  v-model="form.servico" 
+                  required
+                  class="form-select"
+                >
+                  <option value="" disabled>Selecione o serviço</option>
+                  <option value="Consulta Veterinária">Consulta Veterinária</option>
+                  <option value="Cirurgia">Cirurgia</option>
+                  <option value="Exames Laboratoriais">Exames Laboratoriais</option>
+                  <option value="Banho e Tosa">Banho e Tosa</option>
+                  <option value="Vacinação">Vacinação</option>
+                  <option value="Emergência">Emergência</option>
+                  <option value="Outro">Outro assunto</option>
+                </select>
+              </div>
+              
+              <!-- Botão de Envio -->
+              <button type="submit" class="submit-button" :disabled="!isFormValid">
+                <span class="button-content">
+                  <i class="mdi mdi-whatsapp"></i>
+                  <span>Enviar via WhatsApp</span>
+                </span>
+                <span class="button-shine"></span>
+              </button>
+            </form>
+            
+            <p class="booking-note">
+              <i class="mdi mdi-information-outline"></i>
+              Ao clicar, você será redirecionado para o WhatsApp com sua mensagem pronta.
             </p>
-            <a href="https://wa.me/5518997359924" target="_blank" class="whatsapp-button">
-              <i class="mdi mdi-whatsapp"></i>
-              Abrir WhatsApp
-            </a>
           </div>
 
           <!-- Info Cards -->
@@ -39,9 +104,13 @@
               <p>Segunda a Sexta: 8h às 18h<br>Sábados: 8h às 12h<br>Domingos e Feriados: Fechado</p>
             </div>
 
-            <div class="info-card">
-              <h3><i class="mdi mdi-phone"></i> Telefone</h3>
-              <p>(18) 99735-9924</p>
+            <div class="info-card highlight">
+              <h3><i class="mdi mdi-phone"></i> Telefone / WhatsApp</h3>
+              <p class="phone-big">(18) 99735-9924</p>
+              <a href="https://wa.me/5518997359924" target="_blank" class="quick-whatsapp">
+                <i class="mdi mdi-whatsapp"></i>
+                Chamar agora
+              </a>
             </div>
           </div>
         </div>
@@ -69,27 +138,38 @@
       </div>
     </section>
 
-    <!-- FAQ Section -->
+    <!-- FAQ Section - Accordion -->
     <section class="faq-section">
       <div class="container">
-        <h2>Perguntas Frequentes</h2>
-        <div class="faq-grid">
-          <div class="faq-item">
-            <h3>Preciso agendar consulta?</h3>
-            <p>Recomendamos o agendamento prévio pelo WhatsApp para garantir o melhor atendimento.</p>
-          </div>
-          <div class="faq-item">
-            <h3>Atendem emergências?</h3>
-            <p>Sim! Entre em contato pelo WhatsApp que verificaremos a disponibilidade.</p>
-          </div>
-          <div class="faq-item">
-            <h3>Quais formas de pagamento?</h3>
-            <p>Aceitamos dinheiro, cartões de débito e crédito, e PIX.</p>
-          </div>
-          <div class="faq-item">
-            <h3>Fazem atendimento a domicílio?</h3>
-            <p>Consulte disponibilidade pelo WhatsApp.</p>
-          </div>
+        <div class="faq-header">
+          <span class="section-label">Dúvidas?</span>
+          <h2>Perguntas Frequentes</h2>
+          <p>Encontre respostas rápidas para as principais dúvidas</p>
+        </div>
+        
+        <div class="faq-accordion">
+          <details v-for="(faq, index) in faqs" :key="index" class="faq-item">
+            <summary class="faq-question">
+              <span class="question-icon">
+                <i class="mdi mdi-help-circle-outline"></i>
+              </span>
+              <span class="question-text">{{ faq.question }}</span>
+              <span class="chevron">
+                <i class="mdi mdi-chevron-down"></i>
+              </span>
+            </summary>
+            <div class="faq-answer">
+              <p>{{ faq.answer }}</p>
+            </div>
+          </details>
+        </div>
+        
+        <div class="faq-cta">
+          <p>Não encontrou sua resposta?</p>
+          <a href="https://wa.me/5518997359924" target="_blank" class="faq-whatsapp">
+            <i class="mdi mdi-whatsapp"></i>
+            Pergunte no WhatsApp
+          </a>
         </div>
       </div>
     </section>
@@ -97,7 +177,67 @@
 </template>
 
 <script setup>
-// SEO com dados estruturados
+// ═══════════════════════════════════════════════════════════════════════════
+// FORMULÁRIO DE PRÉ-AGENDAMENTO
+// ═══════════════════════════════════════════════════════════════════════════
+
+const form = reactive({
+  nome: '',
+  pet: '',
+  servico: ''
+});
+
+const isFormValid = computed(() => {
+  return form.nome.trim() && form.pet.trim() && form.servico;
+});
+
+const sendWhatsApp = () => {
+  if (!isFormValid.value) return;
+  
+  // Montar mensagem personalizada
+  const message = encodeURIComponent(
+    `Olá! Me chamo *${form.nome.trim()}*, gostaria de saber mais sobre *${form.servico}* para o meu pet *${form.pet.trim()}*. Podem me ajudar?`
+  );
+  
+  // Abrir WhatsApp com mensagem pronta
+  window.open(`https://wa.me/5518997359924?text=${message}`, '_blank');
+};
+
+// ═══════════════════════════════════════════════════════════════════════════
+// FAQ - PERGUNTAS FREQUENTES
+// ═══════════════════════════════════════════════════════════════════════════
+
+const faqs = [
+  {
+    question: 'Preciso agendar consulta?',
+    answer: 'Recomendamos o agendamento prévio pelo WhatsApp para garantir o melhor atendimento. Dessa forma, podemos reservar um horário especialmente para você e seu pet.'
+  },
+  {
+    question: 'Atendem emergências?',
+    answer: 'Sim! Em casos de emergência, entre em contato pelo WhatsApp que verificaremos a disponibilidade imediata. Nosso compromisso é cuidar do seu pet quando ele mais precisa.'
+  },
+  {
+    question: 'Quais formas de pagamento são aceitas?',
+    answer: 'Aceitamos diversas formas de pagamento: dinheiro, cartões de débito e crédito (Visa, Mastercard, Elo), e PIX para sua comodidade.'
+  },
+  {
+    question: 'Fazem atendimento a domicílio?',
+    answer: 'Sim, oferecemos atendimento domiciliar para casos específicos. Consulte disponibilidade e condições pelo WhatsApp.'
+  },
+  {
+    question: 'Quanto tempo dura uma consulta?',
+    answer: 'Em média, as consultas de rotina duram entre 30 e 45 minutos. Esse tempo pode variar dependendo das necessidades do seu pet.'
+  },
+  {
+    question: 'Preciso levar algo na primeira consulta?',
+    answer: 'Recomendamos trazer a carteirinha de vacinação (se houver), exames anteriores e informações sobre a alimentação e comportamento do pet.'
+  }
+];
+
+// ═══════════════════════════════════════════════════════════════════════════
+// SEO COM DADOS ESTRUTURADOS
+// ═══════════════════════════════════════════════════════════════════════════
+
 const contactSchema = {
   '@context': 'https://schema.org',
   '@type': 'ContactPage',
@@ -418,12 +558,450 @@ useHead({
     font-size: 2rem;
   }
 
-  .whatsapp-card {
+  .booking-card {
     padding: 2rem;
   }
+}
 
-  .phone-number {
-    font-size: 1.5rem;
+/* ═══════════════════════════════════════════════════════════════════════════
+   FORMULÁRIO DE PRÉ-AGENDAMENTO
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.booking-card {
+  background: var(--card-bg);
+  padding: 2.5rem;
+  border-radius: 24px;
+  box-shadow: 0 10px 40px var(--shadow-color);
+  animation: slideInLeft 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  border: 2px solid transparent;
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.booking-card:hover {
+  border-color: var(--green-primary);
+  box-shadow: 0 20px 60px rgba(46, 125, 50, 0.2);
+}
+
+.booking-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.booking-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 1.25rem;
+  background: linear-gradient(135deg, #1B5E20 0%, #4CAF50 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  color: white;
+  box-shadow: 0 8px 25px rgba(46, 125, 50, 0.35);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.booking-header h2 {
+  color: var(--green-primary);
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.booking-subtitle {
+  color: var(--text-secondary);
+  font-size: 1rem;
+}
+
+.booking-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.form-group label i {
+  color: var(--green-primary);
+  font-size: 1.1rem;
+}
+
+.form-input,
+.form-select {
+  padding: 1rem 1.25rem;
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  font-size: 1rem;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.form-input:focus,
+.form-select:focus {
+  border-color: var(--green-primary);
+  box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.15);
+}
+
+.form-input::placeholder {
+  color: var(--text-muted);
+}
+
+.form-select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath fill='%234CAF50' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 3rem;
+}
+
+.submit-button {
+  position: relative;
+  background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+  color: white;
+  border: none;
+  padding: 1.25rem 2rem;
+  border-radius: 14px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.35);
+  margin-top: 0.5rem;
+}
+
+.submit-button:hover:not(:disabled) {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 12px 35px rgba(37, 211, 102, 0.45);
+}
+
+.submit-button:active:not(:disabled) {
+  transform: translateY(0) scale(0.98);
+}
+
+.submit-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.button-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  position: relative;
+  z-index: 2;
+}
+
+.button-content i {
+  font-size: 1.4rem;
+}
+
+.button-shine {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  animation: shine 3s ease-in-out infinite;
+}
+
+@keyframes shine {
+  0% { left: -100%; }
+  50%, 100% { left: 100%; }
+}
+
+.booking-note {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: rgba(76, 175, 80, 0.1);
+  border-radius: 10px;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.booking-note i {
+  color: var(--green-primary);
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+/* Info Card com destaque */
+.info-card.highlight {
+  background: linear-gradient(135deg, rgba(46, 125, 50, 0.1) 0%, rgba(76, 175, 80, 0.05) 100%);
+  border: 2px solid var(--green-primary);
+}
+
+.phone-big {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--green-primary);
+  margin-bottom: 1rem;
+}
+
+.quick-whatsapp {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+}
+
+.quick-whatsapp:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 25px rgba(37, 211, 102, 0.45);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   FAQ ACCORDION
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.faq-section {
+  background: var(--bg-secondary);
+  padding: 5rem 0;
+  transition: background 0.4s ease;
+}
+
+.faq-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.faq-header .section-label {
+  display: inline-block;
+  background: linear-gradient(135deg, rgba(46, 125, 50, 0.15) 0%, rgba(76, 175, 80, 0.1) 100%);
+  color: var(--green-primary);
+  padding: 0.5rem 1.25rem;
+  border-radius: 25px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  letter-spacing: 0.5px;
+}
+
+.faq-header h2 {
+  color: var(--text-primary);
+  font-size: 2.25rem;
+  margin-bottom: 0.75rem;
+  transition: color 0.4s ease;
+}
+
+.faq-header p {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  transition: color 0.4s ease;
+}
+
+.faq-accordion {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Item do Accordion */
+.faq-item {
+  background: var(--card-bg);
+  border-radius: 16px;
+  border: 2px solid transparent;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 15px var(--shadow-color);
+}
+
+.faq-item:hover {
+  border-color: var(--green-primary);
+  box-shadow: 0 8px 30px rgba(76, 175, 80, 0.15);
+}
+
+.faq-item[open] {
+  border-color: var(--green-primary);
+  box-shadow: 0 10px 35px rgba(76, 175, 80, 0.2);
+}
+
+/* Summary (Pergunta) */
+.faq-question {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+  transition: background 0.3s ease;
+}
+
+.faq-question::-webkit-details-marker {
+  display: none;
+}
+
+.faq-question:hover {
+  background: rgba(76, 175, 80, 0.05);
+}
+
+.question-icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, rgba(46, 125, 50, 0.15) 0%, rgba(76, 175, 80, 0.1) 100%);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.question-icon i {
+  font-size: 1.25rem;
+  color: var(--green-primary);
+}
+
+.question-text {
+  flex: 1;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.4;
+  transition: color 0.4s ease;
+}
+
+.chevron {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.chevron i {
+  font-size: 1.5rem;
+  color: var(--green-primary);
+}
+
+.faq-item[open] .chevron {
+  transform: rotate(180deg);
+}
+
+/* Answer (Resposta) */
+.faq-answer {
+  padding: 0 1.5rem 1.5rem;
+  padding-left: calc(1.5rem + 40px + 1rem); /* Alinha com o texto */
+  animation: answerSlide 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes answerSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.faq-answer p {
+  color: var(--text-secondary);
+  line-height: 1.7;
+  font-size: 1rem;
+  transition: color 0.4s ease;
+}
+
+/* CTA do FAQ */
+.faq-cta {
+  text-align: center;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.faq-cta p {
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.faq-whatsapp {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+  color: white;
+  padding: 0.875rem 1.75rem;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3);
+}
+
+.faq-whatsapp:hover {
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 12px 35px rgba(37, 211, 102, 0.4);
+}
+
+.faq-whatsapp i {
+  font-size: 1.25rem;
+}
+
+/* Responsivo FAQ */
+@media (max-width: 768px) {
+  .faq-header h2 {
+    font-size: 1.75rem;
+  }
+  
+  .faq-question {
+    padding: 1rem 1.25rem;
+    gap: 0.75rem;
+  }
+  
+  .question-icon {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .question-text {
+    font-size: 0.95rem;
+  }
+  
+  .faq-answer {
+    padding-left: calc(1.25rem + 36px + 0.75rem);
   }
 }
 </style>

@@ -716,8 +716,8 @@ const onLogoClick = () => {
   bottom: 0;
   left: 0;
   right: 0;
-  height: 3px;
-  background: transparent;
+  height: 4px;
+  background: rgba(76, 175, 80, 0.15);
   opacity: 0;
   transition: opacity var(--duration-normal) ease;
   overflow: visible;
@@ -731,19 +731,27 @@ const onLogoClick = () => {
 
 .scroll-progress-bar {
   height: 100%;
-  background: var(--gradient-primary);
+  background: linear-gradient(90deg, #4CAF50, #81C784, #4CAF50);
+  background-size: 200% 100%;
+  animation: progressShine 2s linear infinite;
   transition: width 0.1s linear;
   border-radius: 0 2px 2px 0;
+  box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+}
+
+@keyframes progressShine {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 
 .scroll-progress-glow {
   position: absolute;
-  top: -4px;
-  width: 30px;
-  height: 12px;
-  background: var(--green-primary);
-  filter: blur(8px);
-  opacity: 0.6;
+  top: -6px;
+  width: 40px;
+  height: 16px;
+  background: #4CAF50;
+  filter: blur(10px);
+  opacity: 0.7;
   transform: translate3d(-50%, 0, 0);
   pointer-events: none;
 }

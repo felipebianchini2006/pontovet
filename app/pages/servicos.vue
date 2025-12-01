@@ -9,79 +9,43 @@
 
     <section class="services-section">
       <div class="container">
-        <div class="services-grid">
-          <!-- Cirurgias -->
-          <div class="service-card">
-            <div class="service-icon"><i class="mdi mdi-hospital-building"></i></div>
-            <h2>Cirurgias</h2>
-            <p class="service-description">
-              Realizamos diversos tipos de procedimentos cirúrgicos com equipamentos
-              modernos e equipe altamente especializada.
-            </p>
-            <ul class="service-list">
-              <li>Cirurgias de rotina (castração, etc.)</li>
-              <li>Procedimentos ortopédicos</li>
-              <li>Cirurgias de tecidos moles</li>
-              <li>Oncologia veterinária</li>
-              <li>Anestesia segura e monitorada</li>
-              <li>Pós-operatório acompanhado</li>
-            </ul>
-          </div>
-
-          <!-- Atendimentos -->
-          <div class="service-card">
-            <div class="service-icon"><i class="mdi mdi-stethoscope"></i></div>
-            <h2>Atendimentos</h2>
-            <p class="service-description">
-              Consultas veterinárias completas com profissionais qualificados para
-              cuidar da saúde do seu pet.
-            </p>
-            <ul class="service-list">
-              <li>Consultas de rotina</li>
-              <li>Vacinação completa</li>
-              <li>Vermifugação</li>
-              <li>Controle de parasitas</li>
-              <li>Avaliação clínica geral</li>
-              <li>Orientação nutricional</li>
-            </ul>
-          </div>
-
-          <!-- Exames Laboratoriais -->
-          <div class="service-card">
-            <div class="service-icon"><i class="mdi mdi-microscope"></i></div>
-            <h2>Exames Laboratoriais</h2>
-            <p class="service-description">
-              Análises clínicas precisas e confiáveis para diagnóstico e
-              acompanhamento da saúde do seu animal.
-            </p>
-            <ul class="service-list">
-              <li>Hemograma completo</li>
-              <li>Bioquímica sanguínea</li>
-              <li>Exame de urina</li>
-              <li>Exame de fezes</li>
-              <li>Testes hormonais</li>
-              <li>Exames de imagem</li>
-            </ul>
-          </div>
-
-          <!-- Banho e Tosa -->
-          <div class="service-card">
-            <div class="service-icon"><i class="mdi mdi-shower-head"></i></div>
-            <h2>Banho e Tosa</h2>
-            <p class="service-description">
-              Serviços de estética e higiene para manter seu pet limpo, bonito e
-              saudável.
-            </p>
-            <ul class="service-list">
-              <li>Banho com produtos de qualidade</li>
-              <li>Tosa higiênica</li>
-              <li>Tosa completa</li>
-              <li>Corte de unhas</li>
-              <li>Limpeza de ouvidos</li>
-              <li>Hidratação e escovação</li>
-            </ul>
-          </div>
+        <!-- Filtros Interativos -->
+        <div class="filter-tabs">
+          <button 
+            v-for="filter in filters" 
+            :key="filter.id"
+            class="filter-btn"
+            :class="{ active: activeFilter === filter.id }"
+            @click="setFilter(filter.id)"
+          >
+            <i :class="'mdi ' + filter.icon"></i>
+            <span>{{ filter.label }}</span>
+          </button>
         </div>
+
+        <!-- Grid de Serviços com TransitionGroup -->
+        <TransitionGroup name="services" tag="div" class="services-grid">
+          <div 
+            v-for="service in filteredServices" 
+            :key="service.id"
+            class="service-card"
+          >
+            <div class="service-icon"><i :class="'mdi ' + service.icon"></i></div>
+            <h2>{{ service.title }}</h2>
+            <p class="service-description">{{ service.description }}</p>
+            <ul class="service-list">
+              <li v-for="(feature, idx) in service.features" :key="idx">{{ feature }}</li>
+            </ul>
+          </div>
+        </TransitionGroup>
+        
+        <!-- Mensagem quando não há resultados -->
+        <Transition name="fade">
+          <div v-if="filteredServices.length === 0" class="no-results">
+            <i class="mdi mdi-magnify"></i>
+            <p>Nenhum serviço encontrado nesta categoria</p>
+          </div>
+        </Transition>
       </div>
     </section>
 
@@ -103,6 +67,101 @@
 </template>
 
 <script setup>
+// ═══════════════════════════════════════════════════════════════════════════
+// DADOS DOS SERVIÇOS
+// ═══════════════════════════════════════════════════════════════════════════
+
+const services = [
+  {
+    id: 'cirurgias',
+    category: 'clinicos',
+    icon: 'mdi-hospital-building',
+    title: 'Cirurgias',
+    description: 'Realizamos diversos tipos de procedimentos cirúrgicos com equipamentos modernos e equipe altamente especializada.',
+    features: [
+      'Cirurgias de rotina (castração, etc.)',
+      'Procedimentos ortopédicos',
+      'Cirurgias de tecidos moles',
+      'Oncologia veterinária',
+      'Anestesia segura e monitorada',
+      'Pós-operatório acompanhado'
+    ]
+  },
+  {
+    id: 'atendimentos',
+    category: 'clinicos',
+    icon: 'mdi-stethoscope',
+    title: 'Atendimentos',
+    description: 'Consultas veterinárias completas com profissionais qualificados para cuidar da saúde do seu pet.',
+    features: [
+      'Consultas de rotina',
+      'Vacinação completa',
+      'Vermifugação',
+      'Controle de parasitas',
+      'Avaliação clínica geral',
+      'Orientação nutricional'
+    ]
+  },
+  {
+    id: 'exames',
+    category: 'exames',
+    icon: 'mdi-microscope',
+    title: 'Exames Laboratoriais',
+    description: 'Análises clínicas precisas e confiáveis para diagnóstico e acompanhamento da saúde do seu animal.',
+    features: [
+      'Hemograma completo',
+      'Bioquímica sanguínea',
+      'Exame de urina',
+      'Exame de fezes',
+      'Testes hormonais',
+      'Exames de imagem'
+    ]
+  },
+  {
+    id: 'banho-tosa',
+    category: 'estetica',
+    icon: 'mdi-shower-head',
+    title: 'Banho e Tosa',
+    description: 'Serviços de estética e higiene para manter seu pet limpo, bonito e saudável.',
+    features: [
+      'Banho com produtos de qualidade',
+      'Tosa higiênica',
+      'Tosa completa',
+      'Corte de unhas',
+      'Limpeza de ouvidos',
+      'Hidratação e escovação'
+    ]
+  }
+];
+
+// ═══════════════════════════════════════════════════════════════════════════
+// FILTROS
+// ═══════════════════════════════════════════════════════════════════════════
+
+const filters = [
+  { id: 'todos', label: 'Todos', icon: 'mdi-view-grid' },
+  { id: 'clinicos', label: 'Clínicos', icon: 'mdi-medical-bag' },
+  { id: 'estetica', label: 'Estética', icon: 'mdi-scissors-cutting' },
+  { id: 'exames', label: 'Exames', icon: 'mdi-test-tube' }
+];
+
+const activeFilter = ref('todos');
+
+const setFilter = (filterId) => {
+  activeFilter.value = filterId;
+};
+
+const filteredServices = computed(() => {
+  if (activeFilter.value === 'todos') {
+    return services;
+  }
+  return services.filter(s => s.category === activeFilter.value);
+});
+
+// ═══════════════════════════════════════════════════════════════════════════
+// SEO
+// ═══════════════════════════════════════════════════════════════════════════
+
 useHead({
   title: 'Serviços - PontoVet',
   meta: [
@@ -154,10 +213,91 @@ useHead({
   padding: 4rem 0;
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   FILTROS INTERATIVOS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.filter-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 3rem;
+  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.5rem;
+  border: 2px solid var(--border-color);
+  border-radius: 50px;
+  background: var(--card-bg);
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 2px 10px var(--shadow-color);
+}
+
+.filter-btn i {
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+}
+
+.filter-btn:hover {
+  border-color: var(--green-primary);
+  color: var(--green-primary);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(76, 175, 80, 0.2);
+}
+
+.filter-btn:hover i {
+  transform: scale(1.15);
+}
+
+.filter-btn.active {
+  background: linear-gradient(135deg, #1B5E20 0%, #4CAF50 100%);
+  border-color: transparent;
+  color: white;
+  box-shadow: 0 6px 20px rgba(46, 125, 50, 0.4);
+}
+
+.filter-btn.active i {
+  transform: scale(1.1);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   GRID E CARDS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
 .services-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
+}
+
+/* TransitionGroup animations */
+.services-move,
+.services-enter-active,
+.services-leave-active {
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.services-enter-from {
+  opacity: 0;
+  transform: scale(0.8) translateY(30px);
+}
+
+.services-leave-to {
+  opacity: 0;
+  transform: scale(0.8) translateY(-30px);
+}
+
+.services-leave-active {
+  position: absolute;
 }
 
 .service-card {
@@ -167,7 +307,6 @@ useHead({
   box-shadow: 0 8px 30px var(--shadow-color);
   transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
   border: 2px solid transparent;
-  animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .service-card:nth-child(1) { animation-delay: 0.1s; }
@@ -312,6 +451,23 @@ useHead({
     font-size: 2rem;
   }
 
+  .filter-tabs {
+    gap: 0.75rem;
+  }
+
+  .filter-btn {
+    padding: 0.75rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  .filter-btn span {
+    display: none;
+  }
+
+  .filter-btn i {
+    font-size: 1.3rem;
+  }
+
   .services-grid {
     grid-template-columns: 1fr;
   }
@@ -324,5 +480,36 @@ useHead({
   .cta-text h2 {
     font-size: 2rem;
   }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   NO RESULTS & FADE TRANSITION
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.no-results {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--text-secondary);
+}
+
+.no-results i {
+  font-size: 4rem;
+  opacity: 0.3;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.no-results p {
+  font-size: 1.2rem;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
