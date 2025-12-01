@@ -24,7 +24,7 @@
             </p>
           </div>
           <div class="image-placeholder">
-            <div class="placeholder">🏥</div>
+            <div class="placeholder"><i class="mdi mdi-hospital-building"></i></div>
           </div>
         </div>
       </div>
@@ -34,7 +34,7 @@
       <div class="container">
         <div class="mission-grid">
           <div class="mission-card">
-            <div class="mission-icon">🎯</div>
+            <div class="mission-icon"><i class="mdi mdi-target"></i></div>
             <h3>Nossa Missão</h3>
             <p>
               Promover a saúde e o bem-estar dos animais através de atendimento
@@ -42,7 +42,7 @@
             </p>
           </div>
           <div class="mission-card">
-            <div class="mission-icon">👁️</div>
+            <div class="mission-icon"><i class="mdi mdi-eye-outline"></i></div>
             <h3>Nossa Visão</h3>
             <p>
               Ser referência em medicina veterinária, reconhecida pela excelência
@@ -50,7 +50,7 @@
             </p>
           </div>
           <div class="mission-card">
-            <div class="mission-icon">💎</div>
+            <div class="mission-icon"><i class="mdi mdi-diamond-stone"></i></div>
             <h3>Nossos Valores</h3>
             <p>
               Amor aos animais, ética profissional, atendimento humanizado,
@@ -66,42 +66,42 @@
         <h2>Por que escolher a PontoVet?</h2>
         <div class="differentials-grid">
           <div class="differential-item">
-            <span class="check">✓</span>
+            <span class="check"><i class="mdi mdi-check"></i></span>
             <div>
               <h4>Equipe Especializada</h4>
               <p>Veterinários experientes e em constante atualização</p>
             </div>
           </div>
           <div class="differential-item">
-            <span class="check">✓</span>
+            <span class="check"><i class="mdi mdi-check"></i></span>
             <div>
               <h4>Equipamentos Modernos</h4>
               <p>Tecnologia de ponta para diagnósticos precisos</p>
             </div>
           </div>
           <div class="differential-item">
-            <span class="check">✓</span>
+            <span class="check"><i class="mdi mdi-check"></i></span>
             <div>
               <h4>Atendimento Humanizado</h4>
               <p>Cuidado e atenção individualizada para cada pet</p>
             </div>
           </div>
           <div class="differential-item">
-            <span class="check">✓</span>
+            <span class="check"><i class="mdi mdi-check"></i></span>
             <div>
               <h4>Instalações Completas</h4>
               <p>Ambiente preparado para todos os tipos de atendimento</p>
             </div>
           </div>
           <div class="differential-item">
-            <span class="check">✓</span>
+            <span class="check"><i class="mdi mdi-check"></i></span>
             <div>
               <h4>Compromisso com o Bem-Estar</h4>
               <p>Seu pet é tratado como parte da nossa família</p>
             </div>
           </div>
           <div class="differential-item">
-            <span class="check">✓</span>
+            <span class="check"><i class="mdi mdi-check"></i></span>
             <div>
               <h4>Serviços Completos</h4>
               <p>Tudo que seu pet precisa em um só lugar</p>
@@ -202,6 +202,11 @@ useHead({
   justify-content: center;
   font-size: 6rem;
   transition: transform 0.4s ease;
+  color: white;
+}
+
+.placeholder i {
+  font-size: 8rem;
 }
 
 .placeholder:hover {
@@ -239,6 +244,11 @@ useHead({
   font-size: 3.5rem;
   margin-bottom: 1rem;
   transition: transform 0.4s ease;
+  color: #4CAF50;
+}
+
+.mission-icon i {
+  display: block;
 }
 
 .mission-card:hover .mission-icon {

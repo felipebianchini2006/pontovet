@@ -15,17 +15,17 @@
         </p>
 
         <div class="gallery-grid">
-          <div v-for="i in 9" :key="i" class="gallery-item">
+          <div v-for="(icon, i) in galleryIcons" :key="i" class="gallery-item">
             <div class="placeholder-image">
-              <span class="placeholder-icon">{{ getIcon(i) }}</span>
-              <p class="placeholder-text">Foto {{ i }}</p>
+              <i :class="'mdi ' + icon" class="placeholder-icon"></i>
+              <p class="placeholder-text">Foto {{ i + 1 }}</p>
             </div>
           </div>
         </div>
 
         <div class="gallery-note">
           <p>
-            📸 <strong>Nota:</strong> As imagens acima são placeholders.
+            <i class="mdi mdi-camera"></i> <strong>Nota:</strong> As imagens acima são placeholders.
             Substitua-as pelas fotos reais da clínica adicionando os arquivos na pasta
             <code>/public/gallery/</code> e atualizando as referências.
           </p>
@@ -51,10 +51,17 @@ useHead({
   ]
 });
 
-const getIcon = (index) => {
-  const icons = ['🐕', '🐈', '🏥', '⚕️', '🔬', '🛁', '💉', '🩺', '🐾'];
-  return icons[index - 1];
-};
+const galleryIcons = [
+  'mdi-dog',
+  'mdi-cat',
+  'mdi-hospital-building',
+  'mdi-stethoscope',
+  'mdi-microscope',
+  'mdi-shower-head',
+  'mdi-needle',
+  'mdi-medical-bag',
+  'mdi-paw'
+];
 </script>
 
 <style scoped>
@@ -149,7 +156,12 @@ const getIcon = (index) => {
 }
 
 .placeholder-icon {
-  font-size: 4rem;
+  font-size: 5rem;
+  transition: transform 0.4s ease;
+}
+
+.gallery-item:hover .placeholder-icon {
+  transform: scale(1.2);
 }
 
 .placeholder-text {

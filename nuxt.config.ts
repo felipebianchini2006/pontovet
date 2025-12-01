@@ -3,6 +3,10 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
 
+  css: [
+    '@mdi/font/css/materialdesignicons.min.css'
+  ],
+
   app: {
     head: {
       title: 'PontoVet - Clínica Veterinária',
