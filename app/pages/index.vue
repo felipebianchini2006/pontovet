@@ -89,15 +89,29 @@ useHead({
 
 <style scoped>
 .hero {
-  background: linear-gradient(135deg, #A97BA9 0%, #8FBC8F 100%);
+  background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #4CAF50 100%);
   color: white;
-  padding: 5rem 2rem;
+  padding: 6rem 2rem;
   text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 30% 70%, rgba(255,255,255,0.1) 0%, transparent 50%);
+  pointer-events: none;
 }
 
 .hero-content {
   max-width: 800px;
   margin: 0 auto;
+  animation: fadeInUp 0.8s ease-out;
 }
 
 .hero-logo {
@@ -106,7 +120,14 @@ useHead({
   background: white;
   padding: 1rem;
   border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+  animation: float 3s ease-in-out infinite;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hero-logo:hover {
+  transform: scale(1.05);
+  animation-play-state: paused;
 }
 
 .hero h1 {
@@ -132,19 +153,20 @@ useHead({
   align-items: center;
   gap: 0.5rem;
   background: white;
-  color: #A97BA9;
-  padding: 1rem 2rem;
+  color: #2E7D32;
+  padding: 1rem 2.5rem;
   border-radius: 30px;
   text-decoration: none;
   font-size: 1.1rem;
   font-weight: 600;
-  transition: all 0.3s ease;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
 }
 
 .cta-button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+  color: #1B5E20;
 }
 
 .services-overview {
@@ -174,24 +196,31 @@ useHead({
 .service-card {
   background: white;
   padding: 2rem;
-  border-radius: 15px;
+  border-radius: 20px;
   text-align: center;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid transparent;
 }
 
 .service-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  transform: translateY(-12px);
+  box-shadow: 0 20px 40px rgba(46, 125, 50, 0.2);
+  border-color: #4CAF50;
 }
 
 .service-icon {
-  font-size: 3rem;
+  font-size: 3.5rem;
   margin-bottom: 1rem;
+  transition: transform 0.4s ease;
+}
+
+.service-card:hover .service-icon {
+  transform: scale(1.2);
 }
 
 .service-card h3 {
-  color: #A97BA9;
+  color: #2E7D32;
   margin-bottom: 1rem;
   font-size: 1.5rem;
 }
@@ -208,19 +237,19 @@ useHead({
 
 .btn-secondary {
   display: inline-block;
-  background: #8FBC8F;
+  background: linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%);
   color: white;
-  padding: 1rem 2rem;
-  border-radius: 25px;
+  padding: 1rem 2.5rem;
+  border-radius: 30px;
   text-decoration: none;
   font-weight: 600;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .btn-secondary:hover {
-  background: #A97BA9;
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(46, 125, 50, 0.4);
 }
 
 .about-preview {
@@ -249,25 +278,47 @@ useHead({
 
 .btn-link {
   display: inline-block;
-  color: #A97BA9;
+  color: #2E7D32;
   text-decoration: none;
   font-weight: 600;
   margin-top: 1rem;
-  transition: color 0.3s ease;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.btn-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #4CAF50;
+  transition: width 0.3s ease;
 }
 
 .btn-link:hover {
-  color: #8FBC8F;
+  color: #1B5E20;
+}
+
+.btn-link:hover::after {
+  width: 100%;
 }
 
 .placeholder-image {
-  background: linear-gradient(135deg, #A97BA9 0%, #8FBC8F 100%);
-  border-radius: 20px;
+  background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #4CAF50 100%);
+  border-radius: 25px;
   height: 400px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 6rem;
+  animation: fadeIn 0.8s ease-out;
+  transition: transform 0.4s ease;
+}
+
+.placeholder-image:hover {
+  transform: scale(1.02);
 }
 
 @media (max-width: 768px) {

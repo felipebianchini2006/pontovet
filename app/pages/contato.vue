@@ -90,20 +90,35 @@ useHead({
 
 <style scoped>
 .page-header {
-  background: linear-gradient(135deg, #A97BA9 0%, #8FBC8F 100%);
+  background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #4CAF50 100%);
   color: white;
-  padding: 4rem 2rem;
+  padding: 5rem 2rem;
   text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.page-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 70% 30%, rgba(255,255,255,0.1) 0%, transparent 50%);
+  pointer-events: none;
 }
 
 .page-header h1 {
   font-size: 2.5rem;
   margin-bottom: 1rem;
+  animation: fadeInUp 0.6s ease-out;
 }
 
 .page-header p {
   font-size: 1.2rem;
   opacity: 0.9;
+  animation: fadeInUp 0.6s ease-out 0.2s backwards;
 }
 
 .container {
@@ -181,12 +196,18 @@ useHead({
 .info-card {
   background: #f8f9fa;
   padding: 2rem;
-  border-radius: 15px;
-  border-left: 4px solid #A97BA9;
+  border-radius: 20px;
+  border-left: 4px solid #4CAF50;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.info-card:hover {
+  transform: translateX(10px);
+  box-shadow: 0 10px 30px rgba(46, 125, 50, 0.15);
 }
 
 .info-card h3 {
-  color: #A97BA9;
+  color: #2E7D32;
   margin-bottom: 1rem;
   font-size: 1.3rem;
 }
@@ -203,7 +224,7 @@ useHead({
 
 .faq-section h2 {
   text-align: center;
-  color: #A97BA9;
+  color: #2E7D32;
   margin-bottom: 3rem;
   font-size: 2rem;
 }
@@ -217,8 +238,16 @@ useHead({
 .faq-item {
   background: white;
   padding: 2rem;
-  border-radius: 15px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  border-radius: 20px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid transparent;
+}
+
+.faq-item:hover {
+  transform: translateY(-8px);
+  border-color: #4CAF50;
+  box-shadow: 0 15px 35px rgba(46, 125, 50, 0.15);
 }
 
 .faq-item h3 {

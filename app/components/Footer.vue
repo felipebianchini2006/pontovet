@@ -50,10 +50,11 @@
 
 <style scoped>
 .footer {
-  background: linear-gradient(135deg, #A97BA9 0%, #8FBC8F 100%);
+  background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #4CAF50 100%);
   color: white;
   padding: 3rem 0 1rem;
   margin-top: 4rem;
+  animation: fadeIn 0.6s ease-out;
 }
 
 .container {

@@ -22,10 +22,14 @@ public/            → Static assets (logo.png, favicon.ico, gallery/)
 
 ## Brand & Design
 
-**Color Palette** (from logo):
-- Green: `#8FBC8F` - Primary accent, success states
-- Purple: `#A97BA9` - Secondary accent, headers
-- Gradient: `linear-gradient(135deg, #A97BA9 0%, #8FBC8F 100%)`
+**Color Palette** (Green & White theme):
+- Primary Green: `#2E7D32` - Main accent color
+- Dark Green: `#1B5E20` - Headers, emphasis
+- Light Green: `#4CAF50` - Buttons, highlights
+- White: `#FFFFFF` - Backgrounds, text on dark
+- Gradient: `linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #4CAF50 100%)`
+
+**Animations**: Use `cubic-bezier(0.4, 0, 0.2, 1)` for smooth transitions (0.4s-0.5s duration)
 
 **WhatsApp Integration** (critical business feature):
 - Phone: `(18) 99735-9924`

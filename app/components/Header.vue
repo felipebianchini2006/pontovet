@@ -75,9 +75,9 @@ const closeMenu = () => {
 .menu-toggle span {
   width: 25px;
   height: 3px;
-  background: #A97BA9;
+  background: #2E7D32;
   margin: 3px 0;
-  transition: 0.3s;
+  transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   border-radius: 3px;
 }
 
@@ -110,25 +110,26 @@ const closeMenu = () => {
 }
 
 .nav a:hover {
-  color: #A97BA9;
+  color: #2E7D32;
 }
 
 .nav a.router-link-active {
-  color: #A97BA9;
+  color: #2E7D32;
+  font-weight: 600;
 }
 
 .contact-btn {
-  background: #A97BA9;
+  background: linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%);
   color: white !important;
   padding: 0.7rem 1.5rem !important;
   border-radius: 25px;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .contact-btn:hover {
-  background: #8FBC8F;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(46, 125, 50, 0.4);
 }
 
 @media (max-width: 768px) {
@@ -145,8 +146,8 @@ const closeMenu = () => {
     background: white;
     flex-direction: column;
     padding: 2rem;
-    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
-    transition: right 0.3s ease;
+    box-shadow: -5px 0 25px rgba(0, 0, 0, 0.15);
+    transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     align-items: flex-start;
     gap: 1rem;
   }

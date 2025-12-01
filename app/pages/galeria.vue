@@ -59,20 +59,35 @@ const getIcon = (index) => {
 
 <style scoped>
 .page-header {
-  background: linear-gradient(135deg, #A97BA9 0%, #8FBC8F 100%);
+  background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #4CAF50 100%);
   color: white;
-  padding: 4rem 2rem;
+  padding: 5rem 2rem;
   text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.page-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 70% 30%, rgba(255,255,255,0.1) 0%, transparent 50%);
+  pointer-events: none;
 }
 
 .page-header h1 {
   font-size: 3rem;
   margin-bottom: 1rem;
+  animation: fadeInUp 0.6s ease-out;
 }
 
 .page-header p {
   font-size: 1.2rem;
   opacity: 0.95;
+  animation: fadeInUp 0.6s ease-out 0.2s backwards;
 }
 
 .container {
@@ -106,26 +121,31 @@ const getIcon = (index) => {
 .gallery-item {
   position: relative;
   overflow: hidden;
-  border-radius: 15px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
 }
 
 .gallery-item:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+  transform: translateY(-15px) scale(1.02);
+  box-shadow: 0 25px 50px rgba(46, 125, 50, 0.25);
 }
 
 .placeholder-image {
   aspect-ratio: 4/3;
-  background: linear-gradient(135deg, #A97BA9 0%, #8FBC8F 100%);
+  background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #4CAF50 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 1rem;
   color: white;
+  transition: all 0.4s ease;
+}
+
+.gallery-item:hover .placeholder-image {
+  background: linear-gradient(135deg, #2E7D32 0%, #4CAF50 50%, #66BB6A 100%);
 }
 
 .placeholder-icon {
@@ -140,9 +160,9 @@ const getIcon = (index) => {
 
 .gallery-note {
   background: #f8f9fa;
-  border-left: 4px solid #A97BA9;
-  padding: 1.5rem;
-  border-radius: 8px;
+  border-left: 4px solid #4CAF50;
+  padding: 1.5rem 2rem;
+  border-radius: 12px;
   margin-top: 3rem;
 }
 
@@ -153,19 +173,32 @@ const getIcon = (index) => {
 }
 
 .gallery-note code {
-  background: #e9ecef;
+  background: #e8f5e9;
   padding: 0.2rem 0.5rem;
   border-radius: 4px;
   font-family: 'Courier New', monospace;
-  color: #A97BA9;
+  color: #2E7D32;
 }
 
 .cta-section {
-  background: linear-gradient(135deg, #A97BA9 0%, #8FBC8F 100%);
+  background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #4CAF50 100%);
   color: white;
-  padding: 4rem 2rem;
+  padding: 5rem 2rem;
   text-align: center;
   margin-top: 3rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 30% 70%, rgba(255,255,255,0.1) 0%, transparent 50%);
+  pointer-events: none;
 }
 
 .cta-section h2 {
@@ -182,19 +215,20 @@ const getIcon = (index) => {
 .cta-button {
   display: inline-block;
   background: white;
-  color: #A97BA9;
-  padding: 1rem 2rem;
-  border-radius: 30px;
+  color: #2E7D32;
+  padding: 1.2rem 2.5rem;
+  border-radius: 35px;
   text-decoration: none;
   font-size: 1.1rem;
   font-weight: 600;
-  transition: all 0.3s ease;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 .cta-button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  color: #1B5E20;
 }
 
 @media (max-width: 768px) {
