@@ -135,13 +135,13 @@ useHead({
 .page-header h1 {
   font-size: 3rem;
   margin-bottom: 1rem;
-  animation: fadeInUp 0.6s ease-out;
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .page-header p {
   font-size: 1.2rem;
   opacity: 0.95;
-  animation: fadeInUp 0.6s ease-out 0.2s backwards;
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
 }
 
 .container {
@@ -161,17 +161,23 @@ useHead({
 }
 
 .service-card {
-  background: white;
+  background: var(--card-bg);
   padding: 2.5rem;
   border-radius: 25px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 30px var(--shadow-color);
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
   border: 2px solid transparent;
+  animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
+.service-card:nth-child(1) { animation-delay: 0.1s; }
+.service-card:nth-child(2) { animation-delay: 0.2s; }
+.service-card:nth-child(3) { animation-delay: 0.3s; }
+.service-card:nth-child(4) { animation-delay: 0.4s; }
+
 .service-card:hover {
-  transform: translateY(-15px);
-  box-shadow: 0 25px 50px rgba(46, 125, 50, 0.2);
+  transform: translateY(-18px) scale(1.02);
+  box-shadow: 0 30px 60px rgba(46, 125, 50, 0.25);
   border-color: #4CAF50;
 }
 
@@ -179,31 +185,38 @@ useHead({
   font-size: 4rem;
   margin-bottom: 1.5rem;
   text-align: center;
-  transition: transform 0.4s ease;
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
   color: #4CAF50;
 }
 
 .service-icon i {
   display: block;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .service-card:hover .service-icon {
-  transform: scale(1.15) rotate(5deg);
+  transform: scale(1.15);
+}
+
+.service-card:hover .service-icon i {
+  transform: rotate(10deg);
 }
 
 .service-card h2 {
-  color: #2E7D32;
+  color: var(--green-primary);
   font-size: 1.8rem;
   margin-bottom: 1rem;
   text-align: center;
+  transition: color 0.4s ease;
 }
 
 .service-description {
-  color: #666;
+  color: var(--text-secondary);
   line-height: 1.6;
   margin-bottom: 1.5rem;
   text-align: center;
   font-size: 1rem;
+  transition: color 0.4s ease;
 }
 
 .service-list {
@@ -213,10 +226,11 @@ useHead({
 
 .service-list li {
   padding: 0.7rem 0;
-  color: #555;
-  border-bottom: 1px solid #f0f0f0;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border-color);
   position: relative;
   padding-left: 1.5rem;
+  transition: color 0.4s ease, border-color 0.4s ease;
 }
 
 .service-list li:last-child {

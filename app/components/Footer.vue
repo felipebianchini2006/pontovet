@@ -52,7 +52,7 @@
   color: white;
   padding: 3rem 0 1rem;
   margin-top: 4rem;
-  animation: fadeIn 0.6s ease-out;
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .container {
@@ -85,6 +85,12 @@
   background: white;
   padding: 0.5rem;
   border-radius: 10px;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+}
+
+.footer-logo:hover {
+  transform: scale(1.05) rotate(-2deg);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 .footer-section ul {
@@ -100,11 +106,13 @@
   color: white;
   text-decoration: none;
   opacity: 0.9;
-  transition: opacity 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-block;
 }
 
 .footer-section ul li a:hover {
   opacity: 1;
+  transform: translateX(5px);
 }
 
 .whatsapp-link {
@@ -116,11 +124,13 @@
   background: rgba(255, 255, 255, 0.2);
   padding: 0.5rem 1rem;
   border-radius: 20px;
-  transition: background 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .whatsapp-link:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.35);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 .footer-bottom {

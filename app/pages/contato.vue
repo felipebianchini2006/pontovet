@@ -108,13 +108,13 @@ useHead({
 .page-header h1 {
   font-size: 2.5rem;
   margin-bottom: 1rem;
-  animation: fadeInUp 0.6s ease-out;
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .page-header p {
   font-size: 1.2rem;
   opacity: 0.9;
-  animation: fadeInUp 0.6s ease-out 0.2s backwards;
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
 }
 
 .container {
@@ -141,11 +141,19 @@ useHead({
   border-radius: 20px;
   text-align: center;
   box-shadow: 0 10px 40px rgba(37, 211, 102, 0.3);
+  animation: slideInLeft 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
+}
+
+.whatsapp-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 60px rgba(37, 211, 102, 0.4);
 }
 
 .whatsapp-icon {
   margin-bottom: 1.5rem;
   font-size: 4rem;
+  animation: bounce 2s ease-in-out infinite;
 }
 
 .whatsapp-icon i {
@@ -180,40 +188,69 @@ useHead({
   text-decoration: none;
   font-weight: bold;
   font-size: 1.1rem;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.whatsapp-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(37, 211, 102, 0.2), transparent);
+  transition: left 0.5s ease;
 }
 
 .whatsapp-button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+}
+
+.whatsapp-button:hover::before {
+  left: 100%;
+}
+
+.whatsapp-button:active {
+  transform: translateY(-2px) scale(0.98);
 }
 
 .info-cards {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  animation: slideInRight 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .info-card {
-  background: #f8f9fa;
+  background: var(--bg-secondary);
   padding: 2rem;
   border-radius: 20px;
   border-left: 4px solid #4CAF50;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
+.info-card:nth-child(1) { animation-delay: 0.1s; }
+.info-card:nth-child(2) { animation-delay: 0.2s; }
+.info-card:nth-child(3) { animation-delay: 0.3s; }
+
 .info-card:hover {
-  transform: translateX(10px);
-  box-shadow: 0 10px 30px rgba(46, 125, 50, 0.15);
+  transform: translateX(12px) scale(1.02);
+  box-shadow: 0 15px 40px rgba(46, 125, 50, 0.2);
+  border-left-width: 6px;
 }
 
 .info-card h3 {
-  color: #2E7D32;
+  color: var(--green-primary);
   margin-bottom: 1rem;
   font-size: 1.3rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  transition: color 0.4s ease;
 }
 
 .info-card h3 i {
@@ -221,20 +258,23 @@ useHead({
 }
 
 .info-card p {
-  color: #555;
+  color: var(--text-secondary);
   line-height: 1.8;
+  transition: color 0.4s ease;
 }
 
 .faq-section {
-  background: #f8f9fa;
+  background: var(--bg-secondary);
   padding: 4rem 0;
+  transition: background 0.4s ease;
 }
 
 .faq-section h2 {
   text-align: center;
-  color: #2E7D32;
+  color: var(--green-primary);
   margin-bottom: 3rem;
   font-size: 2rem;
+  transition: color 0.4s ease;
 }
 
 .faq-grid {
@@ -244,10 +284,10 @@ useHead({
 }
 
 .faq-item {
-  background: white;
+  background: var(--card-bg);
   padding: 2rem;
   border-radius: 20px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 5px 20px var(--shadow-color);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   border: 2px solid transparent;
 }
@@ -259,14 +299,16 @@ useHead({
 }
 
 .faq-item h3 {
-  color: #333;
+  color: var(--text-primary);
   margin-bottom: 1rem;
   font-size: 1.1rem;
+  transition: color 0.4s ease;
 }
 
 .faq-item p {
-  color: #666;
+  color: var(--text-secondary);
   line-height: 1.6;
+  transition: color 0.4s ease;
 }
 
 @media (max-width: 768px) {

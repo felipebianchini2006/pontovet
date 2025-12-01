@@ -88,13 +88,13 @@ const galleryIcons = [
 .page-header h1 {
   font-size: 3rem;
   margin-bottom: 1rem;
-  animation: fadeInUp 0.6s ease-out;
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .page-header p {
   font-size: 1.2rem;
   opacity: 0.95;
-  animation: fadeInUp 0.6s ease-out 0.2s backwards;
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
 }
 
 .container {
@@ -110,12 +110,13 @@ const galleryIcons = [
 .gallery-intro {
   text-align: center;
   font-size: 1.1rem;
-  color: #666;
+  color: var(--text-secondary);
   margin-bottom: 3rem;
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
   line-height: 1.8;
+  transition: color 0.4s ease;
 }
 
 .gallery-grid {
@@ -130,13 +131,24 @@ const galleryIcons = [
   overflow: hidden;
   border-radius: 20px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
   cursor: pointer;
+  animation: scaleIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
+.gallery-item:nth-child(1) { animation-delay: 0.05s; }
+.gallery-item:nth-child(2) { animation-delay: 0.1s; }
+.gallery-item:nth-child(3) { animation-delay: 0.15s; }
+.gallery-item:nth-child(4) { animation-delay: 0.2s; }
+.gallery-item:nth-child(5) { animation-delay: 0.25s; }
+.gallery-item:nth-child(6) { animation-delay: 0.3s; }
+.gallery-item:nth-child(7) { animation-delay: 0.35s; }
+.gallery-item:nth-child(8) { animation-delay: 0.4s; }
+.gallery-item:nth-child(9) { animation-delay: 0.45s; }
+
 .gallery-item:hover {
-  transform: translateY(-15px) scale(1.02);
-  box-shadow: 0 25px 50px rgba(46, 125, 50, 0.25);
+  transform: translateY(-18px) scale(1.03) rotate(1deg);
+  box-shadow: 0 30px 60px rgba(46, 125, 50, 0.3);
 }
 
 .placeholder-image {
@@ -157,11 +169,11 @@ const galleryIcons = [
 
 .placeholder-icon {
   font-size: 5rem;
-  transition: transform 0.4s ease;
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .gallery-item:hover .placeholder-icon {
-  transform: scale(1.2);
+  transform: scale(1.25) rotate(10deg);
 }
 
 .placeholder-text {
@@ -171,17 +183,19 @@ const galleryIcons = [
 }
 
 .gallery-note {
-  background: #f8f9fa;
+  background: var(--bg-secondary);
   border-left: 4px solid #4CAF50;
   padding: 1.5rem 2rem;
   border-radius: 12px;
   margin-top: 3rem;
+  transition: background 0.4s ease;
 }
 
 .gallery-note p {
-  color: #555;
+  color: var(--text-secondary);
   line-height: 1.6;
   margin: 0;
+  transition: color 0.4s ease;
 }
 
 .gallery-note code {

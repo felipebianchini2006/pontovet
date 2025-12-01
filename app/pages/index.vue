@@ -109,7 +109,7 @@ useHead({
 .hero-content {
   max-width: 800px;
   margin: 0 auto;
-  animation: fadeInUp 0.8s ease-out;
+  animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .hero-logo {
@@ -119,12 +119,13 @@ useHead({
   padding: 1rem;
   border-radius: 20px;
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
-  animation: float 3s ease-in-out infinite;
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: float 4s cubic-bezier(0.45, 0, 0.55, 1) infinite, scaleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
 }
 
 .hero-logo:hover {
-  transform: scale(1.05);
+  transform: scale(1.08) rotate(2deg);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
   animation-play-state: paused;
 }
 
@@ -157,19 +158,41 @@ useHead({
   text-decoration: none;
   font-size: 1.1rem;
   font-weight: 600;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  transition: left 0.6s ease;
 }
 
 .cta-button:hover {
-  transform: translateY(-5px) scale(1.02);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
   color: #1B5E20;
+}
+
+.cta-button:hover::before {
+  left: 100%;
+}
+
+.cta-button:active {
+  transform: translateY(-2px) scale(0.98);
 }
 
 .services-overview {
   padding: 4rem 2rem;
-  background: #f8f9fa;
+  background: var(--bg-secondary);
+  transition: background 0.4s ease;
 }
 
 .container {
@@ -181,7 +204,8 @@ useHead({
   text-align: center;
   font-size: 2.5rem;
   margin-bottom: 3rem;
-  color: #333;
+  color: var(--text-primary);
+  transition: color 0.4s ease;
 }
 
 .services-grid {
@@ -192,45 +216,58 @@ useHead({
 }
 
 .service-card {
-  background: white;
+  background: var(--card-bg);
   padding: 2rem;
   border-radius: 20px;
   text-align: center;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 5px 20px var(--shadow-color);
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
   border: 2px solid transparent;
+  animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
+.service-card:nth-child(1) { animation-delay: 0.1s; }
+.service-card:nth-child(2) { animation-delay: 0.2s; }
+.service-card:nth-child(3) { animation-delay: 0.3s; }
+.service-card:nth-child(4) { animation-delay: 0.4s; }
+
 .service-card:hover {
-  transform: translateY(-12px);
-  box-shadow: 0 20px 40px rgba(46, 125, 50, 0.2);
+  transform: translateY(-15px) scale(1.02);
+  box-shadow: 0 25px 50px rgba(46, 125, 50, 0.25);
   border-color: #4CAF50;
 }
 
 .service-icon {
   font-size: 3.5rem;
   margin-bottom: 1rem;
-  transition: transform 0.4s ease;
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
   color: #4CAF50;
 }
 
 .service-icon i {
   display: block;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .service-card:hover .service-icon {
-  transform: scale(1.2);
+  transform: scale(1.15);
+}
+
+.service-card:hover .service-icon i {
+  transform: rotate(10deg);
 }
 
 .service-card h3 {
-  color: #2E7D32;
+  color: var(--green-primary);
   margin-bottom: 1rem;
   font-size: 1.5rem;
+  transition: color 0.4s ease;
 }
 
 .service-card p {
-  color: #666;
+  color: var(--text-secondary);
   line-height: 1.6;
+  transition: color 0.4s ease;
 }
 
 .services-cta {
@@ -257,6 +294,8 @@ useHead({
 
 .about-preview {
   padding: 4rem 2rem;
+  background: var(--bg-primary);
+  transition: background 0.4s ease;
 }
 
 .about-content {
@@ -268,15 +307,17 @@ useHead({
 
 .about-text h2 {
   font-size: 2.5rem;
-  color: #333;
+  color: var(--text-primary);
   margin-bottom: 1.5rem;
+  transition: color 0.4s ease;
 }
 
 .about-text p {
   font-size: 1.1rem;
   line-height: 1.8;
-  color: #666;
+  color: var(--text-secondary);
   margin-bottom: 1rem;
+  transition: color 0.4s ease;
 }
 
 .btn-link {

@@ -154,13 +154,13 @@ useHead({
 .page-header h1 {
   font-size: 3rem;
   margin-bottom: 1rem;
-  animation: fadeInUp 0.6s ease-out;
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .page-header p {
   font-size: 1.2rem;
   opacity: 0.95;
-  animation: fadeInUp 0.6s ease-out 0.2s backwards;
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
 }
 
 .container {
@@ -182,40 +182,50 @@ useHead({
 
 .text-content h2 {
   font-size: 2.5rem;
-  color: #333;
+  color: var(--text-primary);
   margin-bottom: 1.5rem;
+  transition: color 0.4s ease;
 }
 
 .text-content p {
   font-size: 1.1rem;
   line-height: 1.8;
-  color: #666;
+  color: var(--text-secondary);
   margin-bottom: 1.5rem;
+  transition: color 0.4s ease;
 }
 
 .placeholder {
-  background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #4CAF50 100%);
+  background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #4CAF50 100%);  
   border-radius: 25px;
   height: 350px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 6rem;
-  transition: transform 0.4s ease;
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
   color: white;
+  animation: scaleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
 }
 
 .placeholder i {
   font-size: 8rem;
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .placeholder:hover {
-  transform: scale(1.02);
+  transform: scale(1.03) rotate(1deg);
+  box-shadow: 0 20px 50px rgba(46, 125, 50, 0.3);
+}
+
+.placeholder:hover i {
+  transform: scale(1.1) rotate(-5deg);
 }
 
 .mission-section {
-  background: #f8f9fa;
+  background: var(--bg-secondary);
   padding: 4rem 0;
+  transition: background 0.4s ease;
 }
 
 .mission-grid {
@@ -225,56 +235,71 @@ useHead({
 }
 
 .mission-card {
-  background: white;
+  background: var(--card-bg);
   padding: 2.5rem;
   border-radius: 25px;
   text-align: center;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 30px var(--shadow-color);
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
   border: 2px solid transparent;
+  animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
+.mission-card:nth-child(1) { animation-delay: 0.1s; }
+.mission-card:nth-child(2) { animation-delay: 0.2s; }
+.mission-card:nth-child(3) { animation-delay: 0.3s; }
+
 .mission-card:hover {
-  transform: translateY(-15px);
-  box-shadow: 0 20px 40px rgba(46, 125, 50, 0.2);
+  transform: translateY(-18px) scale(1.02);
+  box-shadow: 0 25px 50px rgba(46, 125, 50, 0.25);
   border-color: #4CAF50;
 }
 
 .mission-icon {
   font-size: 3.5rem;
   margin-bottom: 1rem;
-  transition: transform 0.4s ease;
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
   color: #4CAF50;
 }
 
 .mission-icon i {
   display: block;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .mission-card:hover .mission-icon {
-  transform: scale(1.2);
+  transform: scale(1.15);
+}
+
+.mission-card:hover .mission-icon i {
+  transform: rotate(10deg);
 }
 
 .mission-card h3 {
-  color: #2E7D32;
+  color: var(--green-primary);
   font-size: 1.5rem;
   margin-bottom: 1rem;
+  transition: color 0.4s ease;
 }
 
 .mission-card p {
-  color: #666;
+  color: var(--text-secondary);
   line-height: 1.6;
+  transition: color 0.4s ease;
 }
 
 .differentials {
   padding: 4rem 0;
+  background: var(--bg-primary);
+  transition: background 0.4s ease;
 }
 
 .differentials h2 {
   text-align: center;
   font-size: 2.5rem;
-  color: #333;
+  color: var(--text-primary);
   margin-bottom: 3rem;
+  transition: color 0.4s ease;
 }
 
 .differentials-grid {
@@ -303,14 +328,16 @@ useHead({
 }
 
 .differential-item h4 {
-  color: #333;
+  color: var(--text-primary);
   font-size: 1.2rem;
   margin-bottom: 0.5rem;
+  transition: color 0.4s ease;
 }
 
 .differential-item p {
-  color: #666;
+  color: var(--text-secondary);
   line-height: 1.6;
+  transition: color 0.4s ease;
 }
 
 .cta-section {
