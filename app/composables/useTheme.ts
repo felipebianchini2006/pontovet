@@ -1,15 +1,15 @@
 /**
  * useTheme - Composable Premium para Gerenciamento de Tema
  * 
- * CORREÇÕES IMPLEMENTADAS:
- * 1. Uso de useCookie para persistência SSR-safe (evita flash/flicker)
- * 2. View Transitions API para efeito de "circular reveal" ao trocar tema
- * 3. Script inline no head para aplicar tema antes da hidratação
- * 4. Fallback gracioso para navegadores sem View Transitions
+ * CORREÇÕES IMPLEMENTADAS v3.0:
+ * 1. useCookie para persistência SSR-safe (evita flash/flicker)
+ * 2. View Transitions API com "Circular Reveal"
+ * 3. Classe .disable-transitions para evitar conflito entre View Transitions e CSS transitions
+ * 4. Uso de nextTick para garantir sincronização DOM
+ * 5. Fallback gracioso para navegadores sem View Transitions
  */
 export const useTheme = () => {
   // useCookie é SSR-safe - evita o problema de hidratação/flicker
-  // O valor é lido no servidor E no cliente de forma consistente
   const themeCookie = useCookie<'light' | 'dark'>('pontovet-theme', {
     default: () => 'light',
     watch: true,
@@ -21,11 +21,9 @@ export const useTheme = () => {
 
   /**
    * Inicializa o tema - chamado no onMounted do layout/app
-   * Detecta preferência do sistema se não houver cookie salvo
    */
   const initTheme = () => {
     if (import.meta.client) {
-      // Se não há preferência salva, detectar do sistema
       if (!themeCookie.value || (themeCookie.value !== 'light' && themeCookie.value !== 'dark')) {
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         themeCookie.value = prefersDark ? 'dark' : 'light';
@@ -35,8 +33,7 @@ export const useTheme = () => {
   };
 
   /**
-   * Aplica o tema no DOM
-   * Adiciona/remove classe 'dark' no :root
+   * Aplica o tema no DOM de forma instantânea
    */
   const applyTheme = (dark: boolean) => {
     if (import.meta.client) {
@@ -53,10 +50,16 @@ export const useTheme = () => {
 
   /**
    * Toggle de tema com View Transitions API
-   * Cria efeito de "círculo expandindo" (circular reveal) quando suportado
+   * 
+   * SOLUÇÃO PARA O "ENGASGO":
+   * 1. Adiciona classe .disable-transitions ao <html> ANTES da transição
+   * 2. Isso desativa todas as CSS transitions durante o View Transition
+   * 3. O navegador faz o snapshot corretamente sem conflito
+   * 4. Remove a classe após a transição completar
    */
   const toggleTheme = async (event?: MouseEvent) => {
     const newTheme = isDark.value ? 'light' : 'dark';
+    const root = document.documentElement;
     
     // Verifica se View Transitions API está disponível
     // @ts-ignore - API ainda experimental
@@ -65,28 +68,36 @@ export const useTheme = () => {
       const x = event?.clientX ?? window.innerWidth / 2;
       const y = event?.clientY ?? window.innerHeight / 2;
       
-      // Calcula o raio máximo necessário para cobrir toda a tela
+      // Calcula o raio máximo para cobrir toda a tela
       const endRadius = Math.hypot(
         Math.max(x, window.innerWidth - x),
         Math.max(y, window.innerHeight - y)
       );
       
-      // Define variáveis CSS para a animação
-      document.documentElement.style.setProperty('--theme-x', `${x}px`);
-      document.documentElement.style.setProperty('--theme-y', `${y}px`);
-      document.documentElement.style.setProperty('--theme-radius', `${endRadius}px`);
+      // ═══════════════════════════════════════════════════════════════════
+      // CORREÇÃO CRÍTICA: Desabilita CSS transitions durante View Transition
+      // Isso evita o "engasgo" causado pelo conflito entre as duas APIs
+      // ═══════════════════════════════════════════════════════════════════
+      root.classList.add('disable-transitions');
+      
+      // Aguarda o próximo frame para garantir que a classe foi aplicada
+      await nextTick();
       
       // @ts-ignore
-      const transition = document.startViewTransition(() => {
+      const transition = document.startViewTransition(async () => {
+        // Atualiza o tema
         themeCookie.value = newTheme;
         applyTheme(newTheme === 'dark');
+        
+        // Aguarda o DOM atualizar
+        await nextTick();
       });
       
-      // Aguarda a transição começar e adiciona classe para controle
+      // Aguarda a transição estar pronta para animar
       await transition.ready;
       
-      // Anima usando clip-path circular
-      document.documentElement.animate(
+      // Anima usando clip-path circular (efeito "Circular Reveal")
+      root.animate(
         {
           clipPath: [
             `circle(0px at ${x}px ${y}px)`,
@@ -94,15 +105,30 @@ export const useTheme = () => {
           ]
         },
         {
-          duration: 500,
-          easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
+          duration: 450,
+          easing: 'cubic-bezier(0.16, 1, 0.3, 1)', // ease-out-expo
           pseudoElement: '::view-transition-new(root)'
         }
       );
+      
+      // Aguarda a transição finalizar e remove a classe
+      await transition.finished;
+      root.classList.remove('disable-transitions');
+      
     } else {
       // Fallback para navegadores sem View Transitions
+      // Desabilita transitions momentaneamente para evitar flash
+      root.classList.add('disable-transitions');
+      
       themeCookie.value = newTheme;
       applyTheme(newTheme === 'dark');
+      
+      // Re-habilita transitions após um frame
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          root.classList.remove('disable-transitions');
+        });
+      });
     }
   };
 
@@ -110,8 +136,6 @@ export const useTheme = () => {
   if (import.meta.client) {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     mediaQuery.addEventListener('change', (e) => {
-      // Só aplica se o usuário não tiver preferência salva manualmente
-      // (detectamos isso verificando se o cookie é diferente da preferência atual)
       const currentPref = themeCookie.value;
       if (!currentPref) {
         themeCookie.value = e.matches ? 'dark' : 'light';
@@ -124,7 +148,6 @@ export const useTheme = () => {
     isDark,
     toggleTheme,
     initTheme,
-    // Expor para uso em head scripts
     currentTheme: themeCookie
   };
 };

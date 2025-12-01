@@ -20,14 +20,7 @@ export default defineNuxtConfig({
     // Isso evita sobreposição e garante animações limpas
     pageTransition: { 
       name: 'page', 
-      mode: 'out-in',
-      // Hooks para controle adicional se necessário
-      onBeforeEnter: () => {},
-      onEnter: () => {},
-      onAfterEnter: () => {},
-      onBeforeLeave: () => {},
-      onLeave: () => {},
-      onAfterLeave: () => {}
+      mode: 'out-in'
     },
     layoutTransition: { 
       name: 'layout', 

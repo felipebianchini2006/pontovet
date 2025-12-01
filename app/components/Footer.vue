@@ -80,11 +80,11 @@
 }
 
 .footer-logo {
-  height: 80px;
+  height: 120px;
   margin-bottom: 1rem;
   background: white;
-  padding: 0.5rem;
-  border-radius: 10px;
+  padding: 0.75rem;
+  border-radius: 12px;
   transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
 }
 

@@ -171,15 +171,17 @@
   z-index: -1;
 }
 
-/* Suaviza a transição quando não há suporte à View Transitions */
-html:not(.dark) {
-  transition: background-color 0.5s var(--ease-out-expo),
-              color 0.5s var(--ease-out-expo);
-}
-
-html.dark {
-  transition: background-color 0.5s var(--ease-out-expo),
-              color 0.5s var(--ease-out-expo);
+/* ═══════════════════════════════════════════════════════════════════════════
+   CORREÇÃO: Desabilita todas as CSS transitions durante View Transition
+   Isso evita o "engasgo" causado pelo conflito entre View Transitions API
+   e CSS transitions normais. A classe é aplicada via useTheme.ts
+   ═══════════════════════════════════════════════════════════════════════════ */
+html.disable-transitions,
+html.disable-transitions *,
+html.disable-transitions *::before,
+html.disable-transitions *::after {
+  transition: none !important;
+  animation-duration: 0s !important;
 }
 
 /* ─── Reset Premium ─── */
@@ -205,8 +207,7 @@ body {
   background-color: var(--bg-primary);
   background-image: var(--gradient-mesh);
   background-attachment: fixed;
-  transition: background-color var(--duration-normal) var(--ease-out-expo),
-              color var(--duration-normal) var(--ease-out-expo);
+  /* REMOVIDO: transition conflitava com View Transitions API */
   overflow-x: hidden;
   min-height: 100vh;
 }

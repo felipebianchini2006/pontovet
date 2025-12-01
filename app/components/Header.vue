@@ -190,15 +190,20 @@ const onLogoClick = () => {
 
 <style scoped>
 /* ═══════════════════════════════════════════════════════════════════════════
-   HEADER PREMIUM v2.0 - Glassmorphism & Micro-interações
+   HEADER PREMIUM v3.0 - Performance & Juice Update
    
-   MELHORIAS IMPLEMENTADAS:
-   - Animações com transform3d (GPU accelerated)
-   - Glassmorphism avançado
-   - Menu mobile com staggered animations
-   - Micro-interações elásticas
-   - Scroll progress com glow
+   CORREÇÕES DE PERFORMANCE:
+   - REMOVIDO: padding transition (causava reflow/layout)
+   - Agora usa APENAS transform e opacity (GPU compositing)
+   - Stagger animations com 50ms de intervalo
+   - Curvas elásticas: cubic-bezier(0.34, 1.56, 0.64, 1)
    ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Curva elástica para micro-interações */
+:root {
+  --ease-elastic: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+}
 
 .header {
   position: fixed;
@@ -206,13 +211,11 @@ const onLogoClick = () => {
   left: 0;
   right: 0;
   z-index: 1000;
+  /* CORREÇÃO: Padding FIXO - nunca muda, evita reflow */
   padding: 1.25rem 0;
-  transition: padding var(--duration-normal) var(--ease-out-expo);
 }
 
-.header.scrolled {
-  padding: 0.75rem 0;
-}
+/* REMOVIDO: .header.scrolled { padding } - causava reflow */
 
 /* ─── Background Glassmorphism Premium ─── */
 .header-bg {
@@ -223,12 +226,19 @@ const onLogoClick = () => {
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   border-bottom: 1px solid var(--border-color);
   opacity: 0;
-  transition: opacity var(--duration-normal) var(--ease-out-expo),
-              background var(--duration-normal) var(--ease-out-expo);
+  /* CORREÇÃO: transform para "encolher" visualmente sem reflow */
+  transform: scaleY(1);
+  transform-origin: top center;
+  transition: opacity var(--duration-normal) var(--ease-smooth),
+              transform var(--duration-normal) var(--ease-smooth),
+              background var(--duration-normal) var(--ease-smooth);
+  will-change: opacity, transform;
 }
 
 .header.scrolled .header-bg {
   opacity: 1;
+  /* Compacta visualmente o header via scale */
+  transform: scaleY(0.85);
 }
 
 .header:not(.scrolled) .header-bg {
@@ -271,25 +281,28 @@ const onLogoClick = () => {
 }
 
 .logo-img {
-  height: 55px;
+  height: 80px;
   width: auto;
-  transition: transform var(--duration-normal) var(--ease-out-back),
+  /* CORREÇÃO: Usa curva elástica e transform */
+  transition: transform var(--duration-normal) var(--ease-elastic),
               filter var(--duration-normal) ease;
   filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1));
   will-change: transform;
 }
 
+/* CORREÇÃO: Usa scale ao invés de mudar height (evita reflow) */
 .header.scrolled .logo-img {
-  height: 45px;
+  transform: scale(0.7);
 }
 
 .logo:hover .logo-img {
   transform: scale(1.05) rotate(-2deg);
 }
 
-/* Efeito bounce no clique */
+/* Efeito bounce no clique - curva elástica */
 .logo:active .logo-img {
   transform: scale(0.95);
+  transition-duration: 0.1s;
 }
 
 .logo-glow {
@@ -831,7 +844,7 @@ const onLogoClick = () => {
     50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
   }
   
-  /* ─── Links com animação staggered ─── */
+  /* ─── Links com animação staggered (50ms interval) ─── */
   .nav-links {
     flex-direction: column;
     align-items: flex-start;
@@ -851,18 +864,20 @@ const onLogoClick = () => {
     /* Estado inicial - fora da tela */
     opacity: 0;
     transform: translate3d(40px, 0, 0);
-    transition: opacity var(--duration-normal) var(--ease-out-expo),
-                transform var(--duration-normal) var(--ease-out-expo),
-                color var(--duration-fast) ease;
-    /* Delay baseado no índice - animação staggered */
-    transition-delay: calc(0.1s * var(--index));
+    /* CORREÇÃO: Curva elástica para entrada suave */
+    transition: opacity 0.35s var(--ease-smooth),
+                transform 0.35s var(--ease-elastic),
+                color 0.15s ease;
+    /* Delay fechado - reset instantâneo */
+    transition-delay: 0s;
+    will-change: transform, opacity;
   }
   
   .nav.open .nav-link {
     opacity: 1;
     transform: translate3d(0, 0, 0);
-    /* Delay aumentado quando abre */
-    transition-delay: calc(0.15s + (0.08s * var(--index)));
+    /* CORREÇÃO: Stagger de 50ms conforme especificado */
+    transition-delay: calc(0.1s + (0.05s * var(--index)));
   }
   
   .nav-link-bg {
@@ -909,38 +924,42 @@ const onLogoClick = () => {
     justify-content: center;
     padding: 1.25rem 2rem;
     font-size: 1rem;
-    /* Animação staggered */
+    /* Animação staggered com curva elástica */
     opacity: 0;
     transform: translate3d(0, 30px, 0);
-    transition: opacity var(--duration-normal) var(--ease-out-expo),
-                transform var(--duration-normal) var(--ease-out-expo),
-                box-shadow var(--duration-normal) var(--ease-out-expo);
+    transition: opacity 0.35s var(--ease-smooth),
+                transform 0.35s var(--ease-elastic),
+                box-shadow 0.25s var(--ease-smooth);
     transition-delay: 0s;
+    will-change: transform, opacity;
   }
   
   .nav.open .contact-btn {
     opacity: 1;
     transform: translate3d(0, 0, 0);
-    transition-delay: 0.5s;
+    /* Stagger: após todos os links (5 links * 50ms + base) */
+    transition-delay: calc(0.1s + (0.05s * 5) + 0.05s);
   }
   
   /* ─── Toggle de Tema Mobile ─── */
   .theme-toggle {
     margin: 1.5rem auto 0;
-    /* Animação staggered */
+    /* Animação staggered com curva elástica */
     opacity: 0;
     transform: translate3d(0, 30px, 0);
-    transition: opacity var(--duration-normal) var(--ease-out-expo),
-                transform var(--duration-normal) var(--ease-out-expo),
-                background var(--duration-normal) ease,
-                border-color var(--duration-normal) ease;
+    transition: opacity 0.35s var(--ease-smooth),
+                transform 0.35s var(--ease-elastic),
+                background 0.25s ease,
+                border-color 0.25s ease;
     transition-delay: 0s;
+    will-change: transform, opacity;
   }
   
   .nav.open .theme-toggle {
     opacity: 1;
     transform: translate3d(0, 0, 0);
-    transition-delay: 0.6s;
+    /* Stagger: após botão de contato */
+    transition-delay: calc(0.1s + (0.05s * 6) + 0.05s);
   }
 }
 
@@ -954,11 +973,12 @@ const onLogoClick = () => {
   }
   
   .logo-img {
-    height: 45px;
+    height: 65px;
   }
   
+  /* CORREÇÃO: Usa scale ao invés de height (evita reflow) */
   .header.scrolled .logo-img {
-    height: 38px;
+    transform: scale(0.7);
   }
   
   .nav-link {
