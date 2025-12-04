@@ -28,31 +28,44 @@
         </div>
         
         <h1 class="hero-title">
-          <span class="title-line reveal" ref="titleLine1">
-            <span class="title-word">Bem-vindo</span>
-          </span>
-          <span class="title-line reveal" ref="titleLine2">
-            <span class="title-word highlight">à PontoVet</span>
-          </span>
+          <TextReveal 
+            text="Bem-vindo" 
+            tag="span" 
+            class="title-line"
+            :stagger-delay="60"
+          />
+          <TextReveal 
+            text="à PontoVet" 
+            tag="span" 
+            class="title-line highlight"
+            :stagger-delay="60"
+          />
         </h1>
         
         <p class="hero-subtitle reveal" ref="subtitle">
-          Clínica Veterinária completa com atendimento humanizado
-          <br class="hide-mobile" />
-          para o seu melhor amigo
+          <TextReveal 
+            text="Clínica Veterinária completa com atendimento humanizado para o seu melhor amigo" 
+            tag="span"
+            :stagger-delay="30"
+            :threshold="0.1"
+          />
         </p>
         
         <div class="hero-cta reveal" ref="cta">
-          <a href="https://wa.me/5518997359924" target="_blank" rel="noopener" class="cta-primary">
-            <span class="cta-icon"><i class="mdi mdi-whatsapp"></i></span>
-            <span class="cta-text">Agende sua Consulta</span>
-            <span class="cta-arrow"><i class="mdi mdi-arrow-right"></i></span>
-            <div class="cta-bg"></div>
-          </a>
-          <NuxtLink to="/servicos" class="cta-secondary">
-            <span>Nossos Serviços</span>
-            <i class="mdi mdi-chevron-right"></i>
-          </NuxtLink>
+          <MagneticButton :strength="0.25" :content-strength="0.4">
+            <a href="https://wa.me/5518997359924" target="_blank" rel="noopener" class="cta-primary">
+              <span class="cta-icon"><i class="mdi mdi-whatsapp"></i></span>
+              <span class="cta-text">Agende sua Consulta</span>
+              <span class="cta-arrow"><i class="mdi mdi-arrow-right"></i></span>
+              <div class="cta-bg"></div>
+            </a>
+          </MagneticButton>
+          <MagneticButton :strength="0.2" :content-strength="0.35">
+            <NuxtLink to="/servicos" class="cta-secondary">
+              <span>Nossos Serviços</span>
+              <i class="mdi mdi-chevron-right"></i>
+            </NuxtLink>
+          </MagneticButton>
         </div>
         
         <!-- Stats -->
@@ -92,8 +105,8 @@
         <div class="section-header reveal-left">
           <span class="section-label">Nossos Serviços</span>
           <h2 class="section-title">
-            Cuidado completo
-            <span class="title-accent">para seu pet</span>
+            <TextReveal text="Cuidado completo" tag="span" :stagger-delay="50" />
+            <TextReveal text="para seu pet" tag="span" class="title-accent" :stagger-delay="50" />
           </h2>
           <p class="section-description">
             Oferecemos uma gama completa de serviços veterinários com equipamentos
@@ -162,10 +175,12 @@
         
         <!-- CTA -->
         <div class="services-cta reveal">
-          <NuxtLink to="/servicos" class="btn-outline">
-            <span>Ver Todos os Serviços</span>
-            <i class="mdi mdi-arrow-right"></i>
-          </NuxtLink>
+          <MagneticButton :strength="0.2" :content-strength="0.35">
+            <NuxtLink to="/servicos" class="btn-outline">
+              <span>Ver Todos os Serviços</span>
+              <i class="mdi mdi-arrow-right"></i>
+            </NuxtLink>
+          </MagneticButton>
         </div>
       </div>
     </section>
@@ -196,8 +211,8 @@
           <div class="about-content reveal-right">
             <span class="section-label">Sobre Nós</span>
             <h2 class="section-title">
-              Dedicação e carinho
-              <span class="title-accent">em cada atendimento</span>
+              <TextReveal text="Dedicação e carinho" tag="span" :stagger-delay="50" />
+              <TextReveal text="em cada atendimento" tag="span" class="title-accent" :stagger-delay="50" />
             </h2>
             <div class="about-text">
               <p>
@@ -224,10 +239,12 @@
                 <span>Atendimento Humanizado</span>
               </div>
             </div>
-            <NuxtLink to="/sobre" class="btn-link">
-              <span>Conheça nossa história</span>
-              <i class="mdi mdi-arrow-right"></i>
-            </NuxtLink>
+            <MagneticButton :strength="0.15" :content-strength="0.3">
+              <NuxtLink to="/sobre" class="btn-link">
+                <span>Conheça nossa história</span>
+                <i class="mdi mdi-arrow-right"></i>
+              </NuxtLink>
+            </MagneticButton>
           </div>
         </div>
       </div>
@@ -240,12 +257,14 @@
       <div class="cta-bg-pattern"></div>
       <div class="container">
         <div class="cta-content reveal-scale">
-          <h2>Pronto para cuidar do seu pet?</h2>
+          <h2><TextReveal text="Pronto para cuidar do seu pet?" tag="span" :stagger-delay="40" /></h2>
           <p>Entre em contato conosco e agende uma consulta.</p>
-          <a href="https://wa.me/5518997359924" target="_blank" rel="noopener" class="cta-whatsapp">
-            <i class="mdi mdi-whatsapp"></i>
-            <span>Fale Conosco pelo WhatsApp</span>
-          </a>
+          <MagneticButton :strength="0.3" :content-strength="0.45">
+            <a href="https://wa.me/5518997359924" target="_blank" rel="noopener" class="cta-whatsapp">
+              <i class="mdi mdi-whatsapp"></i>
+              <span>Fale Conosco pelo WhatsApp</span>
+            </a>
+          </MagneticButton>
         </div>
       </div>
     </section>
