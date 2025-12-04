@@ -62,7 +62,7 @@ export const useTheme = () => {
     const root = document.documentElement;
     
     // Verifica se View Transitions API está disponível
-    // @ts-ignore - API ainda experimental
+    // @ts-expect-error - API ainda experimental
     if (import.meta.client && document.startViewTransition) {
       // Captura posição do clique para o efeito circular
       const x = event?.clientX ?? window.innerWidth / 2;
@@ -83,7 +83,7 @@ export const useTheme = () => {
       // Aguarda o próximo frame para garantir que a classe foi aplicada
       await nextTick();
       
-      // @ts-ignore
+      // @ts-expect-error - API ainda experimental
       const transition = document.startViewTransition(async () => {
         // Atualiza o tema
         themeCookie.value = newTheme;

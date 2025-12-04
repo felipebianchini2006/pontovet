@@ -3,7 +3,13 @@
     <div class="container">
       <div class="footer-content">
         <div class="footer-section">
-          <img src="/logo.png" alt="Logo PontoVet - Clínica Veterinária" class="footer-logo" />
+          <img 
+            src="/logo.png" 
+            alt="Logo PontoVet - Clínica Veterinária" 
+            class="footer-logo"
+            loading="lazy"
+            decoding="async"
+          />
           <p>Cuidando com amor e dedicação do seu melhor amigo.</p>
         </div>
 
@@ -33,7 +39,7 @@
               class="whatsapp-link"
               :aria-label="`Entrar em contato pelo WhatsApp: ${contactInfo.phone}`"
             >
-              <i class="mdi mdi-whatsapp" aria-hidden="true"></i>
+              <i class="mdi mdi-whatsapp" aria-hidden="true"/>
               <span>WhatsApp</span>
             </a>
           </p>

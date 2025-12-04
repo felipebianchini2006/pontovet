@@ -79,6 +79,14 @@ body::before {
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
 }
 
+/* Desativa textura em mobile e quando animações reduzidas para poupar bateria/processamento */
+@media (max-width: 768px), (prefers-reduced-motion: reduce) {
+  body::before {
+    display: none;
+    background-image: none;
+  }
+}
+
 /* ─── Seleção de Texto ─── */
 ::selection {
   background: var(--green-primary);
@@ -139,13 +147,31 @@ img {
    MICRO-INTERAÇÕES - Feedback visual
    ═══════════════════════════════════════════════════════════════════════════ */
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   CLICK FEEDBACK ELÁSTICO - Sensação de botão de borracha
+   
+   - :active usa transição ultra-rápida (80ms) para feedback instantâneo
+   - Ao soltar, usa curva elástica longa (500ms) para recuperação spring
+   - Efeito de "rubber button" que volta com bounce
+   ═══════════════════════════════════════════════════════════════════════════ */
+
 .click-feedback {
-  transition: transform 0.2s var(--ease-out-back);
+  /* Estado normal: recuperação elástica lenta ao soltar */
+  transition: transform 0.5s var(--ease-rubber);
   cursor: pointer;
+  will-change: transform;
+}
+
+.click-feedback:hover {
+  /* Leve scale up no hover para indicar interatividade */
+  transform: scale(1.02);
+  transition: transform 0.3s var(--ease-buttery);
 }
 
 .click-feedback:active {
-  transform: scale(0.96);
+  /* Compressão rápida - simula pressionar botão físico */
+  transform: scale(0.95);
+  transition: transform 0.08s var(--ease-crisp);
 }
 
 /* Botões com brilho interno no hover */

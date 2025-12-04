@@ -14,23 +14,23 @@
           <div class="booking-card">
             <div class="booking-header">
               <div class="booking-icon">
-                <i class="mdi mdi-calendar-check"></i>
+                <i class="mdi mdi-calendar-check"/>
               </div>
               <h2>Pré-Agendamento</h2>
               <p class="booking-subtitle">Preencha o formulário e fale diretamente conosco</p>
             </div>
             
-            <form @submit.prevent="sendWhatsApp" class="booking-form">
+            <form class="booking-form" @submit.prevent="sendWhatsApp">
               <!-- Nome do Tutor -->
               <div class="form-group">
                 <label for="nome">
-                  <i class="mdi mdi-account"></i>
+                  <i class="mdi mdi-account"/>
                   Seu Nome
                 </label>
                 <input 
-                  type="text" 
                   id="nome" 
                   v-model="form.nome" 
+                  type="text" 
                   placeholder="Digite seu nome"
                   required
                   class="form-input"
@@ -40,23 +40,48 @@
               <!-- Nome do Pet -->
               <div class="form-group">
                 <label for="pet">
-                  <i class="mdi mdi-paw"></i>
+                  <i class="mdi mdi-paw"/>
                   Nome do Pet
                 </label>
                 <input 
-                  type="text" 
                   id="pet" 
                   v-model="form.pet" 
+                  type="text" 
                   placeholder="Digite o nome do seu pet"
                   required
                   class="form-input"
                 />
               </div>
+
+              <!-- Telefone para contato -->
+              <div class="form-group">
+                <label for="telefone">
+                  <i class="mdi mdi-phone"/>
+                  Telefone / WhatsApp
+                </label>
+                <input 
+                  id="telefone" 
+                  v-model="form.telefone" 
+                  type="tel" 
+                  placeholder="(18) 99735-9924"
+                  required
+                  inputmode="tel"
+                  pattern="[0-9()+\s-]{10,}"
+                  class="form-input"
+                  aria-describedby="telefone-hint"
+                />
+                <small id="telefone-hint" class="hint">Use apenas números, com DDD. Ex: 18997359924</small>
+                <p
+                  v-if="phoneError"
+                  class="form-error"
+                  role="alert"
+                  aria-live="polite">{{ phoneError }}</p>
+              </div>
               
               <!-- Serviço Desejado -->
               <div class="form-group">
                 <label for="servico">
-                  <i class="mdi mdi-medical-bag"></i>
+                  <i class="mdi mdi-medical-bag"/>
                   Serviço Desejado
                 </label>
                 <select 
@@ -79,15 +104,15 @@
               <!-- Botão de Envio -->
               <button type="submit" class="submit-button" :disabled="!isFormValid">
                 <span class="button-content">
-                  <i class="mdi mdi-whatsapp"></i>
+                  <i class="mdi mdi-whatsapp"/>
                   <span>Enviar via WhatsApp</span>
                 </span>
-                <span class="button-shine"></span>
+                <span class="button-shine"/>
               </button>
             </form>
             
             <p class="booking-note">
-              <i class="mdi mdi-information-outline"></i>
+              <i class="mdi mdi-information-outline"/>
               Ao clicar, você será redirecionado para o WhatsApp com sua mensagem pronta.
             </p>
           </div>
@@ -95,20 +120,20 @@
           <!-- Info Cards -->
           <div class="info-cards">
             <div class="info-card">
-              <h3><i class="mdi mdi-map-marker"></i> Endereço</h3>
-              <p>Rua Exemplo, 123<br>Centro - Cidade/SP<br>CEP: 00000-000</p>
+              <h3><i class="mdi mdi-map-marker"/> Endereço</h3>
+              <p>Rua Exemplo, 123<br/>Centro - Cidade/SP<br/>CEP: 00000-000</p>
             </div>
 
             <div class="info-card">
-              <h3><i class="mdi mdi-clock-outline"></i> Horário de Atendimento</h3>
-              <p>Segunda a Sexta: 8h às 18h<br>Sábados: 8h às 12h<br>Domingos e Feriados: Fechado</p>
+              <h3><i class="mdi mdi-clock-outline"/> Horário de Atendimento</h3>
+              <p>Segunda a Sexta: 8h às 18h<br/>Sábados: 8h às 12h<br/>Domingos e Feriados: Fechado</p>
             </div>
 
             <div class="info-card highlight">
-              <h3><i class="mdi mdi-phone"></i> Telefone / WhatsApp</h3>
+              <h3><i class="mdi mdi-phone"/> Telefone / WhatsApp</h3>
               <p class="phone-big">(18) 99735-9924</p>
               <a href="https://wa.me/5518997359924" target="_blank" class="quick-whatsapp">
-                <i class="mdi mdi-whatsapp"></i>
+                <i class="mdi mdi-whatsapp"/>
                 Chamar agora
               </a>
             </div>
@@ -120,7 +145,7 @@
     <!-- Mapa Section -->
     <section class="map-section">
       <div class="container">
-        <h2><i class="mdi mdi-map-marker-radius"></i> Nossa Localização</h2>
+        <h2><i class="mdi mdi-map-marker-radius"/> Nossa Localização</h2>
         <p class="map-description">Venha nos visitar! Estamos prontos para receber você e seu pet.</p>
         <div class="map-container">
           <iframe 
@@ -133,7 +158,7 @@
             referrerpolicy="no-referrer-when-downgrade"
             title="Localização da PontoVet no mapa"
             aria-label="Mapa mostrando a localização da clínica veterinária PontoVet"
-          ></iframe>
+          />
         </div>
       </div>
     </section>
@@ -151,11 +176,11 @@
           <details v-for="(faq, index) in faqs" :key="index" class="faq-item">
             <summary class="faq-question">
               <span class="question-icon">
-                <i class="mdi mdi-help-circle-outline"></i>
+                <i class="mdi mdi-help-circle-outline"/>
               </span>
               <span class="question-text">{{ faq.question }}</span>
               <span class="chevron">
-                <i class="mdi mdi-chevron-down"></i>
+                <i class="mdi mdi-chevron-down"/>
               </span>
             </summary>
             <div class="faq-answer">
@@ -167,7 +192,7 @@
         <div class="faq-cta">
           <p>Não encontrou sua resposta?</p>
           <a href="https://wa.me/5518997359924" target="_blank" class="faq-whatsapp">
-            <i class="mdi mdi-whatsapp"></i>
+            <i class="mdi mdi-whatsapp"/>
             Pergunte no WhatsApp
           </a>
         </div>
@@ -184,19 +209,41 @@
 const form = reactive({
   nome: '',
   pet: '',
+  telefone: '',
   servico: ''
 });
 
 const isFormValid = computed(() => {
-  return form.nome.trim() && form.pet.trim() && form.servico;
+  return form.nome.trim() && form.pet.trim() && form.servico && isPhoneValid.value;
+});
+
+const phoneError = ref('');
+
+const sanitizedPhone = computed(() => form.telefone.replace(/\D/g, ''));
+
+const isPhoneValid = computed(() => {
+  const digits = sanitizedPhone.value;
+  return digits.length >= 10 && digits.length <= 13; // suporta com/sem código do país
 });
 
 const sendWhatsApp = () => {
-  if (!isFormValid.value) return;
+  if (!isFormValid.value) {
+    phoneError.value = 'Preencha todos os campos obrigatórios.';
+    return;
+  }
+
+  if (!isPhoneValid.value) {
+    phoneError.value = 'Digite um telefone válido apenas com números (10 a 13 dígitos).';
+    return;
+  }
+  phoneError.value = '';
+  const phoneForMessage = sanitizedPhone.value.startsWith('55')
+    ? `+${sanitizedPhone.value}`
+    : `+55${sanitizedPhone.value}`;
   
   // Montar mensagem personalizada
   const message = encodeURIComponent(
-    `Olá! Me chamo *${form.nome.trim()}*, gostaria de saber mais sobre *${form.servico}* para o meu pet *${form.pet.trim()}*. Podem me ajudar?`
+    `Olá! Me chamo *${form.nome.trim()}*, gostaria de saber mais sobre *${form.servico}* para o meu pet *${form.pet.trim()}*.\nTelefone para contato: ${phoneForMessage}. Podem me ajudar?`
   );
   
   // Abrir WhatsApp com mensagem pronta
@@ -312,6 +359,19 @@ useHead({
 
 .contact-section {
   padding: 4rem 0;
+}
+
+.form-error {
+  color: #d32f2f;
+  margin-top: 0.35rem;
+  font-size: 0.9rem;
+}
+
+.hint {
+  display: block;
+  margin-top: 0.25rem;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
 }
 
 .contact-grid {

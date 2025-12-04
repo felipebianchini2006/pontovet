@@ -3,12 +3,12 @@
     <button 
       v-if="isVisible"
       class="scroll-to-top"
-      @click="scrollToTop"
       aria-label="Voltar ao topo da página"
       title="Voltar ao topo"
+      @click="scrollToTop"
     >
-      <span class="btn-bg"></span>
-      <i class="mdi mdi-chevron-up"></i>
+      <span class="btn-bg"/>
+      <i class="mdi mdi-chevron-up"/>
     </button>
   </Transition>
 </template>

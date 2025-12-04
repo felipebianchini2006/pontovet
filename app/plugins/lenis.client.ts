@@ -34,8 +34,8 @@ export default defineNuxtPlugin((nuxtApp) => {
     requestAnimationFrame(raf);
 
     // Expõe globalmente para debugging
-    if (process.dev) {
-      (window as any).lenis = lenis;
+    if (import.meta.dev) {
+      (window as unknown as { lenis: typeof lenis }).lenis = lenis;
     }
   };
 
@@ -61,7 +61,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     provide: {
       lenis: {
         getInstance: () => lenis,
-        scrollTo: (target: string | number | HTMLElement, options?: any) => {
+        scrollTo: (target: string | number | HTMLElement, options?: Record<string, unknown>) => {
           lenis?.scrollTo(target, options);
         },
         stop: () => lenis?.stop(),

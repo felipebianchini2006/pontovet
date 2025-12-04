@@ -1,101 +1,200 @@
 <template>
-  <div class="error-page">
+  <div class="error-page" :class="[`error-${errorType}`]">
     <!-- Decoração de fundo -->
     <div class="error-bg">
       <div class="paw-prints">
-        <i v-for="n in 12" :key="n" class="mdi mdi-paw paw" :style="getPawStyle(n)"></i>
+        <i
+          v-for="n in 12"
+          :key="n"
+          class="mdi mdi-paw paw"
+          :style="getPawStyle(n)"
+        />
       </div>
     </div>
     
     <div class="error-container">
-      <!-- Ilustração do pet perdido -->
+      <!-- Ilustração dinâmica baseada no tipo de erro -->
       <div class="error-illustration">
         <div class="pet-container">
-          <div class="pet-body">
-            <i class="mdi mdi-dog pet-icon"></i>
+          <div class="pet-body" :class="{ 'error-500': is500 }">
+            <i :class="['mdi', petIcon, 'pet-icon']" />
           </div>
-          <div class="magnifier">
-            <i class="mdi mdi-magnify"></i>
+          <div class="status-badge">
+            <i :class="['mdi', statusIcon]" />
           </div>
           <div class="question-marks">
-            <span v-for="n in 3" :key="n" class="question" :style="{ '--delay': n * 0.2 + 's' }">?</span>
+            <span
+              v-for="n in 3"
+              :key="n"
+              class="question"
+              :style="{ '--delay': n * 0.2 + 's' }"
+            >{{ is500 ? '!' : '?' }}</span>
           </div>
         </div>
       </div>
       
-      <!-- Código 404 -->
+      <!-- Código de erro dinâmico -->
       <div class="error-code">
-        <span class="digit">4</span>
+        <span class="digit">{{ errorDigits[0] }}</span>
         <span class="digit paw-digit">
-          <i class="mdi mdi-paw"></i>
+          <i class="mdi mdi-paw" />
         </span>
-        <span class="digit">4</span>
+        <span class="digit">{{ errorDigits[1] }}</span>
       </div>
       
-      <!-- Mensagem -->
-      <h1 class="error-title">Ops! Página não encontrada</h1>
+      <!-- Mensagem dinâmica -->
+      <h1 class="error-title">{{ errorTitle }}</h1>
       <p class="error-message">
-        Parece que este caminho não existe... 
-        <br />
-        Nosso cãozinho farejador não conseguiu encontrar o que você procura!
+        {{ errorMessage }}
       </p>
+      
+      <!-- Debug info para desenvolvimento -->
+      <div
+        v-if="showDebug && error?.message"
+        class="debug-info"
+      >
+        <details>
+          <summary>Detalhes técnicos</summary>
+          <pre>{{ error?.message }}</pre>
+          <pre v-if="error?.stack">{{ error?.stack }}</pre>
+        </details>
+      </div>
       
       <!-- Ações -->
       <div class="error-actions">
-        <NuxtLink to="/" class="btn-home">
-          <i class="mdi mdi-home"></i>
+        <!-- Botão principal: Reload para 500, Home para 404 -->
+        <button
+          v-if="is500"
+          class="btn-primary"
+          @click="handleReload"
+        >
+          <i class="mdi mdi-refresh" />
+          <span>Tentar Novamente</span>
+        </button>
+        <button
+          class="btn-primary"
+          :class="{ 'btn-secondary': is500 }"
+          @click="handleGoHome"
+        >
+          <i class="mdi mdi-home" />
           <span>Voltar para a Casinha</span>
-        </NuxtLink>
-        <NuxtLink to="/contato" class="btn-contact">
-          <i class="mdi mdi-whatsapp"></i>
+        </button>
+        <a
+          :href="contactInfo.whatsappLink"
+          target="_blank"
+          rel="noopener"
+          class="btn-contact"
+        >
+          <i class="mdi mdi-whatsapp" />
           <span>Falar Conosco</span>
-        </NuxtLink>
+        </a>
       </div>
       
       <!-- Links úteis -->
       <div class="useful-links">
-        <p>Ou talvez você esteja procurando:</p>
+        <p>{{ is500 ? 'Enquanto resolvemos, você pode:' : 'Ou talvez você esteja procurando:' }}</p>
         <div class="links">
-          <NuxtLink to="/servicos">Serviços</NuxtLink>
-          <NuxtLink to="/sobre">Sobre Nós</NuxtLink>
-          <NuxtLink to="/galeria">Galeria</NuxtLink>
+          <NuxtLink to="/servicos">
+            Serviços
+          </NuxtLink>
+          <NuxtLink to="/sobre">
+            Sobre Nós
+          </NuxtLink>
+          <NuxtLink to="/galeria">
+            Galeria
+          </NuxtLink>
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 /**
- * Página de Erro 404 - PontoVet
- * Design "Pet Perdido" com elementos lúdicos
+ * Página de Erro Global - PontoVet
+ * 
+ * Trata tanto erros 404 (página não encontrada) quanto 500 (erro de servidor).
+ * Benefício: Impede que o utilizador fique preso numa tela branca se algo falhar.
  */
+import { useSiteData } from '~/composables/useSiteData'
 
-// Props do erro vindas do Nuxt
-const props = defineProps({
-  error: Object
-});
+interface NuxtError {
+  statusCode?: number
+  message?: string
+  stack?: string
+  url?: string
+}
+
+const props = defineProps<{
+  error?: NuxtError
+}>()
+
+const { contactInfo } = useSiteData()
+
+// Detectar tipo de erro
+const statusCode = computed(() => props.error?.statusCode ?? 404)
+const is500 = computed(() => statusCode.value >= 500)
+const is404 = computed(() => statusCode.value === 404)
+const errorType = computed(() => is500.value ? '500' : '404')
+
+// Mostrar debug apenas em desenvolvimento
+const showDebug = computed(() => import.meta.dev && is500.value)
+
+// Dígitos do código de erro (ex: 404 -> ['4', '4'], 500 -> ['5', '0'])
+const errorDigits = computed(() => {
+  const code = String(statusCode.value)
+  return [code[0], code[2] || '0']
+})
+
+// Conteúdo dinâmico baseado no tipo de erro
+const errorTitle = computed(() => {
+  if (is500.value) return 'Ops! Algo deu errado'
+  if (is404.value) return 'Ops! Página não encontrada'
+  return 'Ops! Ocorreu um erro'
+})
+
+const errorMessage = computed(() => {
+  if (is500.value) {
+    return 'Nosso servidor está tirando um cochilo inesperado. Estamos trabalhando para acordá-lo!'
+  }
+  return 'Parece que este caminho não existe... Nosso cãozinho farejador não conseguiu encontrar o que você procura!'
+})
+
+const petIcon = computed(() => is500.value ? 'mdi-cat' : 'mdi-dog')
+const statusIcon = computed(() => is500.value ? 'mdi-wrench' : 'mdi-magnify')
 
 // Gera posições aleatórias para as patinhas
-const getPawStyle = (n) => {
-  const seed = n * 137.5;
+const getPawStyle = (n: number) => {
+  const seed = n * 137.5
   return {
     '--x': `${(seed % 100)}%`,
     '--y': `${((seed * 2.3) % 100)}%`,
     '--rotation': `${(seed % 360)}deg`,
     '--delay': `${(n * 0.3)}s`,
     '--size': `${1.5 + (seed % 2)}rem`
-  };
-};
+  }
+}
 
-// Limpar erro ao navegar
-const clearError = () => {
-  clearError({ redirect: '/' });
-};
+// Ações
+const handleGoHome = () => {
+  // clearError limpa o estado de erro e redireciona
+  clearError({ redirect: '/' })
+}
 
+const handleReload = () => {
+  // Tenta recarregar a página atual
+  if (import.meta.client) {
+    window.location.reload()
+  }
+}
+
+// SEO
 useHead({
-  title: 'Página não encontrada - PontoVet'
-});
+  title: computed(() => {
+    if (is500.value) return 'Erro no servidor - PontoVet'
+    return 'Página não encontrada - PontoVet'
+  })
+})
 </script>
 
 <style scoped>
@@ -108,6 +207,12 @@ useHead({
   position: relative;
   overflow: hidden;
   background: var(--bg-primary);
+}
+
+/* Variante para erro 500 */
+.error-500 .pet-body.error-500 {
+  background: linear-gradient(135deg, #c62828 0%, #ef5350 100%) !important;
+  box-shadow: 0 15px 40px rgba(198, 40, 40, 0.3) !important;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -136,6 +241,10 @@ useHead({
   transform: rotate(var(--rotation));
   animation: pawFloat 6s ease-in-out infinite;
   animation-delay: var(--delay);
+}
+
+.error-500 .paw {
+  color: #c62828;
 }
 
 @keyframes pawFloat {
@@ -202,7 +311,7 @@ useHead({
   color: white;
 }
 
-.magnifier {
+.status-badge {
   position: absolute;
   bottom: -10px;
   right: -15px;
@@ -223,9 +332,13 @@ useHead({
   66% { transform: translate(-10px, -5px) rotate(-15deg); }
 }
 
-.magnifier i {
+.status-badge i {
   font-size: 1.5rem;
   color: var(--green-primary);
+}
+
+.error-500 .status-badge i {
+  color: #c62828;
 }
 
 .question-marks {
@@ -244,13 +357,17 @@ useHead({
   opacity: 0.7;
 }
 
+.error-500 .question {
+  color: #c62828;
+}
+
 @keyframes questionFloat {
   0%, 100% { transform: translateY(0) scale(1); opacity: 0.7; }
   50% { transform: translateY(-10px) scale(1.2); opacity: 1; }
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   CÓDIGO 404
+   CÓDIGO DE ERRO
    ═══════════════════════════════════════════════════════════════════════════ */
 
 .error-code {
@@ -267,6 +384,11 @@ useHead({
   color: var(--green-primary);
   text-shadow: 0 4px 20px rgba(46, 125, 50, 0.3);
   line-height: 1;
+}
+
+.error-500 .digit {
+  color: #c62828;
+  text-shadow: 0 4px 20px rgba(198, 40, 40, 0.3);
 }
 
 .paw-digit {
@@ -302,6 +424,37 @@ useHead({
   transition: color 0.4s ease;
 }
 
+/* Debug info (apenas em dev) */
+.debug-info {
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
+.debug-info details {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+:root.dark .debug-info details {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.debug-info summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.debug-info pre {
+  font-size: 0.8rem;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: #c62828;
+}
+
 /* ═══════════════════════════════════════════════════════════════════════════
    BOTÕES DE AÇÃO
    ═══════════════════════════════════════════════════════════════════════════ */
@@ -314,7 +467,7 @@ useHead({
   margin-bottom: 2.5rem;
 }
 
-.btn-home {
+.btn-primary {
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
@@ -322,19 +475,38 @@ useHead({
   background: linear-gradient(135deg, #1B5E20 0%, #4CAF50 100%);
   color: white;
   text-decoration: none;
+  border: none;
   border-radius: 50px;
   font-weight: 600;
   font-size: 1.05rem;
+  cursor: pointer;
   transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   box-shadow: 0 6px 25px rgba(46, 125, 50, 0.35);
 }
 
-.btn-home:hover {
+.error-500 .btn-primary:not(.btn-secondary) {
+  background: linear-gradient(135deg, #c62828 0%, #ef5350 100%);
+  box-shadow: 0 6px 25px rgba(198, 40, 40, 0.35);
+}
+
+.btn-primary:hover {
   transform: translateY(-4px) scale(1.03);
   box-shadow: 0 12px 35px rgba(46, 125, 50, 0.45);
 }
 
-.btn-home i {
+.btn-primary.btn-secondary {
+  background: transparent;
+  color: var(--green-primary);
+  border: 2px solid var(--green-primary);
+  box-shadow: none;
+}
+
+.btn-primary.btn-secondary:hover {
+  background: var(--green-primary);
+  color: white;
+}
+
+.btn-primary i {
   font-size: 1.3rem;
 }
 
@@ -435,7 +607,7 @@ useHead({
     align-items: center;
   }
   
-  .btn-home,
+  .btn-primary,
   .btn-contact {
     width: 100%;
     max-width: 280px;

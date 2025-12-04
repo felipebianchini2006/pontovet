@@ -1,26 +1,32 @@
 <template>
   <header class="header" :class="{ scrolled: isScrolled, 'menu-open': menuOpen }">
     <!-- Background com efeito glassmorphism avançado -->
-    <div class="header-bg"></div>
+    <div class="header-bg"/>
     
     <div class="container">
       <!-- Logo com micro-interação elástica -->
       <NuxtLink to="/" class="logo click-feedback" @click="onLogoClick">
         <div class="logo-wrapper">
-          <img src="/logo.png" alt="PontoVet" class="logo-img" />
-          <div class="logo-glow"></div>
+          <img 
+            src="/logo.png" 
+            alt="PontoVet" 
+            class="logo-img"
+            loading="lazy"
+            decoding="async"
+          />
+          <div class="logo-glow"/>
         </div>
       </NuxtLink>
 
       <nav class="nav" :class="{ open: menuOpen }">
         <!-- Overlay com blur para fechar o menu -->
-        <div class="nav-overlay" @click="closeMenu"></div>
+        <div class="nav-overlay" @click="closeMenu"/>
         
         <!-- Container do menu com Glassmorphism premium -->
         <div class="nav-container">
           <!-- Decoração de fundo do menu mobile -->
           <div class="nav-decoration">
-            <div class="nav-blob"></div>
+            <div class="nav-blob"/>
           </div>
           
           <div class="nav-links">
@@ -32,33 +38,46 @@
               :style="{ '--index': index }"
               @click="closeMenu"
             >
-              <span class="nav-link-bg"></span>
+              <span class="nav-link-bg"/>
               <span class="nav-link-text">{{ link.label }}</span>
               <span class="nav-link-hover">{{ link.label }}</span>
-              <span class="nav-link-line"></span>
+              <span class="nav-link-line"/>
             </NuxtLink>
             
             <!-- Botão de Contato Premium com brilho -->
-            <NuxtLink to="/contato" @click="closeMenu" class="contact-btn btn-shine click-feedback">
+            <NuxtLink to="/contato" class="contact-btn btn-shine click-feedback" @click="closeMenu">
               <span class="btn-text">Contato</span>
-              <span class="btn-icon"><i class="mdi mdi-arrow-right"></i></span>
-              <div class="btn-bg"></div>
-              <div class="btn-glow"></div>
+              <span class="btn-icon"><i class="mdi mdi-arrow-right"/></span>
+              <div class="btn-bg"/>
+              <div class="btn-glow"/>
             </NuxtLink>
           </div>
+          
+          <!-- Botão de Pesquisa Global (Ctrl+K) -->
+          <button 
+            class="search-toggle click-feedback" 
+            title="Pesquisar (Ctrl+K)" 
+            aria-label="Abrir pesquisa global"
+            @click="openSearch"
+          >
+            <i class="mdi mdi-magnify" />
+            <kbd class="search-shortcut">
+              <span>⌘</span>K
+            </kbd>
+          </button>
           
           <!-- Toggle de Tema com animação premium -->
           <button 
             class="theme-toggle click-feedback" 
-            @click="handleThemeToggle" 
-            :title="isDark ? 'Ativar Modo Claro' : 'Ativar Modo Escuro'"
+            :title="isDark ? 'Ativar Modo Claro' : 'Ativar Modo Escuro'" 
             aria-label="Alternar tema"
+            @click="handleThemeToggle"
           >
             <div class="theme-toggle-track">
-              <i class="mdi mdi-white-balance-sunny sun-icon"></i>
-              <i class="mdi mdi-moon-waning-crescent moon-icon"></i>
+              <i class="mdi mdi-white-balance-sunny sun-icon" />
+              <i class="mdi mdi-moon-waning-crescent moon-icon" />
               <div class="theme-toggle-thumb" :class="{ dark: isDark }">
-                <div class="thumb-glow"></div>
+                <div class="thumb-glow" />
               </div>
             </div>
           </button>
@@ -68,28 +87,31 @@
       <!-- Menu Hamburguer Premium com animação X -->
       <button 
         class="menu-toggle click-feedback" 
-        @click="toggleMenu" 
         :class="{ active: menuOpen }" 
-        aria-label="Abrir menu de navegação"
+        aria-label="Abrir menu de navegação" 
         :aria-expanded="menuOpen"
+        @click="toggleMenu"
       >
         <div class="menu-toggle-inner">
-          <span></span>
-          <span></span>
-          <span></span>
+          <span />
+          <span />
+          <span />
         </div>
       </button>
     </div>
     
     <!-- Linha de progresso de scroll com glow -->
     <div class="scroll-progress">
-      <div class="scroll-progress-bar" :style="{ width: `${scrollProgress}%` }"></div>
-      <div class="scroll-progress-glow" :style="{ left: `${scrollProgress}%` }"></div>
+      <div class="scroll-progress-bar" :style="{ width: `${scrollProgress}%` }" />
+      <div class="scroll-progress-glow" :style="{ left: `${scrollProgress}%` }" />
     </div>
+    
+    <!-- Command Palette (Pesquisa Global) -->
+    <CommandPalette ref="commandPaletteRef" />
   </header>
 </template>
 
-<script setup>
+<script setup lang="ts">
 /**
  * Header Premium - PontoVet
  * 
@@ -107,6 +129,7 @@ const { isDark, toggleTheme, initTheme } = useTheme();
 const menuOpen = ref(false);
 const isScrolled = ref(false);
 const scrollProgress = ref(0);
+const commandPaletteRef = ref<{ open: () => void } | null>(null);
 
 const navLinks = [
   { to: '/', label: 'Home' },
@@ -114,6 +137,11 @@ const navLinks = [
   { to: '/servicos', label: 'Serviços' },
   { to: '/galeria', label: 'Galeria' },
 ];
+
+// ─── Abertura do Command Palette ───
+const openSearch = () => {
+  commandPaletteRef.value?.open();
+};
 
 // ─── Controle do scroll com performance otimizada ───
 let ticking = false;
@@ -178,7 +206,7 @@ const updateBodyScroll = () => {
 };
 
 // ─── Handler do toggle de tema com evento para View Transitions ───
-const handleThemeToggle = (event) => {
+const handleThemeToggle = (event: MouseEvent) => {
   toggleTheme(event);
 };
 
@@ -520,6 +548,65 @@ const onLogoClick = () => {
 }
 
 /* Efeito de brilho (shine) - definido via classe .btn-shine no app.vue */
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BOTÃO DE PESQUISA GLOBAL
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.search-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-secondary);
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-full);
+  padding: 8px 14px;
+  cursor: pointer;
+  margin-left: 1rem;
+  transition: all var(--duration-normal) ease;
+  color: var(--text-secondary);
+}
+
+.search-toggle:hover {
+  border-color: var(--green-primary);
+  color: var(--green-primary);
+  box-shadow: 0 0 20px var(--green-glow);
+}
+
+.search-toggle:active {
+  transform: scale(0.96);
+}
+
+.search-toggle i {
+  font-size: 1.1rem;
+}
+
+.search-shortcut {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  padding: 2px 6px;
+  background: rgba(0, 0, 0, 0.06);
+  border-radius: 4px;
+  font-family: inherit;
+}
+
+:root.dark .search-shortcut {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Esconde no mobile */
+@media (max-width: 768px) {
+  .search-shortcut {
+    display: none;
+  }
+  
+  .search-toggle {
+    padding: 8px 10px;
+  }
+}
 
 /* ═══════════════════════════════════════════════════════════════════════════
    TOGGLE DE TEMA - Com animação premium

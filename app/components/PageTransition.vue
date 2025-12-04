@@ -1,9 +1,9 @@
 <template>
   <div class="page-transition-curtain" :class="{ active: isTransitioning }">
-    <div class="curtain curtain-1"></div>
-    <div class="curtain curtain-2"></div>
+    <div class="curtain curtain-1"/>
+    <div class="curtain curtain-2"/>
     <div class="curtain-logo" :class="{ show: showLogo }">
-      <i class="mdi mdi-paw"></i>
+      <i class="mdi mdi-paw"/>
     </div>
   </div>
 </template>

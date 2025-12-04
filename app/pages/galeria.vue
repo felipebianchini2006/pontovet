@@ -14,30 +14,38 @@
           nossas instalações modernas e o carinho com que tratamos cada pet.
         </p>
 
-        <div class="gallery-grid">
+        <TransitionGroup 
+          name="gallery" 
+          tag="div" 
+          class="gallery-grid"
+          appear
+          @before-enter="onBeforeEnter"
+          @enter="onEnter"
+        >
           <div 
             v-for="(item, i) in galleryItems" 
             :key="i" 
             class="gallery-item"
-            @click="openLightbox(i)"
+            :data-index="i"
             role="button"
             tabindex="0"
             :aria-label="`Abrir imagem ${item.title}`"
+            @click="openLightbox(i)"
             @keydown.enter="openLightbox(i)"
           >
             <div class="placeholder-image">
-              <i :class="'mdi ' + item.icon" class="placeholder-icon"></i>
+              <i :class="'mdi ' + item.icon" class="placeholder-icon"/>
               <p class="placeholder-text">{{ item.title }}</p>
             </div>
             <div class="gallery-overlay">
-              <i class="mdi mdi-magnify-plus-outline"></i>
+              <i class="mdi mdi-magnify-plus-outline"/>
             </div>
           </div>
-        </div>
+        </TransitionGroup>
 
         <div class="gallery-note">
           <p>
-            <i class="mdi mdi-camera"></i> <strong>Nota:</strong> As imagens acima são placeholders.
+            <i class="mdi mdi-camera"/> <strong>Nota:</strong> As imagens acima são placeholders.
             Substitua-as pelas fotos reais da clínica adicionando os arquivos na pasta
             <code>/public/gallery/</code> e atualizando as referências.
           </p>
@@ -51,35 +59,38 @@
         <div 
           v-if="lightboxOpen" 
           class="lightbox-overlay"
-          @click.self="closeLightbox"
+          tabindex="-1"
           role="dialog"
           aria-modal="true"
           aria-label="Visualização de imagem em tela cheia"
+          @keydown="handleKeydown"
+          @click.self="closeLightbox"
         >
-          <div class="lightbox-content">
+          <div ref="lightboxContent" class="lightbox-content">
             <!-- Botão Fechar -->
             <button 
-              class="lightbox-close" 
-              @click="closeLightbox"
+              ref="closeButtonRef" 
+              class="lightbox-close"
               aria-label="Fechar visualização"
+              @click="closeLightbox"
             >
-              <i class="mdi mdi-close"></i>
+              <i class="mdi mdi-close"/>
             </button>
 
             <!-- Navegação Anterior -->
             <button 
               class="lightbox-nav lightbox-prev" 
-              @click="prevImage"
               :disabled="currentIndex === 0"
               aria-label="Imagem anterior"
+              @click="prevImage"
             >
-              <i class="mdi mdi-chevron-left"></i>
+              <i class="mdi mdi-chevron-left"/>
             </button>
 
             <!-- Imagem/Placeholder -->
             <div class="lightbox-image-container">
               <div class="lightbox-placeholder">
-                <i :class="'mdi ' + galleryItems[currentIndex]?.icon" class="lightbox-icon"></i>
+                <i :class="'mdi ' + galleryItems[currentIndex]?.icon" class="lightbox-icon"/>
                 <p class="lightbox-title">{{ galleryItems[currentIndex]?.title }}</p>
                 <p class="lightbox-caption">{{ galleryItems[currentIndex]?.description }}</p>
               </div>
@@ -88,11 +99,11 @@
             <!-- Navegação Próxima -->
             <button 
               class="lightbox-nav lightbox-next" 
-              @click="nextImage"
               :disabled="currentIndex === galleryItems.length - 1"
               aria-label="Próxima imagem"
+              @click="nextImage"
             >
-              <i class="mdi mdi-chevron-right"></i>
+              <i class="mdi mdi-chevron-right"/>
             </button>
 
             <!-- Indicador de posição -->
@@ -107,10 +118,10 @@
                 :key="i"
                 class="lightbox-thumb"
                 :class="{ active: i === currentIndex }"
-                @click="currentIndex = i"
                 :aria-label="`Ver imagem ${i + 1}`"
+                @click="currentIndex = i"
               >
-                <i :class="'mdi ' + item.icon"></i>
+                <i :class="'mdi ' + item.icon"/>
               </button>
             </div>
           </div>
@@ -136,6 +147,29 @@ useHead({
   ]
 });
 
+// ═══════════════════════════════════════════════════════════════════════════
+// STAGGERED ANIMATION HOOKS - Cascata perfeita na entrada
+// Racional: Cada item aparece com delay progressivo criando onda visual
+// ═══════════════════════════════════════════════════════════════════════════
+
+const onBeforeEnter = (el) => {
+  el.style.opacity = '0';
+  el.style.transform = 'scale(0.85) translateY(30px)';
+};
+
+const onEnter = (el, done) => {
+  const index = Number(el.dataset.index) || 0;
+  const delay = index * 80; // 80ms entre cada item (mais rápido que serviços)
+  
+  setTimeout(() => {
+    el.style.transition = 'opacity 0.5s var(--ease-out-expo), transform 0.6s var(--ease-pop)';
+    el.style.opacity = '1';
+    el.style.transform = 'scale(1) translateY(0)';
+    
+    el.addEventListener('transitionend', done, { once: true });
+  }, delay);
+};
+
 // Dados da galeria com descrições
 const galleryItems = [
   { icon: 'mdi-dog', title: 'Nossos Pacientes', description: 'Cães de todas as raças e tamanhos' },
@@ -152,17 +186,29 @@ const galleryItems = [
 // Estado do Lightbox
 const lightboxOpen = ref(false);
 const currentIndex = ref(0);
+const lightboxContent = ref(null);
+const closeButtonRef = ref(null);
+const previousActiveElement = ref(null);
 
 // Funções do Lightbox
 const openLightbox = (index) => {
   currentIndex.value = index;
   lightboxOpen.value = true;
+  previousActiveElement.value = document.activeElement;
   document.body.style.overflow = 'hidden';
+  nextTick(() => {
+    focusFirstElement();
+  });
 };
 
 const closeLightbox = () => {
   lightboxOpen.value = false;
   document.body.style.overflow = '';
+  nextTick(() => {
+    if (previousActiveElement.value && typeof previousActiveElement.value.focus === 'function') {
+      previousActiveElement.value.focus();
+    }
+  });
 };
 
 const nextImage = () => {
@@ -174,6 +220,44 @@ const nextImage = () => {
 const prevImage = () => {
   if (currentIndex.value > 0) {
     currentIndex.value--;
+  }
+};
+
+// Focus Trap dentro do modal
+const focusableSelectors = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+const getFocusableElements = () => {
+  if (!lightboxContent.value) return [];
+  return Array.from(lightboxContent.value.querySelectorAll(focusableSelectors))
+    .filter((el) => !el.hasAttribute('disabled'));
+};
+
+const focusFirstElement = () => {
+  const focusables = getFocusableElements();
+  const target = closeButtonRef.value || focusables[0] || lightboxContent.value;
+  if (target && typeof target.focus === 'function') {
+    target.focus();
+  }
+};
+
+const trapFocus = (event) => {
+  const focusables = getFocusableElements();
+  if (!focusables.length) return;
+
+  const first = focusables[0];
+  const last = focusables[focusables.length - 1];
+  const active = document.activeElement;
+
+  if (event.shiftKey) {
+    if (active === first || active === lightboxContent.value) {
+      event.preventDefault();
+      last.focus();
+    }
+  } else {
+    if (active === last) {
+      event.preventDefault();
+      first.focus();
+    }
   }
 };
 
@@ -190,6 +274,9 @@ const handleKeydown = (e) => {
       break;
     case 'ArrowLeft':
       prevImage();
+      break;
+    case 'Tab':
+      trapFocus(e);
       break;
   }
 };
@@ -270,25 +357,20 @@ onUnmounted(() => {
   margin-bottom: 3rem;
 }
 
+/* Move animation para reordenação */
+.gallery-move {
+  transition: transform 0.5s var(--ease-out-expo);
+}
+
 .gallery-item {
   position: relative;
   overflow: hidden;
   border-radius: 20px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: all 0.5s var(--ease-pop);
   cursor: pointer;
-  animation: scaleIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  /* Animações de entrada são controladas por JS hooks */
 }
-
-.gallery-item:nth-child(1) { animation-delay: 0.05s; }
-.gallery-item:nth-child(2) { animation-delay: 0.1s; }
-.gallery-item:nth-child(3) { animation-delay: 0.15s; }
-.gallery-item:nth-child(4) { animation-delay: 0.2s; }
-.gallery-item:nth-child(5) { animation-delay: 0.25s; }
-.gallery-item:nth-child(6) { animation-delay: 0.3s; }
-.gallery-item:nth-child(7) { animation-delay: 0.35s; }
-.gallery-item:nth-child(8) { animation-delay: 0.4s; }
-.gallery-item:nth-child(9) { animation-delay: 0.45s; }
 
 .gallery-item:hover {
   transform: translateY(-18px) scale(1.03) rotate(1deg);

@@ -24,7 +24,7 @@
             </p>
           </div>
           <div class="image-placeholder">
-            <div class="placeholder"><i class="mdi mdi-hospital-building"></i></div>
+            <div class="placeholder"><i class="mdi mdi-hospital-building"/></div>
           </div>
         </div>
       </div>
@@ -34,7 +34,7 @@
       <div class="container">
         <div class="mission-grid">
           <div class="mission-card">
-            <div class="mission-icon"><i class="mdi mdi-target"></i></div>
+            <div class="mission-icon"><i class="mdi mdi-target"/></div>
             <h3>Nossa Missão</h3>
             <p>
               Promover a saúde e o bem-estar dos animais através de atendimento
@@ -42,7 +42,7 @@
             </p>
           </div>
           <div class="mission-card">
-            <div class="mission-icon"><i class="mdi mdi-eye-outline"></i></div>
+            <div class="mission-icon"><i class="mdi mdi-eye-outline"/></div>
             <h3>Nossa Visão</h3>
             <p>
               Ser referência em medicina veterinária, reconhecida pela excelência
@@ -50,7 +50,7 @@
             </p>
           </div>
           <div class="mission-card">
-            <div class="mission-icon"><i class="mdi mdi-diamond-stone"></i></div>
+            <div class="mission-icon"><i class="mdi mdi-diamond-stone"/></div>
             <h3>Nossos Valores</h3>
             <p>
               Amor aos animais, ética profissional, atendimento humanizado,
@@ -66,42 +66,42 @@
         <h2>Por que escolher a PontoVet?</h2>
         <div class="differentials-grid">
           <div class="differential-item">
-            <span class="check"><i class="mdi mdi-check"></i></span>
+            <span class="check"><i class="mdi mdi-check"/></span>
             <div>
               <h4>Equipe Especializada</h4>
               <p>Veterinários experientes e em constante atualização</p>
             </div>
           </div>
           <div class="differential-item">
-            <span class="check"><i class="mdi mdi-check"></i></span>
+            <span class="check"><i class="mdi mdi-check"/></span>
             <div>
               <h4>Equipamentos Modernos</h4>
               <p>Tecnologia de ponta para diagnósticos precisos</p>
             </div>
           </div>
           <div class="differential-item">
-            <span class="check"><i class="mdi mdi-check"></i></span>
+            <span class="check"><i class="mdi mdi-check"/></span>
             <div>
               <h4>Atendimento Humanizado</h4>
               <p>Cuidado e atenção individualizada para cada pet</p>
             </div>
           </div>
           <div class="differential-item">
-            <span class="check"><i class="mdi mdi-check"></i></span>
+            <span class="check"><i class="mdi mdi-check"/></span>
             <div>
               <h4>Instalações Completas</h4>
               <p>Ambiente preparado para todos os tipos de atendimento</p>
             </div>
           </div>
           <div class="differential-item">
-            <span class="check"><i class="mdi mdi-check"></i></span>
+            <span class="check"><i class="mdi mdi-check"/></span>
             <div>
               <h4>Compromisso com o Bem-Estar</h4>
               <p>Seu pet é tratado como parte da nossa família</p>
             </div>
           </div>
           <div class="differential-item">
-            <span class="check"><i class="mdi mdi-check"></i></span>
+            <span class="check"><i class="mdi mdi-check"/></span>
             <div>
               <h4>Serviços Completos</h4>
               <p>Tudo que seu pet precisa em um só lugar</p>
@@ -126,7 +126,7 @@
               <!-- Frente do Card -->
               <div class="card-front">
                 <div class="member-avatar">
-                  <i :class="'mdi ' + member.icon"></i>
+                  <i :class="'mdi ' + member.icon"/>
                 </div>
                 <h3 class="member-name">{{ member.name }}</h3>
                 <p class="member-specialty">{{ member.specialty }}</p>
@@ -140,10 +140,10 @@
                   <p class="member-bio">{{ member.bio }}</p>
                   <div class="member-socials">
                     <a href="#" aria-label="LinkedIn" class="social-link">
-                      <i class="mdi mdi-linkedin"></i>
+                      <i class="mdi mdi-linkedin"/>
                     </a>
                     <a href="#" aria-label="Instagram" class="social-link">
-                      <i class="mdi mdi-instagram"></i>
+                      <i class="mdi mdi-instagram"/>
                     </a>
                   </div>
                 </div>

@@ -1,5 +1,40 @@
 {
   // https://nuxt.com/docs/guide/concepts/typescript
+  // ═══════════════════════════════════════════════════════════════════════════
+  // TYPESCRIPT STRICT MODE - Máxima segurança de tipos
+  // Benefício: Previne erros silenciosos ("undefined is not a function")
+  // ═══════════════════════════════════════════════════════════════════════════
+  "compilerOptions": {
+    // ─── Modo Estrito ───
+    "strict": true,                           // Habilita todas as verificações estritas
+    "noImplicitAny": true,                    // Proíbe 'any' implícito
+    "strictNullChecks": true,                 // Verifica null/undefined
+    "strictFunctionTypes": true,              // Verificação estrita de funções
+    "strictBindCallApply": true,              // Verificação de bind/call/apply
+    "strictPropertyInitialization": true,     // Propriedades devem ser inicializadas
+    "noImplicitThis": true,                   // Proíbe 'this' implícito
+    "useUnknownInCatchVariables": true,       // catch(e) é 'unknown', não 'any'
+    
+    // ─── Qualidade de Código ───
+    "noUnusedLocals": true,                   // Erro em variáveis não usadas
+    "noUnusedParameters": true,               // Erro em parâmetros não usados
+    "noImplicitReturns": true,                // Funções devem ter return explícito
+    "noFallthroughCasesInSwitch": true,       // Previne fall-through em switch
+    "forceConsistentCasingInFileNames": true, // Nomes de arquivos case-sensitive
+    "skipLibCheck": true,                     // Acelera compilação
+    
+    // ─── Resolução de Módulos ───
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "isolatedModules": true
+  },
+  
+  // ─── Vue Compiler Options - Verificação de tipos em templates ───
+  "vueCompilerOptions": {
+    "strictTemplates": true  // Verifica tipos nos templates Vue
+  },
+  
   "files": [],
   "references": [
     {

@@ -3,27 +3,39 @@
     <!-- ═══════════════════════════════════════════════════════════════════════
          HERO SECTION - Imersivo com Parallax
          ═══════════════════════════════════════════════════════════════════════ -->
-    <section class="hero" ref="heroRef">
+    <section ref="heroRef" class="hero">
       <!-- Background Elements -->
       <div class="hero-bg">
-        <div class="hero-gradient"></div>
-        <div class="hero-mesh"></div>
-        <div class="hero-particles">
-          <div class="particle" v-for="n in 20" :key="n" :style="getParticleStyle(n)"></div>
+        <div class="hero-gradient"/>
+        <div class="hero-mesh"/>
+        <div class="hero-particles" :style="{ transform: getParallaxTransform(0) }">
+          <div
+            v-for="n in 20"
+            :key="n"
+            class="particle"
+            :style="getParticleStyle(n)"/>
         </div>
       </div>
       
-      <!-- Floating Elements -->
+      <!-- Floating Elements com Parallax -->
       <div class="hero-floating-elements">
-        <div class="floating-paw" v-for="n in 5" :key="n" :style="getFloatingStyle(n)">
-          <i class="mdi mdi-paw"></i>
+        <div 
+          v-for="n in 5" 
+          :key="n" 
+          class="floating-paw" 
+          :style="{
+            ...getFloatingStyle(n),
+            transform: `${getParallaxTransform(n % 4)} rotate(var(--rotation))`
+          }"
+        >
+          <i class="mdi mdi-paw"/>
         </div>
       </div>
       
       <!-- Main Content -->
       <div class="hero-content">
-        <div class="hero-badge reveal" ref="badge">
-          <i class="mdi mdi-heart-pulse"></i>
+        <div ref="badge" class="hero-badge reveal">
+          <i class="mdi mdi-heart-pulse"/>
           <span>Cuidado Premium para seu Pet</span>
         </div>
         
@@ -42,7 +54,7 @@
           />
         </h1>
         
-        <p class="hero-subtitle reveal" ref="subtitle">
+        <p ref="subtitle" class="hero-subtitle reveal">
           <TextReveal 
             text="Clínica Veterinária completa com atendimento humanizado para o seu melhor amigo" 
             tag="span"
@@ -51,35 +63,39 @@
           />
         </p>
         
-        <div class="hero-cta reveal" ref="cta">
+        <div ref="cta" class="hero-cta reveal">
           <MagneticButton :strength="0.25" :content-strength="0.4">
-            <a href="https://wa.me/5518997359924" target="_blank" rel="noopener" class="cta-primary">
-              <span class="cta-icon"><i class="mdi mdi-whatsapp"></i></span>
+            <a
+              href="https://wa.me/5518997359924"
+              target="_blank"
+              rel="noopener"
+              class="cta-primary">
+              <span class="cta-icon"><i class="mdi mdi-whatsapp"/></span>
               <span class="cta-text">Agende sua Consulta</span>
-              <span class="cta-arrow"><i class="mdi mdi-arrow-right"></i></span>
-              <div class="cta-bg"></div>
+              <span class="cta-arrow"><i class="mdi mdi-arrow-right"/></span>
+              <div class="cta-bg"/>
             </a>
           </MagneticButton>
           <MagneticButton :strength="0.2" :content-strength="0.35">
             <NuxtLink to="/servicos" class="cta-secondary">
               <span>Nossos Serviços</span>
-              <i class="mdi mdi-chevron-right"></i>
+              <i class="mdi mdi-chevron-right"/>
             </NuxtLink>
           </MagneticButton>
         </div>
         
         <!-- Stats -->
-        <div class="hero-stats reveal" ref="stats">
+        <div ref="stats" class="hero-stats reveal">
           <div class="stat-item">
             <span class="stat-number">10+</span>
             <span class="stat-label">Anos de Experiência</span>
           </div>
-          <div class="stat-divider"></div>
+          <div class="stat-divider"/>
           <div class="stat-item">
             <span class="stat-number">5000+</span>
             <span class="stat-label">Pets Atendidos</span>
           </div>
-          <div class="stat-divider"></div>
+          <div class="stat-divider"/>
           <div class="stat-item">
             <span class="stat-number">100%</span>
             <span class="stat-label">Dedicação</span>
@@ -91,7 +107,7 @@
       <div class="scroll-indicator" @click="scrollToServices">
         <span class="scroll-text">Role para explorar</span>
         <div class="scroll-mouse">
-          <div class="scroll-wheel"></div>
+          <div class="scroll-wheel"/>
         </div>
       </div>
     </section>
@@ -99,14 +115,18 @@
     <!-- ═══════════════════════════════════════════════════════════════════════
          SERVICES SECTION - Grid Assimétrico
          ═══════════════════════════════════════════════════════════════════════ -->
-    <section class="services-section" id="services" ref="servicesRef">
+    <section id="services" ref="servicesRef" class="services-section">
       <div class="container">
         <!-- Section Header -->
         <div class="section-header reveal-left">
           <span class="section-label">Nossos Serviços</span>
           <h2 class="section-title">
             <TextReveal text="Cuidado completo" tag="span" :stagger-delay="50" />
-            <TextReveal text="para seu pet" tag="span" class="title-accent" :stagger-delay="50" />
+            <TextReveal
+              text="para seu pet"
+              tag="span"
+              class="title-accent"
+              :stagger-delay="50" />
           </h2>
           <p class="section-description">
             Oferecemos uma gama completa de serviços veterinários com equipamentos
@@ -115,61 +135,61 @@
         </div>
         
         <!-- Services Grid - Layout Assimétrico -->
-        <div class="services-grid stagger-children" ref="servicesGrid">
+        <div ref="servicesGrid" class="services-grid stagger-children">
           <div class="service-card featured">
             <div class="card-icon">
-              <i class="mdi mdi-hospital-building"></i>
+              <i class="mdi mdi-hospital-building"/>
             </div>
             <div class="card-content">
               <h3>Cirurgias</h3>
               <p>Procedimentos cirúrgicos com equipamentos de última geração e equipe especializada em diversas especialidades.</p>
             </div>
             <div class="card-arrow">
-              <i class="mdi mdi-arrow-right"></i>
+              <i class="mdi mdi-arrow-right"/>
             </div>
-            <div class="card-bg"></div>
+            <div class="card-bg"/>
           </div>
           
           <div class="service-card">
             <div class="card-icon">
-              <i class="mdi mdi-stethoscope"></i>
+              <i class="mdi mdi-stethoscope"/>
             </div>
             <div class="card-content">
               <h3>Consultas</h3>
               <p>Atendimento veterinário completo com profissionais qualificados.</p>
             </div>
             <div class="card-arrow">
-              <i class="mdi mdi-arrow-right"></i>
+              <i class="mdi mdi-arrow-right"/>
             </div>
-            <div class="card-bg"></div>
+            <div class="card-bg"/>
           </div>
           
           <div class="service-card">
             <div class="card-icon">
-              <i class="mdi mdi-microscope"></i>
+              <i class="mdi mdi-microscope"/>
             </div>
             <div class="card-content">
               <h3>Exames</h3>
               <p>Análises laboratoriais precisas para diagnóstico.</p>
             </div>
             <div class="card-arrow">
-              <i class="mdi mdi-arrow-right"></i>
+              <i class="mdi mdi-arrow-right"/>
             </div>
-            <div class="card-bg"></div>
+            <div class="card-bg"/>
           </div>
           
           <div class="service-card wide">
             <div class="card-icon">
-              <i class="mdi mdi-shower-head"></i>
+              <i class="mdi mdi-shower-head"/>
             </div>
             <div class="card-content">
               <h3>Banho e Tosa</h3>
               <p>Cuidados estéticos e de higiene com carinho e atenção especial para deixar seu pet ainda mais bonito e saudável.</p>
             </div>
             <div class="card-arrow">
-              <i class="mdi mdi-arrow-right"></i>
+              <i class="mdi mdi-arrow-right"/>
             </div>
-            <div class="card-bg"></div>
+            <div class="card-bg"/>
           </div>
         </div>
         
@@ -178,7 +198,7 @@
           <MagneticButton :strength="0.2" :content-strength="0.35">
             <NuxtLink to="/servicos" class="btn-outline">
               <span>Ver Todos os Serviços</span>
-              <i class="mdi mdi-arrow-right"></i>
+              <i class="mdi mdi-arrow-right"/>
             </NuxtLink>
           </MagneticButton>
         </div>
@@ -188,7 +208,7 @@
     <!-- ═══════════════════════════════════════════════════════════════════════
          ABOUT SECTION - Layout Split
          ═══════════════════════════════════════════════════════════════════════ -->
-    <section class="about-section" ref="aboutRef">
+    <section ref="aboutRef" class="about-section">
       <div class="container">
         <div class="about-grid">
           <!-- Visual Side -->
@@ -196,9 +216,9 @@
             <div class="visual-container">
               <div class="visual-main">
                 <div class="visual-icon">
-                  <i class="mdi mdi-paw"></i>
+                  <i class="mdi mdi-paw"/>
                 </div>
-                <div class="visual-pattern"></div>
+                <div class="visual-pattern"/>
               </div>
               <div class="visual-badge">
                 <span class="badge-number">10+</span>
@@ -212,7 +232,11 @@
             <span class="section-label">Sobre Nós</span>
             <h2 class="section-title">
               <TextReveal text="Dedicação e carinho" tag="span" :stagger-delay="50" />
-              <TextReveal text="em cada atendimento" tag="span" class="title-accent" :stagger-delay="50" />
+              <TextReveal
+                text="em cada atendimento"
+                tag="span"
+                class="title-accent"
+                :stagger-delay="50" />
             </h2>
             <div class="about-text">
               <p>
@@ -227,22 +251,22 @@
             </div>
             <div class="about-features">
               <div class="feature-item">
-                <i class="mdi mdi-check-circle"></i>
+                <i class="mdi mdi-check-circle"/>
                 <span>Equipe Qualificada</span>
               </div>
               <div class="feature-item">
-                <i class="mdi mdi-check-circle"></i>
+                <i class="mdi mdi-check-circle"/>
                 <span>Equipamentos Modernos</span>
               </div>
               <div class="feature-item">
-                <i class="mdi mdi-check-circle"></i>
+                <i class="mdi mdi-check-circle"/>
                 <span>Atendimento Humanizado</span>
               </div>
             </div>
             <MagneticButton :strength="0.15" :content-strength="0.3">
               <NuxtLink to="/sobre" class="btn-link">
                 <span>Conheça nossa história</span>
-                <i class="mdi mdi-arrow-right"></i>
+                <i class="mdi mdi-arrow-right"/>
               </NuxtLink>
             </MagneticButton>
           </div>
@@ -253,15 +277,19 @@
     <!-- ═══════════════════════════════════════════════════════════════════════
          CTA FINAL SECTION
          ═══════════════════════════════════════════════════════════════════════ -->
-    <section class="cta-section" ref="ctaRef">
-      <div class="cta-bg-pattern"></div>
+    <section ref="ctaRef" class="cta-section">
+      <div class="cta-bg-pattern"/>
       <div class="container">
         <div class="cta-content reveal-scale">
           <h2><TextReveal text="Pronto para cuidar do seu pet?" tag="span" :stagger-delay="40" /></h2>
           <p>Entre em contato conosco e agende uma consulta.</p>
           <MagneticButton :strength="0.3" :content-strength="0.45">
-            <a href="https://wa.me/5518997359924" target="_blank" rel="noopener" class="cta-whatsapp">
-              <i class="mdi mdi-whatsapp"></i>
+            <a
+              href="https://wa.me/5518997359924"
+              target="_blank"
+              rel="noopener"
+              class="cta-whatsapp">
+              <i class="mdi mdi-whatsapp"/>
               <span>Fale Conosco pelo WhatsApp</span>
             </a>
           </MagneticButton>
@@ -410,25 +438,89 @@ const aboutRef = ref(null);
 const ctaRef = ref(null);
 const servicesGrid = ref(null);
 
+// ═══════════════════════════════════════════════════════════════════════════
+// SCROLL-DRIVEN PARALLAX - Hero Section
+// Racional: Elementos flutuantes reagem à posição do scroll criando profundidade
+// Usa requestAnimationFrame + lerp para movimento suave e orgânico
+// ═══════════════════════════════════════════════════════════════════════════
+
+const scrollY = ref(0);
+const parallaxOffset = ref(0);
+const targetParallax = ref(0);
+const rafId = ref(null);
+
+// Fator de lerp para suavidade (menor = mais suave/lento)
+const PARALLAX_LERP = 0.08;
+
+// Função lerp para interpolação suave
+const lerp = (current, target, factor) => current + (target - current) * factor;
+
+// Loop de animação parallax
+const updateParallax = () => {
+  // Atualiza o offset com interpolação suave
+  parallaxOffset.value = lerp(parallaxOffset.value, targetParallax.value, PARALLAX_LERP);
+  
+  // Continua o loop se há diferença significativa
+  if (Math.abs(parallaxOffset.value - targetParallax.value) > 0.01) {
+    rafId.value = requestAnimationFrame(updateParallax);
+  } else {
+    parallaxOffset.value = targetParallax.value;
+    rafId.value = null;
+  }
+};
+
+// Handler de scroll otimizado
+const handleParallaxScroll = () => {
+  if (!import.meta.client) return;
+  
+  scrollY.value = window.scrollY;
+  
+  // Só aplica parallax enquanto hero está visível
+  const heroHeight = heroRef.value?.offsetHeight || window.innerHeight;
+  if (scrollY.value < heroHeight * 1.5) {
+    targetParallax.value = scrollY.value;
+    
+    // Inicia o loop de animação se não estiver rodando
+    if (!rafId.value) {
+      rafId.value = requestAnimationFrame(updateParallax);
+    }
+  }
+};
+
+// Computed para estilos de parallax (cada camada tem velocidade diferente)
+const getParallaxTransform = (layer) => {
+  // Camadas: 0 = mais distante (move menos), 3 = mais próxima (move mais)
+  const speeds = [0.1, 0.2, 0.35, 0.5];
+  const speed = speeds[Math.min(layer, speeds.length - 1)];
+  const y = parallaxOffset.value * speed;
+  return `translate3d(0, ${y}px, 0)`;
+};
+
 // Funções para estilos dinâmicos das partículas
-const getParticleStyle = (n) => {
+const getParticleStyle = (_n) => {
   const size = Math.random() * 4 + 2;
+  // Determina camada de parallax baseada no tamanho (menores = mais distantes)
+  const layer = size < 3 ? 0 : size < 4 ? 1 : 2;
   return {
     '--size': `${size}px`,
     '--x': `${Math.random() * 100}%`,
     '--y': `${Math.random() * 100}%`,
     '--duration': `${Math.random() * 20 + 15}s`,
     '--delay': `${Math.random() * 5}s`,
+    '--parallax-layer': layer,
   };
 };
 
 const getFloatingStyle = (n) => {
+  // Cada patinha tem uma camada de parallax diferente
+  const layer = (n % 4); // 0-3
   return {
     '--x': `${10 + (n * 18)}%`,
     '--y': `${20 + Math.random() * 60}%`,
     '--duration': `${8 + n * 2}s`,
     '--delay': `${n * 0.5}s`,
     '--rotation': `${Math.random() * 360}deg`,
+    '--parallax-layer': layer,
   };
 };
 
@@ -442,6 +534,11 @@ const scrollToServices = () => {
 // Intersection Observer para animações de scroll reveal
 onMounted(() => {
   if (import.meta.client) {
+    // ─── Scroll Parallax Listener ───
+    window.addEventListener('scroll', handleParallaxScroll, { passive: true });
+    handleParallaxScroll(); // Inicializa
+    
+    // ─── Intersection Observer para reveal animations ───
     const observerOptions = {
       root: null,
       rootMargin: '0px 0px -100px 0px',
@@ -460,6 +557,16 @@ onMounted(() => {
     document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale, .stagger-children').forEach((el) => {
       observer.observe(el);
     });
+  }
+});
+
+// Cleanup
+onUnmounted(() => {
+  if (import.meta.client) {
+    window.removeEventListener('scroll', handleParallaxScroll);
+    if (rafId.value) {
+      cancelAnimationFrame(rafId.value);
+    }
   }
 });
 </script>
@@ -551,18 +658,23 @@ onMounted(() => {
   top: var(--y);
   font-size: 2rem;
   color: rgba(255, 255, 255, 0.1);
-  animation: floatPaw var(--duration) ease-in-out infinite;
+  will-change: transform;
+  /* Animação base de flutuação, parallax é aplicado inline via JS */
+}
+
+.floating-paw i {
+  display: block;
+  animation: floatPaw var(--duration) var(--ease-float) infinite;
   animation-delay: var(--delay);
-  transform: rotate(var(--rotation));
 }
 
 @keyframes floatPaw {
   0%, 100% {
-    transform: translateY(0) rotate(var(--rotation));
+    transform: translateY(0) rotate(0deg);
     opacity: 0.1;
   }
   50% {
-    transform: translateY(-20px) rotate(calc(var(--rotation) + 15deg));
+    transform: translateY(-20px) rotate(15deg);
     opacity: 0.2;
   }
 }

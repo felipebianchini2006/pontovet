@@ -18,19 +18,28 @@
             :class="{ active: activeFilter === filter.id }"
             @click="setFilter(filter.id)"
           >
-            <i :class="'mdi ' + filter.icon"></i>
+            <i :class="'mdi ' + filter.icon"/>
             <span>{{ filter.label }}</span>
           </button>
         </div>
 
-        <!-- Grid de Serviços com TransitionGroup -->
-        <TransitionGroup name="services" tag="div" class="services-grid">
+        <!-- Grid de Serviços com TransitionGroup e Stagger Dinâmico -->
+        <TransitionGroup 
+          name="services" 
+          tag="div" 
+          class="services-grid"
+          @before-enter="onBeforeEnter"
+          @enter="onEnter"
+          @leave="onLeave"
+        >
           <div 
-            v-for="service in filteredServices" 
+            v-for="(service, index) in filteredServices" 
             :key="service.id"
             class="service-card"
+            :data-index="index"
+            :style="{ '--stagger-delay': `${index * 100}ms` }"
           >
-            <div class="service-icon"><i :class="'mdi ' + service.icon"></i></div>
+            <div class="service-icon"><i :class="'mdi ' + service.icon"/></div>
             <h2>{{ service.title }}</h2>
             <p class="service-description">{{ service.description }}</p>
             <ul class="service-list">
@@ -42,7 +51,7 @@
         <!-- Mensagem quando não há resultados -->
         <Transition name="fade">
           <div v-if="filteredServices.length === 0" class="no-results">
-            <i class="mdi mdi-magnify"></i>
+            <i class="mdi mdi-magnify"/>
             <p>Nenhum serviço encontrado nesta categoria</p>
           </div>
         </Transition>
@@ -57,7 +66,7 @@
             <p>Entre em contato conosco pelo WhatsApp e agende seu horário</p>
           </div>
           <NuxtLink to="/contato" class="cta-button">
-            <i class="mdi mdi-whatsapp"></i>
+            <i class="mdi mdi-whatsapp"/>
             Agendar Agora
           </NuxtLink>
         </div>
@@ -157,6 +166,46 @@ const filteredServices = computed(() => {
   }
   return services.filter(s => s.category === activeFilter.value);
 });
+
+// ═══════════════════════════════════════════════════════════════════════════
+// STAGGERED ANIMATION HOOKS
+// Racional: JavaScript hooks permitem controle preciso do timing
+// Cada card recebe delay baseado no seu índice para efeito cascata
+// ═══════════════════════════════════════════════════════════════════════════
+
+const onBeforeEnter = (el) => {
+  el.style.opacity = 0;
+  el.style.transform = 'scale(0.85) translateY(40px)';
+};
+
+const onEnter = (el, done) => {
+  const index = Number(el.dataset.index) || 0;
+  const delay = index * 100; // 100ms entre cada card
+  
+  // Usa setTimeout para aplicar o delay de stagger
+  setTimeout(() => {
+    el.style.transition = 'all 0.6s var(--ease-out-expo)';
+    el.style.opacity = 1;
+    el.style.transform = 'scale(1) translateY(0)';
+    
+    // Callback após transição completar
+    el.addEventListener('transitionend', done, { once: true });
+  }, delay);
+};
+
+const onLeave = (el, done) => {
+  const index = Number(el.dataset.index) || 0;
+  // Cards saem em ordem inversa (últimos primeiro)
+  const reverseDelay = (filteredServices.value.length - 1 - index) * 50;
+  
+  setTimeout(() => {
+    el.style.transition = 'all 0.4s var(--ease-in-out)';
+    el.style.opacity = 0;
+    el.style.transform = 'scale(0.9) translateY(-20px)';
+    
+    el.addEventListener('transitionend', done, { once: true });
+  }, reverseDelay);
+};
 
 // ═══════════════════════════════════════════════════════════════════════════
 // SEO
@@ -277,27 +326,24 @@ useHead({
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
+  /* Container relativo para position: absolute nos cards que saem */
+  position: relative;
 }
 
-/* TransitionGroup animations */
-.services-move,
-.services-enter-active,
-.services-leave-active {
-  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+/* ═══════════════════════════════════════════════════════════════════════════
+   STAGGERED TRANSITIONS - TransitionGroup
+   Racional: Hooks JS controlam o timing, CSS define a suavidade
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Move animation for reordering */
+.services-move {
+  transition: transform 0.6s var(--ease-out-expo);
 }
 
-.services-enter-from {
-  opacity: 0;
-  transform: scale(0.8) translateY(30px);
-}
-
-.services-leave-to {
-  opacity: 0;
-  transform: scale(0.8) translateY(-30px);
-}
-
+/* Enter/Leave são controlados por hooks JS, mas precisamos do leave-active */
 .services-leave-active {
   position: absolute;
+  width: 100%;
 }
 
 .service-card {

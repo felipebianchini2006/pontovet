@@ -3,10 +3,10 @@
     :is="tag"
     ref="buttonRef"
     class="magnetic-wrapper"
+    :style="wrapperStyle"
     @mouseenter="handleMouseEnter"
     @mousemove="handleMouseMove"
     @mouseleave="handleMouseLeave"
-    :style="wrapperStyle"
   >
     <span class="magnetic-content" :style="contentStyle">
       <slot />
@@ -16,63 +16,96 @@
 
 <script setup lang="ts">
 /**
- * MagneticButton Component - PontoVet
+ * MagneticButton V2 - PontoVet
  * 
- * Efeito magnético que faz o botão "seguir" o cursor.
- * Inspirado em interfaces premiadas do Awwwards.
+ * ATUALIZAÇÃO: Interpolação Linear (Lerp) com requestAnimationFrame
+ * O botão agora "flutua" até ao cursor com física de inércia real.
+ * 
+ * Racional de Design:
+ * - Em vez de seguir o cursor instantaneamente (CSS transition),
+ *   usamos um loop RAF que aproxima a posição gradualmente.
+ * - Friction controla a "massa" do botão - valores baixos = mais peso/inércia
+ * - Cria sensação de objeto físico com momentum
  * 
  * @prop tag - Tag HTML do wrapper
  * @prop strength - Força do efeito magnético (0-1)
  * @prop contentStrength - Força do movimento do conteúdo interno
+ * @prop friction - Fator de "atrito" para lerp (0.05-0.3), menor = mais inércia
  */
 
 interface Props {
   tag?: string;
   strength?: number;
   contentStrength?: number;
+  friction?: number;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   tag: 'div',
   strength: 0.3,
-  contentStrength: 0.5
+  contentStrength: 0.5,
+  friction: 0.12 // Valor padrão balanceado - suave mas responsivo
 });
 
 const buttonRef = ref<HTMLElement | null>(null);
 const isHovering = ref(false);
+const animationId = ref<number | null>(null);
 
-// Posições calculadas
-const position = reactive({
-  x: 0,
-  y: 0
-});
+// Posições TARGET (onde queremos chegar)
+const targetPosition = reactive({ x: 0, y: 0 });
+const targetContentPosition = reactive({ x: 0, y: 0 });
 
-const contentPosition = reactive({
-  x: 0,
-  y: 0
-});
+// Posições ATUAIS (interpoladas via lerp)
+const currentPosition = reactive({ x: 0, y: 0 });
+const currentContentPosition = reactive({ x: 0, y: 0 });
 
-// Estilos computados
+// Função Lerp (Linear Interpolation)
+// Aproxima 'current' de 'target' por uma fração 'factor' a cada frame
+const lerp = (current: number, target: number, factor: number): number => {
+  return current + (target - current) * factor;
+};
+
+// Loop de animação com requestAnimationFrame
+const animate = () => {
+  // Interpola posição do wrapper
+  currentPosition.x = lerp(currentPosition.x, targetPosition.x, props.friction);
+  currentPosition.y = lerp(currentPosition.y, targetPosition.y, props.friction);
+  
+  // Interpola posição do conteúdo (com friction ligeiramente diferente para parallax)
+  currentContentPosition.x = lerp(currentContentPosition.x, targetContentPosition.x, props.friction * 0.8);
+  currentContentPosition.y = lerp(currentContentPosition.y, targetContentPosition.y, props.friction * 0.8);
+  
+  // Continua o loop se ainda estiver hover OU se ainda não chegou ao destino
+  const distanceWrapper = Math.abs(currentPosition.x - targetPosition.x) + Math.abs(currentPosition.y - targetPosition.y);
+  const distanceContent = Math.abs(currentContentPosition.x - targetContentPosition.x) + Math.abs(currentContentPosition.y - targetContentPosition.y);
+  
+  // Threshold de 0.01px para considerar "chegou"
+  if (isHovering.value || distanceWrapper > 0.01 || distanceContent > 0.01) {
+    animationId.value = requestAnimationFrame(animate);
+  } else {
+    // Snap para zero quando muito perto (evita drift infinito)
+    currentPosition.x = targetPosition.x;
+    currentPosition.y = targetPosition.y;
+    currentContentPosition.x = targetContentPosition.x;
+    currentContentPosition.y = targetContentPosition.y;
+  }
+};
+
+// Estilos computados (sem CSS transition - JS controla tudo)
 const wrapperStyle = computed(() => ({
-  transform: isHovering.value 
-    ? `translate3d(${position.x}px, ${position.y}px, 0)` 
-    : 'translate3d(0, 0, 0)',
-  transition: isHovering.value 
-    ? 'transform 0.2s cubic-bezier(0.23, 1, 0.32, 1)' 
-    : 'transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)'
+  transform: `translate3d(${currentPosition.x}px, ${currentPosition.y}px, 0)`
 }));
 
 const contentStyle = computed(() => ({
-  transform: isHovering.value 
-    ? `translate3d(${contentPosition.x}px, ${contentPosition.y}px, 0)` 
-    : 'translate3d(0, 0, 0)',
-  transition: isHovering.value 
-    ? 'transform 0.2s cubic-bezier(0.23, 1, 0.32, 1)' 
-    : 'transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)'
+  transform: `translate3d(${currentContentPosition.x}px, ${currentContentPosition.y}px, 0)`
 }));
 
 const handleMouseEnter = () => {
   isHovering.value = true;
+  // Inicia o loop de animação
+  if (!animationId.value) {
+    animationId.value = requestAnimationFrame(animate);
+  }
 };
 
 const handleMouseMove = (e: MouseEvent) => {
@@ -88,22 +121,34 @@ const handleMouseMove = (e: MouseEvent) => {
   const deltaX = e.clientX - centerX;
   const deltaY = e.clientY - centerY;
   
-  // Aplica a força magnética
-  position.x = deltaX * props.strength;
-  position.y = deltaY * props.strength;
+  // Define o TARGET (o lerp vai aproximar gradualmente)
+  targetPosition.x = deltaX * props.strength;
+  targetPosition.y = deltaY * props.strength;
   
-  // Conteúdo se move mais para efeito parallax
-  contentPosition.x = deltaX * props.contentStrength;
-  contentPosition.y = deltaY * props.contentStrength;
+  targetContentPosition.x = deltaX * props.contentStrength;
+  targetContentPosition.y = deltaY * props.contentStrength;
 };
 
 const handleMouseLeave = () => {
   isHovering.value = false;
-  position.x = 0;
-  position.y = 0;
-  contentPosition.x = 0;
-  contentPosition.y = 0;
+  // Define target como 0,0 - o lerp vai animar de volta suavemente
+  targetPosition.x = 0;
+  targetPosition.y = 0;
+  targetContentPosition.x = 0;
+  targetContentPosition.y = 0;
+  
+  // Garante que o loop continua para animar o retorno
+  if (!animationId.value) {
+    animationId.value = requestAnimationFrame(animate);
+  }
 };
+
+// Cleanup ao desmontar
+onUnmounted(() => {
+  if (animationId.value) {
+    cancelAnimationFrame(animationId.value);
+  }
+});
 </script>
 
 <style scoped>

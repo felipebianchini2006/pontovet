@@ -4,7 +4,7 @@
     <Transition name="tooltip">
       <div v-if="showTooltip" class="fab-tooltip">
         <span>Agende agora!</span>
-        <div class="tooltip-arrow"></div>
+        <div class="tooltip-arrow"/>
       </div>
     </Transition>
     
@@ -19,11 +19,11 @@
       @mouseleave="resumeTooltip"
     >
       <!-- Pulso de atenção -->
-      <div class="fab-pulse"></div>
-      <div class="fab-pulse delay"></div>
+      <div class="fab-pulse"/>
+      <div class="fab-pulse delay"/>
       
       <!-- Ícone -->
-      <i class="mdi mdi-whatsapp"></i>
+      <i class="mdi mdi-whatsapp"/>
       
       <!-- Badge de notificação -->
       <Transition name="badge">
